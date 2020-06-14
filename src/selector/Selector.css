@@ -1,0 +1,42 @@
+@media only screen and (max-width: 600px) {
+  .movie-selector {
+    width: 90%;
+    border: 1px solid grey;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .movie-selector {
+    width: 50%;
+    border: 1px solid grey;
+  }
+}
+
+.movie-selector .header {
+  padding: 0.5em;
+  display: flex;
+  justify-content: space-evenly;
+  height: 10em;
+  background-color: gainsboro;
+}
+.movie-selector img {
+  height: 9em;
+  min-height: 9em;
+  min-width: 9em;
+  align-self: center;
+  object-fit: cover;
+}
+.header-details {
+    overflow-y: scroll;
+}
+.movie-selector .options {
+  display: flex;
+  flex-flow: column;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 50%;
+}
+
+.movie-selector .options button {
+  display: flex;
+}
