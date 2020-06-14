@@ -4,6 +4,7 @@ import "./App.css";
 import PlayerView from "../player/PlayerView";
 import SearchBar from "../searchBar/SearchBar";
 import Selector from "../selector/Selector";
+import MovieGrid from "../movieGrid/MovieGrid";
 import { getImdbId, getMovieCompleteData } from '../api'
 import { getMovieDto } from '../domain/movie'
 
@@ -33,8 +34,11 @@ function App() {
   ]
   return (
     <div className="App">
-      <Select options={languages} onChange={onSelectLanguage}/>
-      <SearchBar onChange={onChange} language={language} className="searchBar" />
+      <div className="searchBarContainer">
+        <Select placeholder="Language" options={languages} onChange={onSelectLanguage} className="languajeSelector"/>
+        <SearchBar onChange={onChange} language={language} className="searchBar" />
+      </div>
+      <MovieGrid/>
       {showSelector && (
         <Selector
           image={selectedMovie.image}

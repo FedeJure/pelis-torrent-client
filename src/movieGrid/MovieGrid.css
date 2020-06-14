@@ -1,0 +1,21 @@
+.movieGrid {
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+    width: 60vw;
+}
+
+.movieGrid .movieElement {
+    cursor: pointer;
+    display: flex;
+    flex-flow: column;
+    width: 6em;
+}
+
+.movieElement img {
+    height: 8em;
+    min-height: 5em;
+    min-width: 4em;
+    align-self: center;
+    object-fit: cover;
+}
