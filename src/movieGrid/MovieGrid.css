@@ -1,8 +1,20 @@
+@media only screen and (max-width: 600px) {
+    .movieGrid {
+        width: 95vw;
+    }
+  }
+  
+  @media only screen and (min-width: 600px) {
+    .movieGrid {
+      width: 65vw;
+    }
+  }
+
 .movieGrid {
     display: flex;
     flex-flow: row;
     flex-wrap: wrap;
-    width: 60vw;
+    justify-content: center;
 }
 
 .movieGrid .movieElement {
@@ -10,6 +22,7 @@
     display: flex;
     flex-flow: column;
     width: 6em;
+    height: fit-content;
 }
 
 .movieElement img {
@@ -18,4 +31,15 @@
     min-width: 4em;
     align-self: center;
     object-fit: cover;
+}
+
+.movieElement p {
+    overflow: hidden;
+    height: 4em;
+    margin: 0;
+}
+
+.movieElement span {
+    color: gray;
+    font-size: 80%;
 }

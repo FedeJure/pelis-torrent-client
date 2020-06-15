@@ -19,7 +19,6 @@ function App() {
     if (data.movies.length > 0)
       setSelectedMovie(getMovieDto(data.movies[0]));
   };
-
   const onSelectLanguage = selected => {
     setLanguage(selected.value);
   }
@@ -38,7 +37,7 @@ function App() {
         <Select placeholder="Language" options={languages} onChange={onSelectLanguage} className="languajeSelector"/>
         <SearchBar onChange={onChange} language={language} className="searchBar" />
       </div>
-      <MovieGrid/>
+      <MovieGrid selectMovie={movie => setSelectedMovie(movie)} active={!showSelector}/>
       {showSelector && (
         <Selector
           image={selectedMovie.image}
