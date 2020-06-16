@@ -23,6 +23,7 @@
     flex-flow: column;
     width: 6em;
     height: fit-content;
+    animation-delay: 0;
 }
 
 .movieElement img {

@@ -11,18 +11,23 @@ const MovieGrid = ({selectMovie, active}) => {
     const [actualPage,setActualPage] = useState(1);
     const [loadMore, setLoadMore] = useState(true);
 
+    const getDto = movie => {
+        return { ...getMovieDto(movie), delay: time++}
+    }
+
     const fetchMoviePage = async () => {
         getTrendingMovies(50, actualPage, result => {
             setActualPage(actualPage + 1);
-            const aux = [...movies, ...result.data.movies.map(getMovieDto)];
-            setMovies(aux);
+            const aux = [...movies, ...result.data.movies.map(getDto)];
+            setMovies(aux);    
+            time = 0;
+             
         });
-        time = 0;
     }
 
     useEffect(() => {
         if (loadMore) fetchMoviePage();
-    }, [movies, loadMore]);
+    }, [loadMore]);
 
 
     const onVisivilityChange = async visible => {
@@ -33,7 +38,7 @@ const MovieGrid = ({selectMovie, active}) => {
         active && <VisibilitySensor onChange={onVisivilityChange} partialVisibility="bottom" >
             <div className="movieGrid">
                 {movies.map((movie) => (
-                    <MovieElement movie={movie} onClick={_ => selectMovie(movie)} timeToInit={100*time++}/>
+                    <MovieElement movie={movie} onClick={_ => selectMovie(movie)} timeToInit={movie.delay * 10}/>
                 ))}
             </div>
         </VisibilitySensor>
@@ -44,9 +49,16 @@ const MovieElement = ({movie, onClick, timeToInit}) => {
     const [show, setShow] = useState(false);
 
     useEffect(() => {
-        setTimeout(() => {
+        const effect = setTimeout(() => {
             setShow(true);
         },timeToInit);
+
+        const cleanUp = () => {
+            clearTimeout(effect);
+        }
+
+        return cleanUp;
+        
     });
 
     return (
