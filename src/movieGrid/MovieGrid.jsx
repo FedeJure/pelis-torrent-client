@@ -4,21 +4,26 @@ import { getTrendingMovies } from '../api'
 import { getMovieDto } from '../domain/movie'
 import './MovieGrid.css'
 import { loadOptions } from '@babel/core';
+import 'animate.css'
+var time = 0;
 const MovieGrid = ({selectMovie, active}) => {
     const [movies, setMovies] = useState([]);
     const [actualPage,setActualPage] = useState(1);
     const [loadMore, setLoadMore] = useState(true);
 
     const fetchMoviePage = async () => {
-        const result = await getTrendingMovies(20, actualPage);
-        setActualPage(actualPage + 1);
-        const aux = [...movies, ...result.data.movies.map(getMovieDto)];
-        setMovies(aux);
+        getTrendingMovies(50, actualPage, result => {
+            setActualPage(actualPage + 1);
+            const aux = [...movies, ...result.data.movies.map(getMovieDto)];
+            setMovies(aux);
+        });
+        time = 0;
     }
 
     useEffect(() => {
         if (loadMore) fetchMoviePage();
     }, [movies, loadMore]);
+
 
     const onVisivilityChange = async visible => {
         setLoadMore(visible);
@@ -28,19 +33,28 @@ const MovieGrid = ({selectMovie, active}) => {
         active && <VisibilitySensor onChange={onVisivilityChange} partialVisibility="bottom" >
             <div className="movieGrid">
                 {movies.map((movie) => (
-
-                    <div className="movieElement" key={movie.title} onClick={_ => selectMovie(movie)}>
-                        <img src={movie.image}/>
-                        <p>{movie.title}</p>
-                        <span>{movie.year}</span>
-                    </div>
+                    <MovieElement movie={movie} onClick={_ => selectMovie(movie)} timeToInit={100*time++}/>
                 ))}
             </div>
         </VisibilitySensor>
     )
 };
 
-const MovieElement = (title, image, year) => {
+const MovieElement = ({movie, onClick, timeToInit}) => {
+    const [show, setShow] = useState(false);
 
+    useEffect(() => {
+        setTimeout(() => {
+            setShow(true);
+        },timeToInit);
+    });
+
+    return (
+        show && <div className={`movieElement animate__animated animate__zoomIn`} key={movie.title} onClick={onClick}>
+            <img src={movie.image}/>
+            <p>{movie.title}</p>
+            <span>{movie.year}</span>
+        </div>
+    )
 }
 export default MovieGrid;
