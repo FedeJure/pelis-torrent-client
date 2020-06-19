@@ -3,7 +3,7 @@ import Select from 'react-select'
 import SearchBar from "../searchBar/SearchBar";
 import { getImdbId, getMovieCompleteData } from '../api'
 import { getMovieDto } from '../domain/movie'
-
+import './Header.css'
 
 const Header = ({onSelectMovie}) => {
   const [language, setLanguage] = useState('en-US');
@@ -27,8 +27,8 @@ const Header = ({onSelectMovie}) => {
     };
 
     return (<div className="searchBarContainer">
-                <Select placeholder="Language" options={languages} onChange={onSelectLanguage} className="languajeSelector"/>
                 <SearchBar onChange={onChange} language={language} className="searchBar" />
+                <Select placeholder="Language" options={languages} onChange={onSelectLanguage} className="languajeSelector"/>                
             </div>);
 };
 
