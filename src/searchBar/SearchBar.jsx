@@ -9,6 +9,7 @@ const SearchBar = ({ onChange, language }) => {
             options={[]}
             getOptions={query => {
                 return new Promise(async (resolve, reject) => {
+                    console.log("asdasd")
                     const { results } = await searchMovies(query, language);
                     const movie = results.map(
                         ({
@@ -34,7 +35,7 @@ const SearchBar = ({ onChange, language }) => {
             placeholder="Torrent to search"
             onChange={onChange}
             printOptions="on-focus"
-            renderOption={(props, data, snapshot, className) => (
+            renderOption={(props, data, snapshot, className) => data.value && (
                 <button
                     id={data.name}
                     {...props}
