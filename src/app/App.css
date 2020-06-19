@@ -39,13 +39,3 @@
     transform: rotate(360deg);
   }
 }
-
-.languajeSelector {
-  width: 10em;
-}
-
-.searchBarContainer {
-  display: flex;
-  flex-flow: row;
-  justify-content: flex-start;
-}

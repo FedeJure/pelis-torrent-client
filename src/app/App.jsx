@@ -1,43 +1,26 @@
 import React, { useState } from "react";
-import Select from 'react-select'
 import "./App.css";
 import PlayerView from "../player/PlayerView";
-import SearchBar from "../searchBar/SearchBar";
 import Selector from "../selector/Selector";
 import MovieGrid from "../movieGrid/MovieGrid";
-import { getImdbId, getMovieCompleteData } from '../api'
-import { getMovieDto } from '../domain/movie'
+import Header from "../header/Header";
 
 function App() {
-  const [language, setLanguage] = useState('en-US');
   const [torrent, setTorrent] = useState({});
   const [selectedMovie, setSelectedMovie] = useState({});
-
-  const onChange = async movieId => {
-    const { imdb_id } = await getImdbId(movieId);
-    const { data } = await getMovieCompleteData(imdb_id);
-    if (data.movies.length > 0)
-      setSelectedMovie(getMovieDto(data.movies[0]));
-  };
-  const onSelectLanguage = selected => {
-    setLanguage(selected.value);
-  }
 
   const showSelector =
     selectedMovie.torrents && selectedMovie.torrents.length > 0;
   const showPlayer = torrent.hash;
 
-  const languages = [
-    { value: 'en-US', label: 'English' },
-    { value: 'es-ES', label: 'Español' }
-  ]
+  const onSelectMovie = movie => {
+    setSelectedMovie(movie);
+  }
+  
   return (
     <div className="App">
-      <div className="searchBarContainer">
-        <Select placeholder="Language" options={languages} onChange={onSelectLanguage} className="languajeSelector"/>
-        <SearchBar onChange={onChange} language={language} className="searchBar" />
-      </div>
-      <MovieGrid selectMovie={movie => setSelectedMovie(movie)} active={!showSelector}/>
+      <Header onSelectMovie={onSelectMovie}/>
+      <MovieGrid selectMovie={onSelectMovie} active={!showSelector}/>
       {showSelector && (
         <Selector
           image={selectedMovie.image}

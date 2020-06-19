@@ -1,0 +1,14 @@
+.searchBarContainer {
+    position: fixed;
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    width: 100vw;
+    top: 0;
+    padding: 1em;
+    background-color: #61dafb;
+    transition: top 0.3s;
+  }
+.languajeSelector {
+    width: 10em;
+}
