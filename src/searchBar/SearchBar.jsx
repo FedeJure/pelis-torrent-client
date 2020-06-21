@@ -38,7 +38,7 @@ const SearchBar = ({ onChange, language }) => {
             }}
             search
             cacheOptions
-            placeholder="Torrent to search"
+            placeholder="Movie to search"
             onChange={onChange}
             optionComponent={(props, data, snapshot, className) => data.value && (
                 <button

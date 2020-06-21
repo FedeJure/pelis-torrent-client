@@ -5,6 +5,8 @@ import { getMovieDto } from '../domain/movie'
 import './MovieGrid.css'
 import { loadOptions } from '@babel/core';
 var time = 0;
+const storageKey = "homeMovieList";
+
 const MovieGrid = ({selectMovie, active}) => {
     const [movies, setMovies] = useState([]);
     const [actualPage,setActualPage] = useState(1);
@@ -15,13 +17,22 @@ const MovieGrid = ({selectMovie, active}) => {
     }
 
     const fetchMoviePage = async () => {
-        getTrendingMovies(50, actualPage, result => {
+        const count = 50;
+        const cachedList = JSON.parse(localStorage.getItem(storageKey)) || [];
+        console.log(cachedList)
+        if (cachedList.length >= count) {
+            const aux = [...movies, ...cachedList.slice(count*(actualPage-1), count)];
             setActualPage(actualPage + 1);
-            console.log(result)
+            setMovies(aux);
+            time = 0;
+            return;
+        }
+        getTrendingMovies(count, actualPage, result => {
+            setActualPage(actualPage + 1);
             const aux = [...movies, ...result.data.movies.map(getDto)];
             setMovies(aux);    
             time = 0;
-             
+            localStorage.setItem(storageKey, JSON.stringify(aux));
         });
     }
 
