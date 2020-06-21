@@ -1,10 +1,10 @@
 .searchBarContainer {
-    position: fixed;
     display: flex;
     flex-flow: row;
     flex-direction: row;
     justify-content: center;
     width: 100vw;
+    height: var(--header-height);
     top: 0;
     padding: 1em;
     background-color: #61dafb;

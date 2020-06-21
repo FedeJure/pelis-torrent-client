@@ -1,4 +1,5 @@
 import React from "react";
+import franc from 'franc-min';
 import AsyncSelect from 'react-select/async';
 import { components } from 'react-select';
 import "./SearchBar.css";
@@ -12,6 +13,7 @@ const SearchBar = ({ onChange, language }) => {
             components = { {Option: MenuItem} }
             loadOptions={query => {
                 return new Promise(async (resolve, reject) => {
+                    console.log(franc(query))
                     const { results } = await searchMovies(query, language);
                     const movie = results.map(
                         ({

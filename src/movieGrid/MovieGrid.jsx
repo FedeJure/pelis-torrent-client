@@ -4,7 +4,6 @@ import { getTrendingMovies } from '../api'
 import { getMovieDto } from '../domain/movie'
 import './MovieGrid.css'
 import { loadOptions } from '@babel/core';
-import 'animate.css'
 var time = 0;
 const MovieGrid = ({selectMovie, active}) => {
     const [movies, setMovies] = useState([]);
@@ -18,6 +17,7 @@ const MovieGrid = ({selectMovie, active}) => {
     const fetchMoviePage = async () => {
         getTrendingMovies(50, actualPage, result => {
             setActualPage(actualPage + 1);
+            console.log(result)
             const aux = [...movies, ...result.data.movies.map(getDto)];
             setMovies(aux);    
             time = 0;

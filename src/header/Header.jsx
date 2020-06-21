@@ -27,7 +27,7 @@ const Header = ({onSelectMovie}) => {
     };
 
     return (<div className="searchBarContainer">
-                <SearchBar onChange={onChange} language={language} className="searchBar" />
+                <SearchBar onChange={onChange} language={language}/>
                 <Select placeholder="Language" options={languages} onChange={onSelectLanguage} className="languajeSelector"/>                
             </div>);
 };
