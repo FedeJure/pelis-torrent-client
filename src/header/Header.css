@@ -1,4 +1,5 @@
 .searchBarContainer {
+    position: fixed;
     display: flex;
     flex-flow: row;
     flex-direction: row;

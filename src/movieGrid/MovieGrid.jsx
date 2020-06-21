@@ -17,22 +17,22 @@ const MovieGrid = ({selectMovie, active}) => {
     }
 
     const fetchMoviePage = async () => {
+        console.log("fetch more movies")
         const count = 50;
         const cachedList = JSON.parse(localStorage.getItem(storageKey)) || [];
-        console.log(cachedList)
-        if (cachedList.length >= count) {
-            const aux = [...movies, ...cachedList.slice(count*(actualPage-1), count)];
+        if (cachedList.length > count * actualPage) {
+            const aux = [...movies, ...cachedList.slice(count*(actualPage-1), count*actualPage)];
             setActualPage(actualPage + 1);
             setMovies(aux);
             time = 0;
             return;
         }
         getTrendingMovies(count, actualPage, result => {
-            setActualPage(actualPage + 1);
             const aux = [...movies, ...result.data.movies.map(getDto)];
-            setMovies(aux);    
             time = 0;
             localStorage.setItem(storageKey, JSON.stringify(aux));
+            setMovies(aux);    
+            setActualPage(actualPage + 1);
         });
     }
 
@@ -42,11 +42,12 @@ const MovieGrid = ({selectMovie, active}) => {
 
 
     const onVisivilityChange = async visible => {
+        console.log(visible)
         setLoadMore(visible);
     }
 
     return (
-        active && <VisibilitySensor onChange={onVisivilityChange} partialVisibility="bottom" >
+        active && <VisibilitySensor onChange={onVisivilityChange} partialVisibility="bottom">
             <div className="movieGrid">
                 {movies.map((movie) => (
                     <MovieElement movie={movie} onClick={_ => selectMovie(movie)} timeToInit={movie.delay * 10}/>
