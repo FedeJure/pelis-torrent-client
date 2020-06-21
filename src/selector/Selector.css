@@ -12,6 +12,10 @@
   }
 }
 
+.movie-selector {
+  margin-top: calc(var(--header-height) * 2);
+}
+
 .movie-selector .header {
   padding: 0.5em;
   display: flex;

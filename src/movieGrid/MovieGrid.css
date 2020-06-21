@@ -11,6 +11,7 @@
   }
 
 .movieGrid {
+    margin-top: calc(var(--header-height) * 2);
     display: flex;
     flex-flow: row;
     flex-wrap: wrap;
