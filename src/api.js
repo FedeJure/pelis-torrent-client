@@ -1,7 +1,7 @@
 const backendUrl = "http://localhost:3001";
 
 const getImdbId = async movieId => (await fetch(`${backendUrl}/tmdb/movie?movieId=${movieId}`)).json();
-const getMovieCompleteData = async imdbId => (await fetch(`${backendUrl}/yts?query_term=${imdbId}`)).json();
+const getMovieCompleteData = async imdbId => (await fetch(`${backendUrl}/yts/movie?imdbId=${imdbId}`)).json();
 const searchMovies = async (query, language) => (await fetch(`${backendUrl}/tmdb/search?language=${language}&page=1&query=${query}`)).json();
 const getTrendingMovies = async (limit, page, callback) => fetch(`${backendUrl}/yts/homeMovies?limit=${limit}&page=${page}`)
                             .then(response => response.json())

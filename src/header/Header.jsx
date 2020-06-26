@@ -16,6 +16,7 @@ const Header = ({onSelectMovie}) => {
 
     const onChange = async movieId => {
         if (!movieId) return;
+        console.log(movieId)
         const { imdb_id } = await getImdbId(movieId);
         const { data } = await getMovieCompleteData(imdb_id);
         if (data.movies.length > 0)

@@ -1,31 +1,26 @@
-import React, { useEffect } from "react";
-import "./PlayerView.css";
+import React, { useEffect, useState } from "react";
+import { getTorrentUrl } from '../WebtorrentClient/WebtorrentClient';
+import ReactPlayer from 'react-player'
 
+import "./PlayerView.css";
 const PlayerView = ({ torrentId, image }) => {
-  const container = <div id="player" className="PlayerView"></div>;
+  const [videoUrl, setVideoUrl] = useState('');
 
   useEffect(() => {
-    const playerOptions = {
-      id: "player",
-      magnet: torrentId,
-      on: function(e) {
-        if (e.name === window.webtor.TORRENT_FETCHED) {
-          console.log("Torrent fetched!");
-        }
-        if (e.name === window.webtor.TORRENT_ERROR) {
-          console.log("Torrent error!");
-        }
-      },
-      poster: image
-    };
+    getTorrentUrl(torrentId)
+      .then(url => console.log(url) || setVideoUrl(url))
+      .catch(error => console.error(error));
+  }, []);
 
-    document.getElementById("player").childNodes.forEach(node => {
-      if (node.id.includes("webtor")) node.parentNode.removeChild(node);
-    });
-    window.webtor.push(playerOptions);
-  });
-
-  return container;
+  return videoUrl && 
+    <div>
+      <ReactPlayer url={videoUrl}
+      className='react-player'
+      playing
+      controls
+      width='100%'
+      height='100%' />
+    </div>;
 };
 
 export default PlayerView;
