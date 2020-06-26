@@ -12,15 +12,15 @@ const PlayerView = ({ torrentId, image }) => {
       .catch(error => console.error(error));
   }, []);
 
-  return videoUrl && 
-    <div>
-      <ReactPlayer url={videoUrl}
-      className='react-player'
-      playing
-      controls
-      width='100%'
-      height='100%' />
-    </div>;
+  return (<div className="playerView">
+        <ReactPlayer url={videoUrl}
+        className='react-player'
+        controls
+        width='100%'
+        height='100%'
+        light={image}
+        />
+    </div>);
 };
 
 export default PlayerView;
