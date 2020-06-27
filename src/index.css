@@ -16,5 +16,10 @@ code {
 :root {
   --header-height : 2em;
   --movie-grid-height: 89vh;
+
+  --primary-color-ligth : #EEEEEE;
+  --primary-color-dark: #32E0C4;
+  --secondary-color-ligth: #393E46;
+  --secondary-color-dark: #222831;
 }
 
