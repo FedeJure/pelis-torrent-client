@@ -3,6 +3,7 @@ import VisibilitySensor from 'react-visibility-sensor'
 import InfiniteScroll from 'react-infinite-scroller'
 import { getTrendingMovies } from '../api'
 import { getMovieDto } from '../domain/movie'
+import MovieElement from '../movieElement/MovieElement'
 import './MovieGrid.css'
 import { loadOptions } from '@babel/core';
 
@@ -59,11 +60,4 @@ const MovieGrid = ({selectMovie, active}) => {
     )
 };
 
-const MovieElement = ({movie, onClick}) => (
-    <div className={`movieElement animate__animated animate__zoomIn`} key={movie.title} onClick={onClick}>
-        <img src={movie.image}/>
-        <p>{movie.title}</p>
-        <span>{movie.year}</span>
-    </div>
-);
 export default MovieGrid;

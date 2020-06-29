@@ -20,6 +20,7 @@
     overflow-x: hidden;
     padding-top: 1em;
     -ms-overflow-style: none;
+    background-color: rgba(0, 0, 0, 0.344);
 }
 
 .movieGrid::-webkit-scrollbar {
@@ -33,27 +34,4 @@
     width: 6em;
     height: fit-content;
     animation-delay: 0;
-}
-
-.movieElement img {
-    height: 8em;
-    min-height: 5em;
-    min-width: 4em;
-    align-self: center;
-    object-fit: cover;
-}
-
-.movieElement p {
-    overflow: hidden;
-    height: 4em;
-    margin: 0;
-}
-
-.movieElement span {
-    color: gray;
-    font-size: 80%;
-}
-
-.hiddenMovie {
-    display: none;
 }

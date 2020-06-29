@@ -1,4 +1,4 @@
-.App {
+.Home {
   text-align: center;
   display: flex;
   flex-flow: column;
@@ -7,13 +7,6 @@
 
   min-height: 100vh;
 
-  background: var(--secondary-color-dark);
-
-  background: rgba(34,40,49,1);
-  background: -moz-linear-gradient(left, rgba(34,40,49,1) 0%, rgba(34,40,49,1) 0%, rgba(57,62,70,1) 100%);
-  background: -webkit-linear-gradient(left, rgba(34,40,49,1) 0%, rgba(34,40,49,1) 0%, rgba(57,62,70,1) 100%);
-  background: -o-linear-gradient(left, rgba(34,40,49,1) 0%, rgba(34,40,49,1) 0%, rgba(57,62,70,1) 100%);
-  background: -ms-linear-gradient(left, rgba(34,40,49,1) 0%, rgba(34,40,49,1) 0%, rgba(57,62,70,1) 100%);
-  background: linear-gradient(to right, rgba(34,40,49,1) 0%, rgba(34,40,49,1) 0%, rgba(57,62,70,1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#222831', endColorstr='#393e46', GradientType=1 );
+  background: rgb(29,30,44);
+  background: linear-gradient(90deg, rgba(29,30,44,1) 0%, rgba(93,96,143,1) 40%, rgba(128,133,199,1) 100%);
 }

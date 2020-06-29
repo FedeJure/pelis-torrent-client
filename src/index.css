@@ -14,12 +14,17 @@ code {
 
 
 :root {
+
   --header-height : 2em;
   --movie-grid-height: 89vh;
 
   --primary-color-ligth : #EEEEEE;
-  --primary-color-dark: #32E0C4;
-  --secondary-color-ligth: #393E46;
-  --secondary-color-dark: #222831;
+  --primary-color-dark: #1d1e2c;
+  --secondary-color-ligth: rgb(77, 111, 167);
+  --secondary-color-dark: rgb(29, 39, 56);
 }
 
+
+* {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}

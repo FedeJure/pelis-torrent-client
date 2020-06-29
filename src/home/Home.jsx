@@ -18,7 +18,7 @@ function App() {
   }
   
   return (
-    <div className="App">
+    <div className="Home">
       <Header onSelectMovie={onSelectMovie}/>
       <MovieGrid selectMovie={onSelectMovie} active={!showSelector}/>
       {showSelector && (
