@@ -5,6 +5,11 @@
   justify-self: left;
   height: 3em;
   padding: 0.1em 0;
+  cursor: pointer;
+}
+
+.search-item  * {
+  color: white;
 }
 
 .search-item + div {

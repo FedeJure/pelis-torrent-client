@@ -10,7 +10,16 @@ const SearchBar = ({ onChange, language }) => {
         <AsyncSelect
             className="searchBar"
             options={[]}
+            styles={customStyles}
             components = { {Option: MenuItem} }
+            theme={theme => ({
+                ...theme,
+                borderRadius: 0,
+                colors: {
+                  ...theme.colors,
+                  primary25: 'rgba(77, 111, 167, 1)'
+                },
+              })}
             loadOptions={query => {
                 return new Promise(async (resolve, reject) => {
                     console.log(franc(query))
@@ -38,7 +47,7 @@ const SearchBar = ({ onChange, language }) => {
             }}
             search
             cacheOptions
-            placeholder="Movie to search"
+            placeholder="Search"
             onChange={item => onChange(item.value)}
             optionComponent={(props, data, snapshot, className) => data.value && (
                 <button
@@ -46,6 +55,7 @@ const SearchBar = ({ onChange, language }) => {
                     {...props}
                     className={`${className} search-item`}
                     type="button"
+                    onClick={() => onChange(data.value)}
                 >
                     <div>
                         <img src={data.image ? getTmdbImgPath(data.image) : "./missing-file.png"} />
@@ -69,6 +79,7 @@ const SearchBar = ({ onChange, language }) => {
 
 const MenuItem = props => {
     const data = props.data;
+    console.log(props.getStyles('option', props))
     return (
         <components.Option id={data.name} {...props}>
             <div className="search-item">
@@ -91,4 +102,25 @@ const MenuItem = props => {
     );
 };
 
+const customStyles = {
+    control: (provided, state) => ({
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        display: 'flex'
+    }),
+    menuList: (provided, state) =>({
+        ...provided,
+        display: state.options.length > 0 ? provided.display : 'none'
+    }),
+    menu: (provided, state) =>({
+        backgroundColor: 'rgba(29, 39, 56, 1)',
+        display: state.options.length > 0 ? provided.display : 'none'
+    }),
+    input: (provided, state) =>({
+        ...provided,
+        color: 'white'
+    }),
+    noOptionMessage: (provided, state) => ({
+        backgroundColor: 'rgba(0, 0, 0, 0.3)'
+    })
+};
 export default SearchBar;

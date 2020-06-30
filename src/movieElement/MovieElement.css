@@ -7,7 +7,7 @@
 
 .movieElement span {
     position: absolute;
-    background-color: var(--secondary-color-ligth);
+    background-color: #1ec6ff;
     color: black;
     padding: 0 0.2em;
     border-radius: 1em;

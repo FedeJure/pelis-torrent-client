@@ -20,8 +20,8 @@ code {
 
   --primary-color-ligth : #EEEEEE;
   --primary-color-dark: #1d1e2c;
-  --secondary-color-ligth: rgb(77, 111, 167);
-  --secondary-color-dark: rgb(29, 39, 56);
+  --secondary-color-ligth: rgba(77, 111, 167, 1);
+  --secondary-color-dark: rgba(29, 39, 56, 1);
 }
 
 
@@ -39,5 +39,5 @@ code {
   min-height: 100vh;
 
   background: rgb(29,30,44);
-  background: linear-gradient(90deg, rgba(29,30,44,1) 0%, rgba(93,96,143,1) 40%, rgba(128,133,199,1) 100%);
+  background: linear-gradient(90deg, rgba(29, 39, 56,1) 0%, rgba(29, 39, 56,0.9) 60%, rgba(29, 39, 56,0.7) 100%);
 }
