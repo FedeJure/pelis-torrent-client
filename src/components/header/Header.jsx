@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import Select from 'react-select';
 import { useHistory } from "react-router-dom";
-import SearchBar from "../components/searchbar/SearchBar";
-import { getImdbId, getMovieCompleteData } from '../services/api';
-import { getMovieDto } from '../domain/movie';
-import Routes from "../services/router";
-import MoviesRepository from "../repositories/moviesRepository";
+import SearchBar from "../../components/searchBar/SearchBar";
+import { getImdbId, getMovieCompleteData } from '../../services/api';
+import { getMovieDto } from '../../domain/movie';
+import Routes from "../../services/router";
+import MoviesRepository from "../../repositories/moviesRepository";
 import './Header.css'
 
 const Header = () => {

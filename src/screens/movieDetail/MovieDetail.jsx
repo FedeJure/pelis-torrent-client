@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import { useParams } from "react-router-dom";
-import Selector from "../selector/Selector";
-import moviesRepository from '../repositories/moviesRepository';
-import Header from '../header/Header';
-import PlayerView from "../player/PlayerView";
+import Selector from "../../components/selector/Selector";
+import moviesRepository from '../../repositories/moviesRepository';
+import Header from '../../components/header/Header';
+import PlayerView from "../../components/player/PlayerView";
 
 const MovieDetail = () => {
     const [torrent, setTorrent] = useState({});

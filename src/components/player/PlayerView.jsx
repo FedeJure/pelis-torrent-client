@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getTorrentUrl } from '../WebtorrentClient/WebtorrentClient';
+import { getTorrentUrl } from '../../WebtorrentClient/WebtorrentClient';
 import ReactPlayer from 'react-player'
 
 import "./PlayerView.css";

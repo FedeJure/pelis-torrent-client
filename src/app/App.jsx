@@ -5,8 +5,8 @@ import {
   Route,
 } from "react-router-dom";
 import "./App.css";
-import HomeScreen from '../home/Home';
-import MovieDetailScreen from '../movieDetail/MovieDetail';
+import HomeScreen from '../screens/home/Home';
+import MovieDetailScreen from '../screens/movieDetail/MovieDetail';
 
 function App() {
   return (

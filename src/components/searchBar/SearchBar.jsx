@@ -3,7 +3,7 @@ import franc from 'franc-min';
 import AsyncSelect from 'react-select/async';
 import { components } from 'react-select';
 import "./SearchBar.css";
-import { searchMovies, getTmdbImgPath } from '../api'
+import { searchMovies, getTmdbImgPath } from '../../services/api'
 
 const SearchBar = ({ onChange, language }) => {
     return (

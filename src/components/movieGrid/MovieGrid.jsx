@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useHistory } from "react-router-dom";
 import InfiniteScroll from 'react-infinite-scroller';
-import { getTrendingMovies } from '../services/api';
-import { getMovieDto } from '../domain/movie';
-import MovieElement from '../components/movieElement/MovieElement';
-import Routes from "../services/router";
-import MoviesRepository from "../repositories/moviesRepository";
+import { getTrendingMovies } from '../../services/api';
+import { getMovieDto } from '../../domain/movie';
+import MovieElement from '../../components/movieElement/MovieElement';
+import Routes from "../../services/router";
+import MoviesRepository from "../../repositories/moviesRepository";
 import './MovieGrid.css';
 
 const storageKey = "homeMovieList";

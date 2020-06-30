@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "./Home.css";
-import MovieGrid from "../movieGrid/MovieGrid";
-import Header from "../header/Header";
-import Routes from "../router";
-import MoviesRepository from "../repositories/moviesRepository";
+import MovieGrid from "../../components/movieGrid/MovieGrid";
+import Header from "../../components/header/Header";
+import Routes from "../../services/router";
+import MoviesRepository from "../../repositories/moviesRepository";
 
 const Home = () => {
   const [torrent, setTorrent] = useState({});
