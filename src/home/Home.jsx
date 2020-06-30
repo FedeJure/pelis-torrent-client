@@ -1,40 +1,22 @@
 import React, { useState } from "react";
 import "./Home.css";
-import PlayerView from "../player/PlayerView";
-import Selector from "../selector/Selector";
 import MovieGrid from "../movieGrid/MovieGrid";
 import Header from "../header/Header";
+import Routes from "../router";
+import MoviesRepository from "../repositories/moviesRepository";
 
-function App() {
+const Home = () => {
   const [torrent, setTorrent] = useState({});
   const [selectedMovie, setSelectedMovie] = useState({});
 
-  const showSelector =
-    selectedMovie.torrents && selectedMovie.torrents.length > 0;
   const showPlayer = torrent.hash;
-
-  const onSelectMovie = movie => {
-    setSelectedMovie(movie);
-  }
   
   return (
-    <div className="Home">
-      <Header onSelectMovie={onSelectMovie}/>
-      <MovieGrid selectMovie={onSelectMovie} active={!showSelector}/>
-      {showSelector && (
-        <Selector
-          image={selectedMovie.image}
-          torrents={selectedMovie.torrents}
-          setTorrent={setTorrent}
-          details={selectedMovie.details}
-          title={selectedMovie.title}
-        />
-      )}
-      {showPlayer && (
-        <PlayerView torrentId={torrent.hash} image={selectedMovie.image} />
-      )}
+    <div className="Home commonPage">
+      <Header/>
+      <MovieGrid/>
     </div>
   );
 }
 
-export default App;
+export default Home;

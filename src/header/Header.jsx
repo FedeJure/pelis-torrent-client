@@ -1,12 +1,16 @@
 import React, {useState} from 'react';
-import Select from 'react-select'
+import Select from 'react-select';
+import { useHistory } from "react-router-dom";
 import SearchBar from "../searchBar/SearchBar";
-import { getImdbId, getMovieCompleteData } from '../api'
-import { getMovieDto } from '../domain/movie'
+import { getImdbId, getMovieCompleteData } from '../api';
+import { getMovieDto } from '../domain/movie';
+import Routes from "../router";
+import MoviesRepository from "../repositories/moviesRepository";
 import './Header.css'
 
-const Header = ({onSelectMovie}) => {
+const Header = () => {
   const [language, setLanguage] = useState('en-US');
+  const history = useHistory();
 
 
     const languages = [
@@ -14,9 +18,14 @@ const Header = ({onSelectMovie}) => {
         { value: 'es-ES', label: 'Español' }
     ];
 
+    const onSelectMovie = movie => {
+        MoviesRepository.saveMovie(movie);
+        history.push(Routes.getMovieUrl(movie.id));
+        window.location.reload();
+    }
+
     const onChange = async movieId => {
         if (!movieId) return;
-        console.log(movieId)
         const { imdb_id } = await getImdbId(movieId);
         const { data } = await getMovieCompleteData(imdb_id);
         if (data.movies.length > 0)

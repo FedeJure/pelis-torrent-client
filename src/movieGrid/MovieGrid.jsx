@@ -1,18 +1,27 @@
-import React, { useState, useEffect } from 'react'
-import VisibilitySensor from 'react-visibility-sensor'
-import InfiniteScroll from 'react-infinite-scroller'
-import { getTrendingMovies } from '../api'
-import { getMovieDto } from '../domain/movie'
-import MovieElement from '../movieElement/MovieElement'
-import './MovieGrid.css'
-import { loadOptions } from '@babel/core';
+import React, { useState } from 'react';
+import { useHistory } from "react-router-dom";
+import InfiniteScroll from 'react-infinite-scroller';
+import { getTrendingMovies } from '../api';
+import { getMovieDto } from '../domain/movie';
+import MovieElement from '../movieElement/MovieElement';
+import Routes from "../router";
+import MoviesRepository from "../repositories/moviesRepository";
+import './MovieGrid.css';
 
 const storageKey = "homeMovieList";
 
-const MovieGrid = ({selectMovie, active}) => {
+const MovieGrid = () => {
     const [movies, setMovies] = useState([]);
     const [actualPage,setActualPage] = useState(1);
     const [loadMore, setLoadMore] = useState(true);
+    const history = useHistory();
+    
+
+    const selectMovie = movie => {
+        MoviesRepository.saveMovie(movie);
+        history.push(Routes.getMovieUrl(movie.id));
+        window.location.reload();
+    }
 
     const getDto = movie => {
         return getMovieDto(movie);
@@ -48,14 +57,14 @@ const MovieGrid = ({selectMovie, active}) => {
     }
 
     return (
-        active && <InfiniteScroll
-        pageStart={0}
-        loadMore={fetchMoviePage}
-        hasMore={true}
-        loader={<div className="loader" key={0}>Loading ...</div>}>
-            <div className="movieGrid">
-                {movies}
-            </div>
+        <InfiniteScroll
+            pageStart={0}
+            loadMore={fetchMoviePage}
+            hasMore={true}
+            loader={<div className="loader" key={0}>Loading ...</div>}>
+                <div className="movieGrid">
+                    {movies}
+                </div>
         </InfiniteScroll>
     )
 };

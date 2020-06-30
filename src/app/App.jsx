@@ -5,14 +5,18 @@ import {
   Route,
 } from "react-router-dom";
 import "./App.css";
-import Home from '../home/Home';
+import HomeScreen from '../home/Home';
+import MovieDetailScreen from '../movieDetail/MovieDetail';
 
 function App() {
   return (
     <Router>
       <Switch>
         <Route exact path="/">
-          <Home />
+          <HomeScreen />
+        </Route>
+        <Route exact path="/movie/:movieId">
+          <MovieDetailScreen />
         </Route>
       </Switch>
     </Router>
