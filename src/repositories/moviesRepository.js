@@ -9,7 +9,6 @@ const getMovie = movieId => {
         return null;
     }
     const storage = JSON.parse(localStorage.getItem(repoKey)) || {};
-    console.log(storage)    
     return storage[movieId];
 }
 

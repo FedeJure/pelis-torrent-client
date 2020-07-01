@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import Select from 'react-select';
+import DropdownInput from '../dropdownInput/DropdownInput'
 import { useHistory } from "react-router-dom";
 import SearchBar from "../../components/searchBar/SearchBar";
 import { getImdbId, getMovieCompleteData } from '../../services/api';
@@ -38,7 +39,7 @@ const Header = () => {
 
     return (<div className="searchBarContainer">
                 <SearchBar onChange={onChange} language={language}/>
-                <Select placeholder="Search language" options={languages} onChange={onSelectLanguage} className="languajeSelector"/>                
+                <DropdownInput defaultValue={languages[0]} placeholder="Search language" options={languages} onChange={onSelectLanguage} className="languajeSelector"/>                
             </div>);
 };
 
