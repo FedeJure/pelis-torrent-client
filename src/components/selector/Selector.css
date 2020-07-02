@@ -1,32 +1,33 @@
 @media only screen and (max-width: 600px) {
   .movie-selector {
-    width: 99%;
+    width: 100%;
     border: 1px solid grey;
   }
 }
 
 @media only screen and (min-width: 600px) {
   .movie-selector {
-    width: 50%;
+    width: 80%;
     border: 1px solid grey;
   }
 }
 
 .movie-selector {
   margin-top: calc(var(--header-height) * 2);
+  border: none;
+  color: white;
 }
 
 .movie-selector .header {
   padding: 0.5em;
   display: flex;
   justify-content: space-evenly;
-  height: 10em;
-  background-color: gainsboro;
+  height: 20em;
+  background-color: rgba(0, 0, 0, 0);
 }
 .movie-selector img {
-  height: 9em;
-  min-height: 9em;
-  min-width: 9em;
+  height: 20em;
+  min-width: 15em;
   align-self: center;
   object-fit: cover;
 }

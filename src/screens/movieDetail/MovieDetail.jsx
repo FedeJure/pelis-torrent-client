@@ -4,6 +4,7 @@ import Selector from "../../components/selector/Selector";
 import moviesRepository from '../../repositories/moviesRepository';
 import Header from '../../components/header/Header';
 import PlayerView from "../../components/player/PlayerView";
+import "./MovieDetail.css"
 
 const MovieDetail = () => {
     const [torrent, setTorrent] = useState({});
@@ -20,14 +21,15 @@ const MovieDetail = () => {
     return (
         <div className="movieDetail commonPage">
             <Header/>
-            {movie && 
+            {movie &&
+            <><img className="background" src={movie.backgroundImage}/> 
             <Selector
                 image={movie.image}
                 torrents={movie.torrents}
                 setTorrent={setTorrent}
                 details={movie.details}
                 title={movie.title}
-            />}
+            /></>}
             {torrent.hash && <PlayerView torrentId={torrent.hash} image={movie.image} />}
         </div>
     )
