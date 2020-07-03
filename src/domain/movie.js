@@ -1,4 +1,5 @@
 const getMovieDto = response => {
+    console.log(response)
     return ({
         title: response.title,
         details: response.summary,

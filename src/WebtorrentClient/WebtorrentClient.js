@@ -6,7 +6,7 @@ const sdk = webtor({
     apiUrl: 'http://192.168.99.100:31046',
 });
 
-const expire = 60*60*24;
+const expire = 60*60*24; // 24 hours
 
 const getMagnet = hash => `magnet:?xt=urn:btih:${hash}`;
 

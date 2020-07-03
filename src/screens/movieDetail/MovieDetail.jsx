@@ -30,15 +30,15 @@ const MovieDetail = () => {
     return (
         <div className="movieDetail commonPage">
             <Header/>
+            {movie && movie.backgroundImage && <img className="background fade-in" src={movie.backgroundImage}/> }
             {movie &&
-            <><img className="background" src={movie.backgroundImage}/> 
             <Selector
                 image={movie.image}
                 torrents={movie.torrents}
                 setTorrent={selectTorrent}
                 details={movie.details}
                 title={movie.title}
-            /></>}
+            />}
             <PlayerView torrent={torrent} movie={movie} />
         </div>
     )

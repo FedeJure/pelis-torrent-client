@@ -8,9 +8,9 @@ const PlayerView = ({ torrent, video }) => {
 
   useEffect(() => {
     getTorrentUrl(torrent.hash)
-      .then(url => setVideoUrl(url))
+      .then(url => ReactPlayer.canPlay(url) && setVideoUrl(url))
       .catch(error => console.error(error));
-  }, []);
+  }, [torrent]);
 
   return (<div className="playerView">
         <ReactPlayer url={videoUrl}
