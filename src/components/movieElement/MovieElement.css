@@ -15,7 +15,7 @@
 
 .movieElement p {
     overflow: hidden;
-    color: var(--primary-color-ligth);
+    color: rgba(var(--primary-color-ligth,1));
     height: 3em;
     margin: 0;
     text-align: center;

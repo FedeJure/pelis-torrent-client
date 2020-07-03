@@ -18,10 +18,11 @@ code {
   --header-height : 2em;
   --movie-grid-height: 89vh;
 
-  --primary-color-ligth : #EEEEEE;
+  --primary-color-ligth : 238,238,238;
   --primary-color-dark: #1d1e2c;
-  --secondary-color-ligth: rgba(77, 111, 167, 1);
+  --secondary-color-ligth: 77, 111, 167;
   --secondary-color-dark: 29, 39, 56;
+  
 }
 
 
@@ -38,4 +39,23 @@ code {
 
   min-height: 100vh;
   background: linear-gradient(90deg, rgba(var(--secondary-color-dark),1) 0%, rgba(var(--secondary-color-dark),0.9) 60%, rgba(var(--secondary-color-dark),0.7) 100%);
+}
+
+
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(var(--secondary-color-dark),0.4); 
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(var(--secondary-color-ligth),0.1); 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--secondary-color-ligth),0.3); 
 }

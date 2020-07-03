@@ -32,16 +32,28 @@
   object-fit: cover;
 }
 .header-details {
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 .movie-selector .options {
   display: flex;
-  flex-flow: column;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  max-height: 50%;
+  flex-flow: row;
+  bottom: 10%;
+  justify-content: space-evenly;
 }
 
 .movie-selector .options button {
   display: flex;
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+  background: rgba(var(--secondary-color-dark), 1);
+  border: solid black 1px;
+  color: lightgreen;
 }
+
+
+.movie-selector .options button:hover {
+  background: rgba(var(--secondary-color-dark), 0);
+  color: lightblue;
+} 
+
