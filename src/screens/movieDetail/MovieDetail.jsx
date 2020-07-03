@@ -12,6 +12,11 @@ const MovieDetail = () => {
     const [torrent, setTorrent] = useState({});
     const [movie, setMovie] = useState(null);
     const { movieId } = useParams();
+
+    const selectTorrent = torrent => {
+        setTorrent(torrent);
+    }
+
     useEffect(() => {
         var newMovie = moviesRepository.getMovie(movieId);
         if (!newMovie) getMovieCompleteData(movieId).then(res => {
@@ -30,11 +35,11 @@ const MovieDetail = () => {
             <Selector
                 image={movie.image}
                 torrents={movie.torrents}
-                setTorrent={setTorrent}
+                setTorrent={selectTorrent}
                 details={movie.details}
                 title={movie.title}
             /></>}
-            {movie && torrent.hash && <PlayerView torrentId={torrent.hash} image={movie.image} />}
+            <PlayerView torrent={torrent} movie={movie} />
         </div>
     )
 };

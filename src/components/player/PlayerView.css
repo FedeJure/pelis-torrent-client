@@ -1,7 +1,20 @@
 .playerView {
     --player-padding: 10%;
     padding: 1em  var(--player-padding);
+    height: 40vw;
 }
+
+@media only screen and (max-width: 600px) {
+    .playerView {
+      width: 100%;
+    }
+  }
+  
+  @media only screen and (min-width: 600px) {
+    .playerView {
+      width: 80%;
+    }
+  }
 
 
 

@@ -1,24 +1,31 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import DropdownInput from '../dropdownInput/DropdownInput'
 import { useHistory } from "react-router-dom";
 import SearchBar from "../../components/searchBar/SearchBar";
-import { getImdbId, getMovieCompleteData } from '../../services/api';
+import { getImdbId, getMovieCompleteData, getSupportedLanguages } from '../../services/api';
 import { getMovieDto } from '../../domain/movie';
 import Routes from "../../services/router";
 import MoviesRepository from "../../repositories/moviesRepository";
+import LanguagesRepository from "../../repositories/languagesRepository";
 import './Header.css'
 
 const Header = () => {
   const [language, setLanguage] = useState('en-US');
+  const [languages, setLanguages] = useState([]);
   const history = useHistory();
 
-
-    const languages = [
-        { value: 'en-US', label: 'English' },
-        { value: 'es-ES', label: 'Español' }
-    ];
-
+    useEffect(() => {
+        const lang = LanguagesRepository.getLanguages();
+        if (lang.length > 0) setLanguages(lang);
+        else getSupportedLanguages()
+        .then(res => {
+            const mapped = res.map(item =>({value: item.iso_639_1, label: item.name || item.english_name}));
+            const filteredLanguages = mapped.slice(1, mapped.length);
+            setLanguages(filteredLanguages);
+            LanguagesRepository.saveLanguages(filteredLanguages);
+        });
+    }, []);
     const onSelectMovie = movie => {
         MoviesRepository.saveMovie(movie);
         history.push(Routes.getMovieUrl(movie.imdbCode));
@@ -39,7 +46,7 @@ const Header = () => {
 
     return (<div className="searchBarContainer">
                 <SearchBar onChange={onChange} language={language}/>
-                <DropdownInput defaultValue={languages[0]} placeholder="Search language" options={languages} onChange={onSelectLanguage} className="languajeSelector"/>                
+                <DropdownInput defaultValue={{value: 'en-US', label: "English"}} placeholder="Search language" options={languages} onChange={onSelectLanguage} className="languajeSelector"/>                
             </div>);
 };
 

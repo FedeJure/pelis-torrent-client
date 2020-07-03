@@ -13,7 +13,7 @@ const Selector = ({ torrents, setTorrent, image, title, details }) => {
       </div>
       <div className="options">
         {torrents.map(torrent => (
-          <button key={torrent.hash} onClick={() => setTorrent(torrent)}>
+          <button key={torrent.hash} onClick={() =>setTorrent(torrent)}>
             <span className="text">{torrent.quality}</span>
           </button>
         ))}

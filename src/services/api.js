@@ -14,5 +14,6 @@ const getTrendingMovies = async (limit, page, callback) => mocked ? mockedgetTre
                                 callback(result);
                             });
 const getTmdbImgPath = image => `https://image.tmdb.org/t/p/w500/${image}`;
+const getSupportedLanguages = async () => (await fetch(`${backendUrl}/tmdb/languages`)).json();
 
-export { getImdbId, getMovieCompleteData, searchMovies, getTmdbImgPath, getTrendingMovies };
+export { getImdbId, getMovieCompleteData, searchMovies, getTmdbImgPath, getTrendingMovies, getSupportedLanguages };

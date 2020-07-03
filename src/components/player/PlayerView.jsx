@@ -3,12 +3,12 @@ import { getTorrentUrl } from '../../WebtorrentClient/WebtorrentClient';
 import ReactPlayer from 'react-player'
 
 import "./PlayerView.css";
-const PlayerView = ({ torrentId, image }) => {
+const PlayerView = ({ torrent, video }) => {
   const [videoUrl, setVideoUrl] = useState('');
 
   useEffect(() => {
-    getTorrentUrl(torrentId)
-      .then(url => console.log(url) || setVideoUrl(url))
+    getTorrentUrl(torrent.hash)
+      .then(url => setVideoUrl(url))
       .catch(error => console.error(error));
   }, []);
 
@@ -18,7 +18,7 @@ const PlayerView = ({ torrentId, image }) => {
         controls
         width='100%'
         height='100%'
-        light={image}
+        light={video ? video.image : true}
         />
     </div>);
 };
