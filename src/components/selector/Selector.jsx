@@ -1,6 +1,5 @@
 import React from "react";
 import "./Selector.css";
-import {getTmdbImgPath} from '../../services/api'
 
 const Selector = ({ torrents, setTorrent, image, title, details }) => {
   return (

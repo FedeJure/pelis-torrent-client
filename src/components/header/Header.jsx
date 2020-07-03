@@ -21,7 +21,7 @@ const Header = () => {
 
     const onSelectMovie = movie => {
         MoviesRepository.saveMovie(movie);
-        history.push(Routes.getMovieUrl(movie.id));
+        history.push(Routes.getMovieUrl(movie.imdbCode));
         window.location.reload();
     }
 

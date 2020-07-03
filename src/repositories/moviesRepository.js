@@ -16,8 +16,8 @@ const saveMovie = movie => {
     const repoIndex = JSON.parse(localStorage.getItem(repoIndexKey)) || [];
     const storage = JSON.parse(localStorage.getItem(repoKey)) || {};
     if (repoIndex.length >= 10) delete storage[repoIndex.pop()];
-    repoIndex.splice(0,0,movie.id);
-    storage[movie.id] = movie;
+    repoIndex.splice(0,0,movie.imdbCode);
+    storage[movie.imdbCode] = movie;
 
     localStorage.setItem(repoKey, JSON.stringify(storage));
     localStorage.setItem(repoIndexKey, JSON.stringify(repoIndex));

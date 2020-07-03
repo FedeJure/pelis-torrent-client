@@ -4,6 +4,8 @@ import Selector from "../../components/selector/Selector";
 import moviesRepository from '../../repositories/moviesRepository';
 import Header from '../../components/header/Header';
 import PlayerView from "../../components/player/PlayerView";
+import { getMovieCompleteData } from "../../services/api";
+import { getMovieDto } from "../../domain/movie";
 import "./MovieDetail.css"
 
 const MovieDetail = () => {
@@ -12,10 +14,12 @@ const MovieDetail = () => {
     const { movieId } = useParams();
     useEffect(() => {
         var newMovie = moviesRepository.getMovie(movieId);
-        if (!newMovie) {
-            //fetch from backend
-        }
-        setMovie(newMovie);
+        if (!newMovie) getMovieCompleteData(movieId).then(res => {
+            const fetchedMovie = getMovieDto(res.data.movies[0]);
+            setMovie(fetchedMovie);
+            moviesRepository.saveMovie(fetchedMovie);
+        });
+        else setMovie(newMovie);
     }, []);
 
     return (
@@ -30,7 +34,7 @@ const MovieDetail = () => {
                 details={movie.details}
                 title={movie.title}
             /></>}
-            {torrent.hash && <PlayerView torrentId={torrent.hash} image={movie.image} />}
+            {movie && torrent.hash && <PlayerView torrentId={torrent.hash} image={movie.image} />}
         </div>
     )
 };
