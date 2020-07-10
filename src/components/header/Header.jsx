@@ -36,7 +36,7 @@ const Header = () => {
         if (!movieId) return;
         const { imdb_id } = await getImdbId(movieId);
         const { data } = await getMovieCompleteData(imdb_id);
-        if (data.movies.length > 0)
+        if (data.movies && data.movies.length > 0)
         onSelectMovie(getMovieDto(data.movies[0]));
     };
 

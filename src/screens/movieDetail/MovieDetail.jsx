@@ -20,8 +20,10 @@ const MovieDetail = () => {
     useEffect(() => {
         var newMovie = moviesRepository.getMovie(movieId);
         if (!newMovie) getMovieCompleteData(movieId).then(res => {
+            console.log("12312312312312", res)
             const fetchedMovie = getMovieDto(res.data.movies[0]);
             setMovie(fetchedMovie);
+            console.log(fetchedMovie);
             moviesRepository.saveMovie(fetchedMovie);
         });
         else setMovie(newMovie);
@@ -30,7 +32,7 @@ const MovieDetail = () => {
     return (
         <div className="movieDetail commonPage">
             <Header/>
-            {movie && movie.backgroundImage && <img className="background fade-in" src={movie.backgroundImage}/> }
+            {movie && movie.backgroundImage && <img className="background" src={movie.backgroundImage}/> }
             {movie &&
             <Selector
                 image={movie.image}
