@@ -3,7 +3,7 @@ import { getTorrentUrl } from '../../WebtorrentClient/WebtorrentClient';
 import ReactPlayer from 'react-player'
 
 import "./PlayerView.css";
-const PlayerView = ({ torrent, video }) => {
+const PlayerView = ({ torrent, video, trailerUrl }) => {
   const [videoUrl, setVideoUrl] = useState('');
 
   useEffect(() => {
@@ -14,7 +14,7 @@ const PlayerView = ({ torrent, video }) => {
   }, [torrent]);
 
   return (<div className="playerView">
-        <ReactPlayer url={videoUrl}
+        <ReactPlayer url={videoUrl ? videoUrl : trailerUrl}
         className='react-player'
         controls
         width='100%'

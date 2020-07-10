@@ -4,13 +4,14 @@ import Selector from "../../components/selector/Selector";
 import moviesRepository from '../../repositories/moviesRepository';
 import Header from '../../components/header/Header';
 import PlayerView from "../../components/player/PlayerView";
-import { getMovieCompleteData } from "../../services/api";
+import { getMovieCompleteData, getMovieTrailer } from "../../services/api";
 import { getMovieDto } from "../../domain/movie";
 import "./MovieDetail.css"
 
 const MovieDetail = () => {
     const [torrent, setTorrent] = useState({});
     const [movie, setMovie] = useState(null);
+    const [trailerUrl, setTrailerUrl] = useState(null);
     const { movieId } = useParams();
 
     const selectTorrent = torrent => {
@@ -19,11 +20,14 @@ const MovieDetail = () => {
 
     useEffect(() => {
         var newMovie = moviesRepository.getMovie(movieId);
+        getMovieTrailer(movieId, "en-US").then(res => {
+            var trailer = res.results.find(v => v.site == "YouTube");
+            var url = trailer ? `https://youtube.com/watch?v=${trailer.key}` : "";
+            setTrailerUrl(url)
+        });
         if (!newMovie) getMovieCompleteData(movieId).then(res => {
-            console.log("12312312312312", res)
             const fetchedMovie = getMovieDto(res.data.movies[0]);
             setMovie(fetchedMovie);
-            console.log(fetchedMovie);
             moviesRepository.saveMovie(fetchedMovie);
         });
         else setMovie(newMovie);
@@ -41,7 +45,7 @@ const MovieDetail = () => {
                 details={movie.details}
                 title={movie.title}
             />}
-            <PlayerView torrent={torrent} movie={movie} />
+            <PlayerView torrent={torrent} movie={movie} trailerUrl={trailerUrl} />
         </div>
     )
 };
