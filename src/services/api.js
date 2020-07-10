@@ -1,8 +1,8 @@
 import { mockedgetImdbId, mockedgetMovieCompleteData, mockedsearchMovies, mockedgetTrendingMovies } from './mockedApi'
 
-const mocked = true;
+const mocked = false;
 
-const backendUrl = "http://localhost:3001";
+const backendUrl = "https://pelis-torrent-backend.herokuapp.com";
 
 const getImdbId = async movieId => mocked ? mockedgetImdbId() : (await fetch(`${backendUrl}/tmdb/movie?movieId=${movieId}`)).json();
 const getMovieCompleteData = async imdbId => mocked ? mockedgetMovieCompleteData() : (await fetch(`${backendUrl}/yts/movie?imdbId=${imdbId}`)).json();
