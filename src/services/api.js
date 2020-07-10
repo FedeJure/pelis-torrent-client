@@ -10,7 +10,6 @@ const searchMovies = async (query, language) => mocked ? mockedsearchMovies() : 
 const getTrendingMovies = async (limit, page, callback) => mocked ? mockedgetTrendingMovies(limit, page, callback) : fetch(`${backendUrl}/yts/homeMovies?limit=${limit}&page=${page}`)
                             .then(response => response.json())
                             .then(result => {
-                                console.log(result)
                                 callback(result);
                             });
 const getTmdbImgPath = image => `https://image.tmdb.org/t/p/w500/${image}`;

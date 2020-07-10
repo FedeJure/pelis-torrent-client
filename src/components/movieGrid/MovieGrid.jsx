@@ -6,6 +6,7 @@ import { getMovieDto } from '../../domain/movie';
 import MovieElement from '../../components/movieElement/MovieElement';
 import Routes from "../../services/router";
 import MoviesRepository from "../../repositories/moviesRepository";
+import MoviesGridRepository from "../../repositories/moviesGridRepository";
 import './MovieGrid.css';
 
 const storageKey = "homeMovieList";
@@ -27,11 +28,6 @@ const MovieGrid = () => {
         return getMovieDto(movie);
     }
 
-    const saveNewMoviesInStorage = newMovies => {
-        const oldMovies = JSON.parse(localStorage.getItem(storageKey)) || [];
-        localStorage.setItem(storageKey, JSON.stringify([...oldMovies, ...newMovies]));
-    }
-
     const dtoListToElementList = dtoList => {
         return dtoList.map(dto => (
             <MovieElement movie={dto} onClick={_ => selectMovie(dto)}/>
@@ -40,7 +36,7 @@ const MovieGrid = () => {
 
     const fetchMoviePage = async () => {
         const count = 50;
-        const cachedList = JSON.parse(localStorage.getItem(storageKey)) || [];
+        const cachedList = MoviesGridRepository.getMovies();
         if (cachedList.length > count * actualPage) {
             const aux = [...movies, ...dtoListToElementList(cachedList.slice(count*(actualPage-1), count*actualPage))];
             setActualPage(actualPage + 1);
@@ -50,7 +46,7 @@ const MovieGrid = () => {
         getTrendingMovies(count, actualPage, result => {
             const newMoviesDto = result.data.movies.map(getDto);
             const aux = [...movies, ...dtoListToElementList(newMoviesDto)];
-            saveNewMoviesInStorage(newMoviesDto);
+            MoviesGridRepository.saveNewMovies(newMoviesDto);
             setMovies(aux);    
             setActualPage(actualPage + 1);
         });

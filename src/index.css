@@ -52,10 +52,10 @@ code {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(var(--secondary-color-ligth),0.1); 
+  background: rgba(var(--secondary-color-ligth),0.5); 
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(var(--secondary-color-ligth),0.3); 
+  background: rgba(var(--secondary-color-ligth),0.8); 
 }
