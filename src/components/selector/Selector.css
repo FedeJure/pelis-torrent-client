@@ -48,12 +48,26 @@
   justify-content: center;
   background: rgba(var(--secondary-color-dark), 1);
   border: solid black 1px;
-  color: lightgreen;
 }
 
 
 .movie-selector .options button:hover {
   background: rgba(var(--secondary-color-dark), 0);
   color: lightblue;
-} 
+}
+
+.movie-selector .options .ready {
+  color: lightgreen;
+}
+
+.movie-selector .options .loading {
+  color: orange;
+}
+
+.movie-selector .options .pending {
+  color: yellow;
+}
+
+
+
 

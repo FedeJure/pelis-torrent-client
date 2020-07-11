@@ -27,6 +27,7 @@ const MovieDetail = () => {
 
             const newTorrents = {...selectedTorrents, [torrent.hash]: {ready: false, url: ''} };
             setSelectedTorrents(newTorrents);
+            setTorrentLoading(torrent.hash);
             return;
         }
         if (torrent.hash && selectedTorrents[torrent.hash] && selectedTorrents[torrent.hash].ready) {
@@ -35,14 +36,26 @@ const MovieDetail = () => {
         }
     }
 
+    const setTorrentLoading = hash => {
+        const updatedMovie = {...movie};
+        updatedMovie.torrents = updatedMovie.torrents.map(t => t.hash == hash ? {...t, loading: true} : t);
+        setMovie(updatedMovie);
+    };
+
+    const setTorrentReady = hash => {
+        const updatedMovie = {...movie};
+        updatedMovie.torrents = updatedMovie.torrents.map(t => t.hash == hash ? {...t, ready: true} : t);
+        setMovie(updatedMovie);
+    };
+
     useEffect(() => {
         const torrents = {...selectedTorrents};
         
         if (!torrents[videoReady.hash]) return;
-        console.log(torrents)
         torrents[videoReady.hash].url = videoReady.url;
         torrents[videoReady.hash].ready = true;
         setSelectedTorrents(torrents);
+        setTorrentReady(videoReady.hash);
     },[videoReady]);
 
     const selectTrailer = () => {

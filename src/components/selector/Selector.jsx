@@ -12,11 +12,11 @@ const Selector = ({ torrents, setTorrent, image, title, details, selectTrailer }
         </div>
       </div>
       <div className="options">
-        <button key="trailer-button" onClick={selectTrailer}>
+        <button key="trailer-button" onClick={selectTrailer} className="ready">
           <span className="text">Trailer</span>
         </button>
         {torrents.map(torrent => (
-          <button key={torrent.hash} onClick={() =>setTorrent(torrent)}>
+          <button key={torrent.hash} className={torrent.ready ? "ready" : torrent.loading ? "loading" : "pending"} onClick={() =>setTorrent(torrent)}>
             <span className="text">{torrent.quality}</span>
           </button>
         ))}
