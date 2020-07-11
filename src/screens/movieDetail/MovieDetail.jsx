@@ -5,17 +5,48 @@ import moviesRepository from '../../repositories/moviesRepository';
 import Header from '../../components/header/Header';
 import PlayerView from "../../components/player/PlayerView";
 import { getMovieCompleteData, getMovieTrailer } from "../../services/api";
+import { getTorrentUrl } from '../../WebtorrentClient/WebtorrentClient';
 import { getMovieDto } from "../../domain/movie";
 import "./MovieDetail.css"
 
 const MovieDetail = () => {
-    const [torrent, setTorrent] = useState({});
     const [movie, setMovie] = useState(null);
+    const [selectedTorrents, setSelectedTorrents] = useState({});
     const [trailerUrl, setTrailerUrl] = useState(null);
+    const [videoUrl, setVideoUrl] = useState(null);
+    const [videoReady, setVideoReady] = useState({hash: '', url: ''});
+    const [showTrailer, setShowTrailer] = useState(true);
     const { movieId } = useParams();
 
     const selectTorrent = torrent => {
-        setTorrent(torrent);
+        const torrents = {...selectedTorrents};
+        if (torrent.hash && !selectedTorrents[torrent.hash]) {
+            getTorrentUrl(torrent.hash)
+            .then(url => setVideoReady({hash: torrent.hash, url}))
+            .catch(error => console.error(error));
+
+            const newTorrents = {...selectedTorrents, [torrent.hash]: {ready: false, url: ''} };
+            setSelectedTorrents(newTorrents);
+            return;
+        }
+        if (torrent.hash && selectedTorrents[torrent.hash] && selectedTorrents[torrent.hash].ready) {
+            setVideoUrl(selectedTorrents[torrent.hash].url);
+            setShowTrailer(false);
+        }
+    }
+
+    useEffect(() => {
+        const torrents = {...selectedTorrents};
+        
+        if (!torrents[videoReady.hash]) return;
+        console.log(torrents)
+        torrents[videoReady.hash].url = videoReady.url;
+        torrents[videoReady.hash].ready = true;
+        setSelectedTorrents(torrents);
+    },[videoReady]);
+
+    const selectTrailer = () => {
+        setShowTrailer(true);
     }
 
     useEffect(() => {
@@ -44,8 +75,10 @@ const MovieDetail = () => {
                 setTorrent={selectTorrent}
                 details={movie.details}
                 title={movie.title}
+                selectTrailer={selectTrailer}
             />}
-            <PlayerView torrent={torrent} movie={movie} trailerUrl={trailerUrl} />
+            {!showTrailer && videoUrl && <PlayerView image={movie.image} videoUrl={videoUrl} />}
+            {showTrailer && trailerUrl && <PlayerView videoUrl={trailerUrl}/>}
         </div>
     )
 };
