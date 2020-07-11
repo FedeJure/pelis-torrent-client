@@ -17,7 +17,7 @@ const Selector = ({ torrents, setTorrent, image, title, details, selectTrailer }
         </button>
         {torrents.map(torrent => (
           <button key={torrent.hash} className={torrent.ready ? "ready" : torrent.loading ? "loading" : "pending"} onClick={() =>setTorrent(torrent)}>
-            <span className="text">{torrent.quality}</span>
+            <span className="text">{torrent.loading && !torrent.ready && <img src="../../loading.gif"/> }{torrent.quality}</span>
           </button>
         ))}
       </div>

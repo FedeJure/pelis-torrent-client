@@ -68,6 +68,14 @@
   color: yellow;
 }
 
+.movie-selector .options img {
+  align-self: center;
+  object-fit: scale-down;
+  height: 10px;
+  min-width: 10px;
+  margin-right: 5px;
+}
+
 
 
 
