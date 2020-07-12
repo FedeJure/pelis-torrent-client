@@ -1,0 +1,16 @@
+.logo {
+    color: aliceblue;
+    display: flex;
+    flex-direction: column;
+    left: 5%;
+    flex: 1 1 0;
+    cursor: pointer;
+}
+
+.logo h2 {
+    margin: 0;
+}
+
+.logo span {
+    font-size: 0.5em;
+}
