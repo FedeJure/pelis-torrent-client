@@ -31,9 +31,11 @@
   align-self: center;
   object-fit: cover;
 }
+
 .header-details {
     overflow-y: auto;
 }
+
 .movie-selector .options {
   display: flex;
   flex-flow: row;
@@ -50,9 +52,16 @@
   border: solid black 1px;
 }
 
+.movie-selector .options span {
+  display: flex;
+}
+
+.movie-selector .options .active {
+  filter: invert(10%);
+}
 
 .movie-selector .options button:hover {
-  background: rgba(var(--secondary-color-dark), 0);
+  background: rgba(var(--secondary-color-dark), 0.5);
   color: lightblue;
 }
 
@@ -75,7 +84,3 @@
   min-width: 10px;
   margin-right: 5px;
 }
-
-
-
-
