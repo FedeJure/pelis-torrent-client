@@ -3,12 +3,20 @@
     width: 100%;
     border: 1px solid grey;
   }
+  .movie-selector img {
+    height: 50%;
+  }
 }
 
 @media only screen and (min-width: 600px) {
   .movie-selector {
     width: 80%;
     border: 1px solid grey;
+  }
+
+  .movie-selector img {
+    height: 20em;
+    min-width: 15em;
   }
 }
 
@@ -26,8 +34,6 @@
   background-color: rgba(0, 0, 0, 0);
 }
 .movie-selector img {
-  height: 20em;
-  min-width: 15em;
   align-self: center;
   object-fit: cover;
 }

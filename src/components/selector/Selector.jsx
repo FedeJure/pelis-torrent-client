@@ -12,10 +12,9 @@ const Selector = ({ torrents, setTorrent, image, title, details, selectTrailer }
   return (
     <div className="movie-selector">
       <div className="header">
-        <img src={image} />
         <div className="header-details">
-          <h5>{title}</h5>
-          <span>{details}</span>
+          <h3>{title}</h3>
+          <span><img src={image} align="left"/>{details}</span>
         </div>
       </div>
       <div className="options">
