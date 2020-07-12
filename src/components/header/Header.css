@@ -14,4 +14,5 @@
 
 .languajeSelector {
     width: 10em;
+    flex: 1 1 0;
 }

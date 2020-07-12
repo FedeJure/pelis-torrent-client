@@ -2,4 +2,8 @@ const getMovieUrl = movieId => {
     return `/movie/${movieId}`;
 }
 
-export default { getMovieUrl };
+const getHomeRoute = () => {
+    return "/";
+}
+
+export default { getMovieUrl, getHomeRoute };

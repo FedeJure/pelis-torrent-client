@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Select from 'react-select';
 import DropdownInput from '../dropdownInput/DropdownInput'
 import { useHistory } from "react-router-dom";
 import SearchBar from "../../components/searchBar/SearchBar";
+import Logo from "../../components/logo/Logo";
 import { getImdbId, getMovieCompleteData, getSupportedLanguages } from '../../services/api';
 import { getMovieDto } from '../../domain/movie';
 import Routes from "../../services/router";
@@ -45,6 +45,7 @@ const Header = () => {
     };
 
     return (<div className="searchBarContainer">
+                <Logo />
                 <SearchBar onChange={onChange} language={language}/>
                 <DropdownInput defaultValue={{value: 'en-US', label: "English"}} placeholder="Search language" options={languages} onChange={onSelectLanguage} className="languajeSelector"/>                
             </div>);

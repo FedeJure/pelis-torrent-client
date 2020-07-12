@@ -13,8 +13,8 @@ const Selector = ({ torrents, setTorrent, image, title, details, selectTrailer }
     <div className="movie-selector">
       <div className="header">
         <div className="header-details">
-          <h3>{title}</h3>
-          <span><img src={image} align="left"/>{details}</span>
+          
+          <span><img src={image} align="left"/><h3>{title}</h3>{details}</span>
         </div>
       </div>
       <div className="options">
