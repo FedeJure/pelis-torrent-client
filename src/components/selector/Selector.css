@@ -57,12 +57,12 @@
 }
 
 .movie-selector .options .active {
-  filter: invert(10%);
+  background: rgba(var(--secondary-color-ligth), 1);
 }
 
-.movie-selector .options button:hover {
-  background: rgba(var(--secondary-color-dark), 0.5);
-  color: lightblue;
+.movie-selector .options button:hover:not(.active) {
+  background: rgba(var(--secondary-color-dark), 1);
+  filter: invert(5%);
 }
 
 .movie-selector .options .ready {
