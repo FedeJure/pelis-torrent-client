@@ -4,7 +4,7 @@ import Selector from "../../components/selector/Selector";
 import moviesRepository from '../../repositories/moviesRepository';
 import Header from '../../components/header/Header';
 import PlayerView from "../../components/player/PlayerView";
-import { getMovieCompleteData, getMovieTrailer } from "../../services/api";
+import { getMovieCompleteData, getMovieTrailer, getSubtitles } from "../../services/api";
 import { getTorrentUrl } from '../../WebtorrentClient/WebtorrentClient';
 import { getMovieDto } from "../../domain/movie";
 import "./MovieDetail.css"
@@ -75,6 +75,7 @@ const MovieDetail = () => {
             moviesRepository.saveMovie(fetchedMovie);
         });
         else setMovie(newMovie);
+        getSubtitles(newMovie.imdbCode).then(console.log)
     }, []);
 
     return (

@@ -1,6 +1,7 @@
 import { mockedgetImdbId, mockedgetMovieCompleteData, mockedsearchMovies, mockedgetTrendingMovies } from './mockedApi'
 
 const mocked = false;
+const allowedSubtitles = ['spa', 'eng', 'por'];
 
 const backendUrl = "https://pelis-torrent-backend.herokuapp.com";
 // const backendUrl = "http://localhost:3001";
@@ -18,5 +19,8 @@ const getSupportedLanguages = async () => (await fetch(`${backendUrl}/tmdb/langu
 const getMovieTrailer = (movieId, language) => new Promise(async res => {
     res(await (await fetch(`${backendUrl}/tmdb/trailer?movieId=${movieId}&language=${language}`)).json());
 });
+const getSubtitles = imdbid => new Promise(async res => {
+    res(await (await fetch(`${backendUrl}/openSubtitles/search?imdbid=${imdbid}`)).json());
+});
 
-export { getImdbId, getMovieCompleteData, searchMovies, getTmdbImgPath, getTrendingMovies, getSupportedLanguages, getMovieTrailer };
+export { getImdbId, getMovieCompleteData, searchMovies, getTmdbImgPath, getTrendingMovies, getSupportedLanguages, getMovieTrailer, getSubtitles };
