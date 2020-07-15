@@ -16,6 +16,7 @@ const MovieDetail = () => {
     const [videoUrl, setVideoUrl] = useState(null);
     const [videoReady, setVideoReady] = useState({hash: '', url: ''});
     const [showTrailer, setShowTrailer] = useState(true);
+    const [availableSubtitles, setAvailableSubtitles] = useState([]);
     const { movieId } = useParams();
 
     const selectTorrent = torrent => {
@@ -75,8 +76,18 @@ const MovieDetail = () => {
             moviesRepository.saveMovie(fetchedMovie);
         });
         else setMovie(newMovie);
-        getSubtitles(newMovie.imdbCode).then(console.log)
+        getSubtitles(newMovie.imdbCode).then(setupSubtitles);
     }, []);
+
+    const setupSubtitles = subs => {
+        var aux = [];
+        Object.keys(subs).forEach(key => {
+            aux = [...aux,
+                    ...subs[key].sort((a,b) => parseFloat(b.score) - parseFloat(a.score)).slice(0,3)
+                ];
+        });
+        setAvailableSubtitles(aux);
+    }
 
     return (
         <div className="movieDetail commonPage">
@@ -91,7 +102,7 @@ const MovieDetail = () => {
                 title={movie.title}
                 selectTrailer={selectTrailer}
             />}
-            {!showTrailer && videoUrl && <PlayerView image={movie.image} videoUrl={videoUrl} />}
+            {!showTrailer && videoUrl && <PlayerView image={movie.image} videoUrl={videoUrl} availableSubtitles={availableSubtitles}/>}
             {showTrailer && trailerUrl && <PlayerView videoUrl={trailerUrl}/>}
         </div>
     )
