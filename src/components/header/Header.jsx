@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import DropdownInput from '../dropdownInput/DropdownInput'
 import { useHistory } from "react-router-dom";
 import SearchBar from "../../components/searchBar/SearchBar";
 import Logo from "../../components/logo/Logo";
@@ -44,10 +43,9 @@ const Header = () => {
         setLanguage(selected.value);
     };
 
-    return (<div className="searchBarContainer">
+    return (<div className="headerContainer">
                 <Logo />
-                <SearchBar onChange={onChange} language={language}/>
-                <DropdownInput defaultValue={{value: 'en-US', label: "English"}} placeholder="Search language" options={languages} onChange={onSelectLanguage} className="languajeSelector"/>                
+                <SearchBar onChange={onChange} language={language} onSelectLanguage={onSelectLanguage} languages={languages}/>
             </div>);
 };
 

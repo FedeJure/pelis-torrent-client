@@ -15,13 +15,15 @@ code {
 
 :root {
 
-  --header-height : 2em;
+  --header-height : 4em;
   --movie-grid-height: 89vh;
 
   --primary-color-ligth : 238,238,238;
   --primary-color-dark: #1d1e2c;
   --secondary-color-ligth: 77, 111, 167;
   --secondary-color-dark: 29, 39, 56;
+
+  font-family: 'Poppins';font-size: 15px;
   
 }
 

@@ -1,12 +1,14 @@
-import React from "react";
+import React , { useState, useEffect } from "react";
 import { components } from 'react-select';
 import "./SearchBar.css";
 import { searchMovies, getTmdbImgPath } from '../../services/api'
 import DropdownInput from '../dropdownInput/DropdownInput'
 
-const SearchBar = ({ onChange, language }) => {
+
+const SearchBar = ({ onChange, language, onSelectLanguage, languages }) => {
     return (
-        <DropdownInput
+        <div className="searchBarContainer">
+            <DropdownInput
             className="searchBar"
             async
             options={[]}
@@ -40,6 +42,8 @@ const SearchBar = ({ onChange, language }) => {
             placeholder="Search"
             onChange={item => onChange(item.value)}
         />
+            <DropdownInput defaultValue={{value: 'en-US', label: "English"}} placeholder="Search language" options={languages} onChange={onSelectLanguage} className="languajeSelector"/>
+            </div>
     );
 };
 
@@ -49,14 +53,14 @@ const MenuItem = props => {
         <components.Option id={data.name} {...props}>
             <div className="search-item">
             <div>
-                <img src={data.image ? getTmdbImgPath(data.image) : "./missing-file.png"} />
+                <img src={data.image ? getTmdbImgPath(data.image) : process.env.PUBLIC_URL+"/missing-file.png"} />
             </div>
             <div className="search-item-container">
                 <p className="search-item-title">{data.name}</p>
                 <div className="search-item-description">
                     <span>
                         {data.vote}
-                        <img className="rating-star" src="./star.png" />
+                        <img className="rating-star" src={process.env.PUBLIC_URL+"/star.png"} />
                     </span>
 
                     <span>{data.date}</span>

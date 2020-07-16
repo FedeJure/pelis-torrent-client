@@ -1,4 +1,4 @@
-.searchBarContainer {
+.headerContainer {
     position: fixed;
     display: flex;
     flex-flow: row;
@@ -7,12 +7,8 @@
     height: var(--header-height);
     top: 0;
     padding: 1em;
+    align-content: center;
     /* background-color: var(--secondary-color-dark); */
     background: linear-gradient(180deg, rgba(var(--secondary-color-dark), 1) 20%, rgba(var(--secondary-color-dark), 0.95) 100%);
     z-index: 1;
   }
-
-.languajeSelector {
-    width: 10em;
-    flex: 1 1 0;
-}

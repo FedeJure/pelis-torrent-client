@@ -83,7 +83,7 @@ const MovieDetail = () => {
         var aux = [];
         Object.keys(subs).forEach(key => {
             aux = [...aux,
-                    ...subs[key].sort((a,b) => parseFloat(b.score) - parseFloat(a.score)).slice(0,3)
+                    ...subs[key].sort((a,b) => parseFloat(b.score) - parseFloat(a.score)).slice(0,5)
                 ];
         });
         setAvailableSubtitles(aux);

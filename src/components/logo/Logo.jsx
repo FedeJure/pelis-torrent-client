@@ -7,8 +7,10 @@ const Logo = () => {
     const history = useHistory();
     return (
         <div className="logo" onClick={() => history.push(Routes.getHomeRoute())}>
-            <h2>JeyDE</h2>
-            <span>Just Digital Entertainment</span>
+            <img src={process.env.PUBLIC_URL + "/logo.svg"}/>
+            <div className="logo_detail">
+                <h1>Seta</h1>
+            </div>
         </div>
     );
 };
