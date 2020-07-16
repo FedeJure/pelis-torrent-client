@@ -1,16 +1,33 @@
-.logo {
+.logo_detail {
     color: aliceblue;
     display: flex;
     flex-direction: column;
-    left: 5%;
-    flex: 1 1 0;
-    cursor: pointer;
+    align-self: center;
+    margin: 0 1em;
 }
 
-.logo h2 {
+.logo {
+    display: flex;
+    flex: 1 1 0;
+    cursor: pointer;
+    padding-left: 1em;
+    max-width: fit-content;
+    position: absolute;
+    left: 5%;
+}
+.logo img {
+    display: flex;
+    flex: 1 1 0;
+    cursor: pointer;
+    align-self: center;
+    height: 100%;
+    max-width: 4em;
+}
+
+.logo_detail h1 {
     margin: 0;
 }
 
-.logo span {
-    font-size: 0.5em;
+.logo_detail span {
+    font-size: 0.8em;
 }

@@ -1,15 +1,16 @@
-.search-item {
-  display: flex;
-  flex-flow: row;
-  justify-content: first baseline;
-  justify-self: left;
-  height: 3em;
-  padding: 0.1em 0;
-  cursor: pointer;
+.searchBar {
+  width: 80%;
 }
 
-.search-item  * {
-  color: white;
+.languajeSelector {
+  width: 20%;
+}
+
+.searchBarContainer {
+  width: 50%;
+  display: inline-flex;
+  height: var(--header-height);
+  padding-top: 1em;
 }
 
 .search-item + div {
@@ -27,14 +28,24 @@
   object-fit: cover;
   margin-right: 1em;
 }
+
+.search-item {
+  display: flex;
+  flex-flow: row;
+  justify-content: first baseline;
+  justify-self: left;
+  height: 3em;
+  padding: 0.1em 0;
+  cursor: pointer;
+}
+
+.search-item  * {
+  color: white;
+}
+
 .rating-star {
   height: 10px !important;
   width: 10px !important;
-}
-
-.searchBar {
-  width: 25em; 
-  justify-self: center;
 }
 
 @media only screen and (max-width: 600px) {
