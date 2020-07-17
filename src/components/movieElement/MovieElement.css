@@ -22,7 +22,7 @@
     align-self: center;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 960px) {
     .movieElement {
         width: 50vw;
         padding: 0.2em;
@@ -49,7 +49,7 @@
     
   }
   
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 960px) {
     .movieElement {
         min-width: 10em;
         padding: 1em;

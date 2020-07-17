@@ -46,8 +46,14 @@ const Header = () => {
     };
 
     return (<div className="headerContainer">
-                {isTabletOrMobile && <><Logo />
-                <SearchBar onChange={onChange} language={language} onSelectLanguage={onSelectLanguage} languages={languages}/></>}
+                {isTabletOrMobile ? <>
+                <Logo />
+                <SearchBar onChange={onChange} language={language} onSelectLanguage={onSelectLanguage} languages={languages}/>
+                </>
+                : <>
+                <Logo />
+                <img className="searchButton" src="search.svg" alt="Search"/>
+                </>}
             </div>);
 };
 

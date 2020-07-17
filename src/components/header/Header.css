@@ -12,3 +12,10 @@
     background: linear-gradient(180deg, rgba(var(--secondary-color-dark), 1) 20%, rgba(var(--secondary-color-dark), 0.95) 100%);
     z-index: 1;
   }
+
+.searchButton {
+  position: absolute;
+  height: 40%;
+  right: 3em;
+  align-self: center;
+}
