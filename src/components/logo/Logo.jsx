@@ -10,7 +10,7 @@ const Logo = () => {
             <img src={process.env.PUBLIC_URL + "/logo.svg"}/>
             <div className="logo_detail">
                 <h1>Seta</h1>
-                <h4>Digital Entertainment</h4>
+                <span>Digital Entertainment</span>
             </div>
         </div>
     );

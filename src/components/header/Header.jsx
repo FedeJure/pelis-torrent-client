@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useMediaQuery } from 'react-responsive';
 import { useHistory } from "react-router-dom";
 import SearchBar from "../../components/searchBar/SearchBar";
 import Logo from "../../components/logo/Logo";
@@ -13,6 +14,7 @@ const Header = () => {
   const [language, setLanguage] = useState('en-US');
   const [languages, setLanguages] = useState([]);
   const history = useHistory();
+  const isTabletOrMobile = useMediaQuery({ query: '(min-width: 960px)' })
 
     useEffect(() => {
         const lang = LanguagesRepository.getLanguages();
@@ -44,8 +46,8 @@ const Header = () => {
     };
 
     return (<div className="headerContainer">
-                <Logo />
-                <SearchBar onChange={onChange} language={language} onSelectLanguage={onSelectLanguage} languages={languages}/>
+                {isTabletOrMobile && <><Logo />
+                <SearchBar onChange={onChange} language={language} onSelectLanguage={onSelectLanguage} languages={languages}/></>}
             </div>);
 };
 

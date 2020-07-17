@@ -1,3 +1,18 @@
+@media only screen and (max-width: 600px) {
+  .searchBar {
+    display: none;
+  }
+  .languajeSelector {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .logo_detail {
+      flex-direction: column;
+  }
+}
+
 .searchBar {
   width: 80%;
 }

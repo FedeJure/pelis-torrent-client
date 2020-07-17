@@ -1,8 +1,20 @@
+@media only screen and (max-width: 600px) {
+    .logo {
+    }
+  }
+  
+  @media only screen and (min-width: 600px) {
+    .logo{
+        left: 5%;
+    }
+  }
+
 .logo_detail {
     color: aliceblue;
     display: flex;
-    flex-direction: column;
     align-self: center;
+    flex-direction: column;
+    align-items: center;
     margin: 0 1em;
 }
 
@@ -13,7 +25,6 @@
     padding-left: 1em;
     max-width: fit-content;
     position: absolute;
-    left: 5%;
 }
 .logo img {
     display: flex;
@@ -27,10 +38,9 @@
 .logo_detail h1 {
     margin: 0;
 }
-.logo_detail h4 {
-    margin: 0;
-}
 
 .logo_detail span {
     font-size: 0.8em;
+    height: 100%;
+    align-self: center;
 }

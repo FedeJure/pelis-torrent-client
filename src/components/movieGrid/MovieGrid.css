@@ -1,14 +1,14 @@
 @media only screen and (max-width: 600px) {
-    .movieGrid {
-        width: 100vw;
-    }
+  .movieGrid {
+      width: 100vw;
   }
-  
-  @media only screen and (min-width: 600px) {
-    .movieGrid {
-      width: 65vw;
-    }
+}
+
+@media only screen and (min-width: 600px) {
+  .movieGrid {
+    width: 65vw;
   }
+}
 
 .movieGrid {
     margin-top: calc(var(--header-height) * 2);
