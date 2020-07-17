@@ -27,6 +27,9 @@
 .logo_detail h1 {
     margin: 0;
 }
+.logo_detail h4 {
+    margin: 0;
+}
 
 .logo_detail span {
     font-size: 0.8em;
