@@ -24,9 +24,6 @@ code {
   --secondary-color-dark: 29, 39, 56;
 
   font-family: 'Poppins';font-size: 15px;
-
-  --mobile : @media only screen and (max-width: 600px);
-  --desktop : @media only screen and (min-width: 600px)
   
 }
 
