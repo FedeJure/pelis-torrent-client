@@ -13,6 +13,7 @@ import './Header.css'
 const Header = () => {
   const [language, setLanguage] = useState('en-US');
   const [languages, setLanguages] = useState([]);
+  const [showSearchBar, setShowSearchBar] = useState(false);
   const history = useHistory();
   const isTabletOrMobile = useMediaQuery({ query: '(min-width: 960px)' })
 
@@ -52,7 +53,8 @@ const Header = () => {
                 </>
                 : <>
                 <Logo />
-                <img className="searchButton" src="search.svg" alt="Search"/>
+                {showSearchBar && <SearchBar onChange={onChange} language={language} onSelectLanguage={onSelectLanguage} languages={languages}/>}                
+                <img className="searchButton" src={process.env.PUBLIC_URL + "/search.svg"} alt="Search" onClick={() => setShowSearchBar(!showSearchBar)}/>
                 </>}
             </div>);
 };
