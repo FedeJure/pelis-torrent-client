@@ -50,7 +50,7 @@
 }
 
 .movie-selector .options button {
-  display: flex;
+  white-space:nowrap;
   width: 100%;
   text-align: center;
   justify-content: center;

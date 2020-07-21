@@ -3,6 +3,7 @@ import { components } from 'react-select';
 import "./SearchBar.css";
 import { searchMovies, getTmdbImgPath } from '../../services/api'
 import DropdownInput from '../dropdownInput/DropdownInput'
+import SelectionButton from '../selectionButton/SelectionButton'
 
 
 const SearchBar = ({ onChange, language, onSelectLanguage, languages }) => {
@@ -42,7 +43,7 @@ const SearchBar = ({ onChange, language, onSelectLanguage, languages }) => {
             placeholder="Search"
             onChange={item => onChange(item.value)}
         />
-            <DropdownInput defaultValue={{value: 'en-US', label: "English"}} placeholder="Search language" options={languages} onChange={onSelectLanguage} className="languajeSelector"/>
+            <SelectionButton options={[{value: 'en-US', label: "English"}, {value: 'es-MX', label: "Español"}]} text="Search Language" onSelect={onSelectLanguage} className="languajeSelector"/>
             </div>
     );
 };

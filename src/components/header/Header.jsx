@@ -8,6 +8,7 @@ import { getMovieDto } from '../../domain/movie';
 import Routes from "../../services/router";
 import MoviesRepository from "../../repositories/moviesRepository";
 import LanguagesRepository from "../../repositories/languagesRepository";
+import SelectionButton from '../selectionButton/SelectionButton'
 import './Header.css'
 
 const Header = () => {
@@ -43,12 +44,16 @@ const Header = () => {
     };
 
     const onSelectLanguage = selected => {
-        setLanguage(selected.value);
+        setLanguage(selected);
     };
 
     return (<div className="headerContainer">
                 {isTabletOrMobile ? <>
                 <Logo />
+                <div className="buttonContainer">
+                    <SelectionButton className="optionButton" options={[{value: 'en-US', label: "English"},{value: 'en-US', label: "English"}]} text="Genre" onSelect={console.log}/>
+                    <SelectionButton className="optionButton" options={[{value: 'movie', label: "Movie"},{value: 'serie', label: "Serie"}]} text="Type" onSelect={console.log}/>
+                </div>
                 <SearchBar onChange={onChange} language={language} onSelectLanguage={onSelectLanguage} languages={languages}/>
                 </>
                 : <>

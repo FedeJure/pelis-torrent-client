@@ -1,0 +1,64 @@
+.selectionButton {
+   position: relative;
+   height: 2.5em;
+   padding-top: 0.4em;
+   margin: 0 .5em;
+}
+
+.selectionButton button {
+    height: 2em;
+    background-color: rgba(var(--secondary-color-ligth), 1);
+    border: none;
+    border-radius: 1em;
+    color: black;
+}
+
+
+.selectionButton .optionsContainer{
+    display: none;
+    position: absolute;
+    padding: 0.5em;
+    min-width: 10em;
+    max-height: 20em;
+    background-color: rgba(var(--secondary-color-ligth), 1);
+    z-index: 10;
+    top: 100%;
+    border-radius: 0.2em;
+    overflow-y: auto;
+}
+
+.selectionButton .options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.selectionButton span {
+    margin: 0.5em;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.selectionButton .arrowUp {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 0.5em 0.5em 0.5em;
+    border-color: transparent transparent rgba(var(--secondary-color-ligth), 1) transparent;
+    z-index: 20;
+}
+
+.selectionButton .optionsContainer.open {
+    display: flex;
+}
+
+.selectionButton .optionsContainer span:hover {
+    filter: invert(25%);
+}
+.selectionButton .arrowUp.open {
+    display: flex;
+}

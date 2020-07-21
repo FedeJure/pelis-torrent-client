@@ -15,7 +15,7 @@ code {
 
 :root {
 
-  --header-height : 4em;
+  --header-height : 3em;
   --movie-grid-height: 89vh;
 
   --primary-color-ligth : 238,238,238;
