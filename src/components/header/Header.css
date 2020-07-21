@@ -2,7 +2,7 @@
     position: fixed;
     display: flex;
     flex-flow: row;
-    justify-content: center;
+    justify-content: flex-start;
     width: 100vw;
     height: var(--header-height);
     top: 0;
@@ -18,4 +18,10 @@
   height: 40%;
   right: 3em;
   align-self: center;
+}
+
+.buttonContainer {
+  display: flex;
+  width: 300px;
+  justify-content: center;
 }

@@ -14,9 +14,8 @@
       flex-direction: column;
   }
   .searchBarContainer {
-    width: 50%;
-    height: var(--header-height);
-    padding-top: 1em;
+    width: 30%;
+    height: fit-content;
     
   }
 }
