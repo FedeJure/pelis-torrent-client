@@ -23,14 +23,13 @@ code {
   --secondary-color-ligth: 77, 111, 167;
   --secondary-color-dark: 29, 39, 56;
 
-  font-family: 'Poppins';font-size: 15px;
   
 }
 
-
 * {
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family: 'Poppins';  
 }
+
 
 .commonPage {
   text-align: center;

@@ -1,17 +1,16 @@
 @media only screen and (max-width: 960px) {
-  .movieGrid {
+  .movieGridContainer {
       width: 100vw;
   }
 }
 
 @media only screen and (min-width: 960px) {
-  .movieGrid {
+  .movieGridContainer {
     width: 65vw;
   }
 }
 
 .movieGrid {
-    margin-top: calc(var(--header-height) * 2);
     display: flex;
     flex-flow: row;
     flex-wrap: wrap;
@@ -22,6 +21,14 @@
     -ms-overflow-style: none;
     background-color: rgba(0, 0, 0, 0.344);
     align-content: center;
+}
+
+.movieGridContainer > p {
+    width: fit-content;
+    color: aliceblue;
+    font-size: 2em;
+    margin: 0;
+    padding-left: 1em;
 }
 
 .movieGrid::-webkit-scrollbar {

@@ -12,6 +12,9 @@ function App() {
   return (
     <Router>
       <Switch>
+        <Route exact path="/genre/:genre">
+          <HomeScreen />
+        </Route>
         <Route exact path="/">
           <HomeScreen />
         </Route>

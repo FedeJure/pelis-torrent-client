@@ -1,3 +1,7 @@
 .Home {
+    padding-top: calc(var(--header-height) * 2);
+}
 
+.Home p {
+    width: 100%;
 }
