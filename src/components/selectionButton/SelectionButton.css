@@ -11,8 +11,15 @@
     border: none;
     border-radius: 1em;
     color: black;
+    display: inline-flex;
+    align-content: center;
+    align-items: center;
 }
 
+
+.selectionButton button:focus {
+    outline: none;
+}
 
 .selectionButton .optionsContainer{
     display: none;
@@ -37,6 +44,16 @@
     margin: 0.5em;
     white-space: nowrap;
     cursor: pointer;
+    -webkit-user-select: none;      
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.selectionButton .optionsContainer span {
+    padding: .5em;
+    background: rgba(var(--primary-color-ligth), .5);
+    border-radius: 1em;    
 }
 
 .selectionButton .arrowUp {
@@ -50,6 +67,22 @@
     border-width: 0 0.5em 0.5em 0.5em;
     border-color: transparent transparent rgba(var(--secondary-color-ligth), 1) transparent;
     z-index: 20;
+}
+
+.arrowDown {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0.5em 0.5em 0 0.5em;
+    border-color: rgba(0, 0, 0, 0.405) transparent transparent transparent;
+}
+
+.arrowUp2 {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 0.5em 0.5em 0.5em;
+    border-color: transparent transparent rgba(0, 0, 0, 0.405) transparent;
 }
 
 .selectionButton .optionsContainer.open {

@@ -3,7 +3,11 @@ const getMovieUrl = movieId => {
 }
 
 const getHomeRoute = () => {
-    return "/";
+    return `/`;
 }
 
-export default { getMovieUrl, getHomeRoute };
+const getHomeRouteWithGenre = (genre) => {
+    return `/genre/${genre}`;
+}
+
+export default { getMovieUrl, getHomeRoute, getHomeRouteWithGenre };

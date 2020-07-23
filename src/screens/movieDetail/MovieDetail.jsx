@@ -18,6 +18,7 @@ const MovieDetail = () => {
     const [showTrailer, setShowTrailer] = useState(true);
     const [availableSubtitles, setAvailableSubtitles] = useState([]);
     const { movieId } = useParams();
+    console.log(useParams())
 
     const selectTorrent = torrent => {
         const torrents = {...selectedTorrents};

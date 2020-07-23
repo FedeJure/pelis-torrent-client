@@ -6,7 +6,7 @@ import DropdownInput from '../dropdownInput/DropdownInput'
 import SelectionButton from '../selectionButton/SelectionButton'
 
 
-const SearchBar = ({ onChange, language, onSelectLanguage, languages }) => {
+const SearchBar = ({ onChange, language }) => {
     return (
         <div className="searchBarContainer">
             <DropdownInput
@@ -43,7 +43,6 @@ const SearchBar = ({ onChange, language, onSelectLanguage, languages }) => {
             placeholder="Search"
             onChange={item => onChange(item.value)}
         />
-            <SelectionButton options={[{value: 'en-US', label: "English"}, {value: 'es-MX', label: "Español"}]} text="Search Language" onSelect={onSelectLanguage} className="languajeSelector"/>
             </div>
     );
 };

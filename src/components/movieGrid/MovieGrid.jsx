@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 import InfiniteScroll from 'react-infinite-scroller';
 import { getTrendingMovies } from '../../services/api';
@@ -11,7 +11,7 @@ import './MovieGrid.css';
 
 const storageKey = "homeMovieList";
 
-const MovieGrid = () => {
+const MovieGrid = ({genre}) => {
     const [movies, setMovies] = useState([]);
     const [actualPage,setActualPage] = useState(1);
     const [loadMore, setLoadMore] = useState(true);
@@ -43,7 +43,8 @@ const MovieGrid = () => {
             setMovies(aux);
             return;
         }
-        getTrendingMovies(count, actualPage, result => {
+        getTrendingMovies(count, actualPage, genre.value, result => {
+            console.log(result)
             const newMoviesDto = result.data.movies.map(getDto);
             const aux = [...movies, ...dtoListToElementList(newMoviesDto)];
             MoviesGridRepository.saveNewMovies(newMoviesDto);
@@ -52,16 +53,35 @@ const MovieGrid = () => {
         });
     }
 
+    const fetchWithGenre = async () => {
+        const count = 50;        
+        getTrendingMovies(count, actualPage, genre.value, result => {
+            const newMoviesDto = result.data.movies.map(getDto);
+            const aux = [...movies, ...dtoListToElementList(newMoviesDto)];
+            // console.log(aux)
+            setMovies(aux);    
+            setActualPage(actualPage + 1);
+        });
+    };
+
+    useEffect(() => {
+        setMovies([]);
+        setActualPage(0);
+    }, [genre]);
+
     return (
+        <div className="movieGridContainer">
+        <p>{genre.value ? genre.label : "Last Releases"}:</p>
         <InfiniteScroll
             pageStart={0}
-            loadMore={fetchMoviePage}
+            loadMore={genre.value ? fetchWithGenre : fetchMoviePage}
             hasMore={true}
             loader={<div className="loader" key={0}>Loading ...</div>}>
                 <div className="movieGrid">
                     {movies}
                 </div>
         </InfiniteScroll>
+        </div>
     )
 };
 
