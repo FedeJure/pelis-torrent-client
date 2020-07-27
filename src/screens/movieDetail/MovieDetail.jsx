@@ -18,7 +18,6 @@ const MovieDetail = () => {
     const [showTrailer, setShowTrailer] = useState(true);
     const [availableSubtitles, setAvailableSubtitles] = useState([]);
     const { movieId } = useParams();
-    console.log(useParams())
 
     const selectTorrent = torrent => {
         const torrents = {...selectedTorrents};
@@ -64,20 +63,37 @@ const MovieDetail = () => {
         setShowTrailer(true);
     }
 
-    useEffect(() => {
-        var newMovie = moviesRepository.getMovie(movieId);
+    const tryGetMovieTrailer = () => {
         getMovieTrailer(movieId, "en-US").then(res => {
+            if (!res.results) throw new Error("Content not found");
             var trailer = res.results.find(v => v.site == "YouTube");
             var url = trailer ? `https://youtube.com/watch?v=${trailer.key}` : "";
             setTrailerUrl(url)
-        });
-        if (!newMovie) getMovieCompleteData(movieId).then(res => {
+        })
+        .catch(err => console.log(err));
+    }
+
+    const tryGetCompleteMovieData = () => {
+        getMovieCompleteData(movieId).then(res => {
+            if (!res.data.movies) throw new Error("Content not found");
             const fetchedMovie = getMovieDto(res.data.movies[0]);
             setMovie(fetchedMovie);
             moviesRepository.saveMovie(fetchedMovie);
-        });
-        else setMovie(newMovie);
-        getSubtitles(newMovie.imdbCode).then(setupSubtitles);
+        })
+        .catch(err => console.log(err));
+    }
+    useEffect(() => {
+        try {
+            var newMovie = moviesRepository.getMovie(movieId) || false;
+
+            tryGetMovieTrailer();
+
+            if (!newMovie) tryGetCompleteMovieData();
+            else setMovie(newMovie);
+            getSubtitles(newMovie.imdbCode).then(setupSubtitles); 
+        } catch (error) {
+            console.log(error)
+        }
     }, []);
 
     const setupSubtitles = subs => {
