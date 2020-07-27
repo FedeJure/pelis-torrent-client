@@ -3,6 +3,7 @@ import webtor from '@webtor/platform-sdk-js';
 const mocked = false;
 
 const sdk = webtor({
+    // apiUrl: 'https://167.99.109.146:31189',
     apiUrl: 'http://167.99.109.146:31189',
 });
 
