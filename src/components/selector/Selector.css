@@ -42,6 +42,14 @@
     overflow-y: auto;
 }
 
+.header-details span{
+  color: rgb(var(--text-ligth));
+}
+
+.header-details h3 {
+  color: rgb(var(--text-ligth));
+}
+
 .movie-selector .options {
   display: flex;
   flex-flow: row;

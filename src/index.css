@@ -23,12 +23,13 @@ code {
   --secondary-color-ligth: 77, 111, 167;
   --secondary-color-dark: 29, 39, 56;
 
-  
+  --text-ligth: 193 192 192;
+  --text-dark: 63 63 63;
+
 }
 
 * {
   font-family: 'Poppins';
-  color: #292828;
 }
 
 
@@ -64,7 +65,7 @@ code {
 
 .underConstructionImage {
   position: fixed;
+  bottom: 0;
   z-index: 99999;
   height: 10em;
-  transform: rotate(-90deg);
 }
