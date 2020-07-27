@@ -42,6 +42,7 @@
 .selectionButton span {
     margin: 0.5em;
     white-space: nowrap;
+    color: rgb(var(--text-ligth));
     cursor: pointer;
     -webkit-user-select: none;      
     -moz-user-select: none;
