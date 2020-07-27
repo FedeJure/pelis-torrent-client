@@ -28,7 +28,7 @@ code {
 
 * {
   font-family: 'Poppins';
-  color: #3f3f3f;
+  color: #292828;
 }
 
 
@@ -60,4 +60,11 @@ code {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(var(--secondary-color-ligth),0.8); 
+}
+
+.underConstructionImage {
+  position: fixed;
+  z-index: 99999;
+  height: 10em;
+  transform: rotate(-90deg);
 }
