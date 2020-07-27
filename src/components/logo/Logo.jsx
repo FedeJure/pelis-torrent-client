@@ -7,10 +7,8 @@ const Logo = () => {
     const history = useHistory();
     return (
         <div className="logo" onClick={() => history.push(Routes.getHomeRoute())}>
-            <img src={process.env.PUBLIC_URL + "/logo.svg"}/>
-            <div className="logo_detail">
-                <h1>Seta</h1>
-            </div>
+            <img className="logoImage" src={process.env.PUBLIC_URL + "/logo.svg"}/>
+            <img className="logoName" src={process.env.PUBLIC_URL + "/name.svg"}/>
         </div>
     );
 };

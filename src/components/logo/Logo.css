@@ -24,6 +24,7 @@
     align-items: center;
     margin: 0 1em;
     width: 6em;
+    height: 100%;
 }
 
 .logo {
@@ -32,13 +33,22 @@
     padding-left: 1em;
     max-width: fit-content;
 }
-.logo img {
+.logoImage {
     display: flex;
     cursor: pointer;
     align-self: center;
     height: 100%;
-    max-width: 4em;
+    width: 4em;
 }
+
+.logoName {
+    display: flex;
+    cursor: pointer;
+    align-self: center;
+    height: 100%;
+    width: 8em;
+}
+
 
 .logo_detail h1 {
     margin: 0;
