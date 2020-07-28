@@ -22,6 +22,7 @@ const customStyles = {
         display: state.options.length > 0 ? provided.display : 'none'
     }),
     menu: (provided, state) =>({
+        ...provided,
         backgroundColor: 'rgba(29, 39, 56, 1)',
         display: state.options.length > 0 ? provided.display : 'none'
     }),

@@ -1,9 +1,16 @@
 @media only screen and (max-width: 960px) {
+  .searchBar {
+    flex: 1 1 auto;
+  }
 }
 
 @media only screen and (min-width: 960px) {
   .logo_detail {
       flex-direction: column;
+  }
+  .searchBar {
+    flex: 1 1 auto;
+    margin-right: 1em;
   }
 
 }
@@ -14,6 +21,7 @@
 
 .searchBarContainer {
   display: inline-flex;
+  position: relative;
 }
 
 .search-item + div {
@@ -43,25 +51,12 @@
 }
 
 .search-item  * {
-  color: white;
+  color: rgb(var(--text-ligth));
 }
 
 .rating-star {
   height: 10px !important;
   width: 10px !important;
-}
-
-@media only screen and (max-width: 960px) {
-  .searchBar {
-    flex: 1 1 auto;
-  }
-}
-
-@media only screen and (min-width: 960px) {
-  .searchBar {
-    flex: 1 1 auto;
-    margin-right: 1em;
-  }
 }
 
 .search-item-container {
