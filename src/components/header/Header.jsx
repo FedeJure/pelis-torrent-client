@@ -55,11 +55,11 @@ const Header = ({onGenreSelected, onTypeSelected}) => {
         <Logo />
         <SelectionButton className="optionButton" options={genres} text="Genre" onSelect={onGenreSelected}/>
         {/* <SelectionButton className="optionButton" options={[{value: 'movie', label: "Movie"},{value: 'serie', label: "Serie"}]} text="Type" onSelect={onTypeSelected}/> */}
-        {showSearchBar && <div>
-            <SearchBar onChange={onChange} language={language} onSelectLanguage={onSelectLanguage} languages={languages}/>
+        {showSearchBar && <div className="mobileSearechContainer">
+            <SearchBar className="searchBar" onChange={onChange} language={language} onSelectLanguage={onSelectLanguage} languages={languages}/>
+            <SelectionButton options={[{value: 'en-US', label: "English"}, {value: 'es-MX', label: "Español"}]} onSelect={onSelectLanguage} className="languajeSelector"/>            
         </div>}                
-        <img className="searchButton" src={process.env.PUBLIC_URL + "/search.svg"} alt="Search" onClick={() => setShowSearchBar(!showSearchBar)}/>
-        <SelectionButton options={[{value: 'en-US', label: "English"}, {value: 'es-MX', label: "Español"}]} onSelect={onSelectLanguage} className="languajeSelector"/>
+        <img className="searchButton" src={process.env.PUBLIC_URL + "/search.svg"} alt="Search" onClick={() => setShowSearchBar(!showSearchBar)}/>        
     </div>);
 
     const onDesktop = (
@@ -69,8 +69,8 @@ const Header = ({onGenreSelected, onTypeSelected}) => {
             <SelectionButton className="optionButton" options={genres} text="Genre" onSelect={onGenreSelected}/>
             {/* <SelectionButton className="optionButton" options={[{value: 'movie', label: "Movie"},{value: 'serie', label: "Serie"}]} text="Type" onSelect={onTypeSelected}/> */}
         </div>
-        <SearchBar onChange={onChange} language={language}/>
-        <SelectionButton options={[{value: 'en-US', label: "English"}, {value: 'es-MX', label: "Español"}]} onSelect={onSelectLanguage} className="languajeSelector"/>
+        <SearchBar className="searchBar" onChange={onChange} language={language}/>
+        <SelectionButton className="languajeSelector" options={[{value: 'en-US', label: "English"}, {value: 'es-MX', label: "Español"}]} onSelect={onSelectLanguage}/>
     </div>);
 
     return (isDesktop ? onDesktop : onMobile);

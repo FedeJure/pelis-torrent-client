@@ -56,6 +56,10 @@ const MovieGrid = ({genre}) => {
     const fetchWithGenre = async () => {
         const count = 50;        
         getTrendingMovies(count, actualPage, genre.value, result => {
+            if (!result.data.movies) {
+                fetchMoviePage();
+                return;
+            }
             const newMoviesDto = result.data.movies.map(getDto);
             const aux = [...movies, ...dtoListToElementList(newMoviesDto)];
             // console.log(aux)
