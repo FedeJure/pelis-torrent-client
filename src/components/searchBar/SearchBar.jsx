@@ -8,7 +8,6 @@ import SelectionButton from '../selectionButton/SelectionButton'
 
 const SearchBar = ({ onChange, language }) => {
     return (
-        <div className="searchBarContainer">
             <DropdownInput
             className="searchBar"
             async
@@ -43,7 +42,6 @@ const SearchBar = ({ onChange, language }) => {
             placeholder="Search"
             onChange={item => onChange(item.value)}
         />
-            </div>
     );
 };
 

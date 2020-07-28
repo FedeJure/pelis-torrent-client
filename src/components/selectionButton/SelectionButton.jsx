@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import "./SelectionButton.css"
 
-const SelectionButton = ({text, options, onSelect}) => {
+const SelectionButton = ({text, options, onSelect, className}) => {
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState(false);
     const [selection, setSelection] = useState(options[0] || {label: ""});
@@ -10,7 +10,7 @@ const SelectionButton = ({text, options, onSelect}) => {
         setOpen(false);
     }, [selected]);
     return (
-        <div onClick={() => setOpen(!open)} onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)} className="selectionButton">
+        <div onClick={() => setOpen(!open)} onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)} className={`selectionButton ${className}`}>
             <button><span>{text ? text : selection.label}</span><div className={`${open ? "arrowUp2" : "arrowDown"}`}></div></button>
             <div className={`arrowUp ${open ? "open" : ""}`}></div>
             <div className={`optionsContainer ${open ? "open" : ""}`}>
@@ -20,7 +20,7 @@ const SelectionButton = ({text, options, onSelect}) => {
                     setSelection(opt);
                 }}>{opt.label}</span>)}</div>
             </div>
-        </div>      
+        </div>  
     );
 }
 
