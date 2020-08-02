@@ -24,9 +24,10 @@
 }
 
 .movieGridContainer > p {
-    width: fit-content;
+    min-width: 10em;
     color: rgb(var(--text-ligth));
     font-size: 2em;
+    text-align: left;
     margin: 0;
     padding-left: 1em;
     position: relative;
