@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import InfiniteScroll from 'react-infinite-scroller';
 import { getTrendingMovies } from '../../services/api';
 import { getMovieDto } from '../../domain/movie';
-import MovieElement from '../../components/movieElement/MovieElement';
+import MovieElement, { EmptyMovieElement } from '../../components/movieElement/MovieElement';
 import Routes from "../../services/router";
 import MoviesRepository from "../../repositories/moviesRepository";
 import MoviesGridRepository from "../../repositories/moviesGridRepository";
@@ -30,23 +30,25 @@ const MovieGrid = ({genre}) => {
 
     const dtoListToElementList = dtoList => {
         return dtoList.map(dto => (
-            <MovieElement movie={dto} onClick={_ => selectMovie(dto)}/>
+            <MovieElement movie={dto} onClick={_ => selectMovie(dto)} id={dto.id}/>
         ));
     }
 
     const fetchMoviePage = async () => {
+        addDefaultMovies();
         const count = 50;
         const cachedList = MoviesGridRepository.getMovies();
         if (cachedList.length > count * actualPage) {
-            const aux = [...movies, ...dtoListToElementList(cachedList.slice(count*(actualPage-1), count*actualPage))];
+            const oldMovies = removeDefaultMovies(movies);
+            const aux = [...oldMovies, ...dtoListToElementList(cachedList.slice(count*(actualPage-1), count*actualPage))];
             setActualPage(actualPage + 1);
             setMovies(aux);
             return;
         }
         getTrendingMovies(count, actualPage, genre.value, result => {
-            console.log(result)
             const newMoviesDto = result.data.movies.map(getDto);
-            const aux = [...movies, ...dtoListToElementList(newMoviesDto)];
+            const oldMovies = removeDefaultMovies(movies);
+            const aux = [...oldMovies, ...dtoListToElementList(newMoviesDto)];
             MoviesGridRepository.saveNewMovies(newMoviesDto);
             setMovies(aux);    
             setActualPage(actualPage + 1);
@@ -54,15 +56,16 @@ const MovieGrid = ({genre}) => {
     }
 
     const fetchWithGenre = async () => {
-        const count = 50;        
+        const count = 50;
+        addDefaultMovies();
         getTrendingMovies(count, actualPage, genre.value, result => {
             if (!result.data.movies) {
                 fetchMoviePage();
                 return;
             }
             const newMoviesDto = result.data.movies.map(getDto);
-            const aux = [...movies, ...dtoListToElementList(newMoviesDto)];
-            // console.log(aux)
+            const oldMovies = removeDefaultMovies(movies);
+            const aux = [...oldMovies, ...dtoListToElementList(newMoviesDto)];
             setMovies(aux);    
             setActualPage(actualPage + 1);
         });
@@ -73,18 +76,35 @@ const MovieGrid = ({genre}) => {
         setActualPage(0);
     }, [genre]);
 
+    const addDefaultMovies = () => {
+        const movie = <EmptyMovieElement/>;
+        const defaultMovies = [];
+        for (let index = 0; index < 20; index++) {
+            defaultMovies.push(movie);
+        }
+        setMovies([...movies, defaultMovies]);
+    };
+
+    const removeDefaultMovies = (providedMovies) => {
+        const actualMovies = [...providedMovies];
+        for (let index = 0; index < 20; index++) {
+            actualMovies.pop();
+        }
+        return actualMovies;
+    };
+
     return (
         <div className="movieGridContainer">
-        <p>{genre.value ? genre.label : "Last Releases"}:</p>
-        <InfiniteScroll
-            pageStart={0}
-            loadMore={genre.value ? fetchWithGenre : fetchMoviePage}
-            hasMore={true}
-            loader={<div className="loader" key={0}>Loading ...</div>}>
-                <div className="movieGrid">
-                    {movies}
-                </div>
-        </InfiniteScroll>
+            <p>{genre.value ? genre.label : "Last Releases"}: <img className="titleBackground" src={process.env.PUBLIC_URL + "/titleBackground.svg"}/></p>
+            <InfiniteScroll
+                pageStart={0}
+                loadMore={genre.value ? fetchWithGenre : fetchMoviePage}
+                hasMore={true}
+                loader={<div className="loader" key={0}>Loading ...</div>}>
+                    <div className="movieGrid">
+                        {movies}
+                    </div>
+            </InfiniteScroll>
         </div>
     )
 };

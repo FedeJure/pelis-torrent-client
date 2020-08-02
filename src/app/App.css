@@ -35,3 +35,10 @@
     transform: rotate(360deg);
   }
 }
+
+.underConstructionImage {
+  position: fixed;
+  bottom: 0;
+  z-index: 99999;
+  height: 10em;
+}

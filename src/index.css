@@ -23,8 +23,8 @@ code {
   --secondary-color-ligth: 77, 111, 167;
   --secondary-color-dark: 29, 39, 56;
 
-  --text-ligth: 193 192 192;
-  --text-dark: 63 63 63;
+  --text-ligth: 193, 192, 192;
+  --text-dark: 63, 63, 63;
 
 }
 
@@ -61,11 +61,4 @@ code {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(var(--secondary-color-ligth),0.8); 
-}
-
-.underConstructionImage {
-  position: fixed;
-  bottom: 0;
-  z-index: 99999;
-  height: 10em;
 }

@@ -1,0 +1,12 @@
+.clickAds {
+    position: absolute;
+    height: 64px;
+    width: 64px;
+    top: 10%;
+    left: 0;
+}
+
+.clickAds img{
+    position: absolute;
+    height: 100%;
+}
