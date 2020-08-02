@@ -26,19 +26,18 @@
     .movieElement {
         width: 50vw;
         padding: 0.2em;
-        height: 10em;
         position: relative;        
     }
     .movieElement img {
         width: 100%;
-        height: 100%;
+        height: 10em;
         align-self: center;
         object-fit: cover;
     }
 
     .movieElement span {
         font-size: 80%;
-        bottom: 10%;
+        bottom: 26%;
         right: 6%;
     }
 
@@ -52,18 +51,18 @@
     .movieElement {
         min-width: 10em;
         height: 15em;        
-        padding: 1em;
+        padding: 0.5em;
         position: relative;
     }
     .movieElement img {
-        width: 100%;
+        width: 90%;
         align-self: center;
         object-fit: cover;
     }
 
     .movieElement span {
         font-size: 80%;
-        bottom: 15%;
+        bottom: 25%;
         right: 12%;
     }
 
@@ -77,6 +76,6 @@
 
 .emptyMovieElement img {
     object-fit: cover;
-    height: 100%;
+    height: 90%;
     filter: opacity(5%);
 }
