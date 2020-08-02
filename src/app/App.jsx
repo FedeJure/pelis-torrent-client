@@ -13,13 +13,22 @@ function App() {
     <Router>
       <Switch>
         <Route exact path="/genre/:genre">
-          <HomeScreen />
+          <>
+            <HomeScreen />
+            <img src={process.env.PUBLIC_URL + "/under_construction1.png"} alt="site under construction" className="underConstructionImage" />
+          </>
         </Route>
         <Route exact path="/">
-          <HomeScreen />
+          <>
+            <HomeScreen />
+            <img src={process.env.PUBLIC_URL + "/under_construction1.png"} alt="site under construction" className="underConstructionImage" />
+          </>
         </Route>
         <Route exact path="/movie/:movieId">
+          <>
           <MovieDetailScreen />
+            <img src={process.env.PUBLIC_URL + "/under_construction1.png"} alt="site under construction" className="underConstructionImage" />
+          </>
         </Route>
       </Switch>
     </Router>

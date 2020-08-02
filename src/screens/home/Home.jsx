@@ -6,6 +6,7 @@ import Header from "../../components/header/Header";
 import Routes from "../../services/router";
 import MoviesRepository from "../../repositories/moviesRepository";
 import { getAvailableGenres } from "../../repositories/genresRepository";
+import AdsHelper from "../../components/adsHelper/AdsHelper";
 
 const Home = () => {
   const [torrent, setTorrent] = useState({});
@@ -30,6 +31,7 @@ const Home = () => {
     <div className="Home commonPage">
       <Header onGenreSelected={onGenreChange} onTypeSelected={onTypeChange}/>
       <MovieGrid genre={genreObject || selectedGenre}/>
+      {/* <AdsHelper/> */}
     </div>
   );
 }

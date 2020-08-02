@@ -29,6 +29,7 @@
     font-size: 2em;
     margin: 0;
     padding-left: 1em;
+    position: relative;
 }
 
 .movieGrid::-webkit-scrollbar {
@@ -40,6 +41,16 @@
     display: flex;
     flex-flow: column;
     width: 6em;
-    height: fit-content;
     animation-delay: 0;
+}
+
+.titleBackground {
+    position: absolute;
+    width: 8em;
+    height: 100%;
+    object-fit: cover;
+    left: 0;
+    z-index: -1;
+    overflow: visible;
+    object-position: left;
 }
