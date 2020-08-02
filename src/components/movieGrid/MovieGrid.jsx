@@ -77,19 +77,17 @@ const MovieGrid = ({genre}) => {
     }, [genre]);
 
     const addDefaultMovies = () => {
-        const movie = <EmptyMovieElement/>;
+        const movie = <EmptyMovieElement name="empty"/>;
         const defaultMovies = [];
         for (let index = 0; index < 20; index++) {
             defaultMovies.push(movie);
+            console.log(movie)
         }
         setMovies([...movies, defaultMovies]);
     };
 
     const removeDefaultMovies = (providedMovies) => {
-        const actualMovies = [...providedMovies];
-        for (let index = 0; index < 20; index++) {
-            actualMovies.pop();
-        }
+        const actualMovies = providedMovies.filter(element => element.props.name != "empty")
         return actualMovies;
     };
 
