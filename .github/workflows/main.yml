@@ -22,7 +22,7 @@ jobs:
 
     # Runs a single command using the runners shell
     - name: build
-      run: npm install && npm run build
+      run: npm install && CI=false && npm run build
 
     - name: FTP-Deploy
       uses: SamKirkland/FTP-Deploy-Action@3.1.1
