@@ -31,10 +31,11 @@ jobs:
       run: npm install && CI=false && npm run build
 
     - name: FTP-Deploy
-      uses: SamKirkland/FTP-Deploy-Action@3.1.1
+      uses: kevinpainchaud/simple-ftp-deploy-action@v1.1.0
       with:
-        ftp-server: ftp://ftp.seta.fun/
-        ftp-username: u704076905.githubActions
-        ftp-password: SetaFun123  
-        local-dir: ./build
-        git-ftp-args: --force
+        ftp_host: ftp://ftp.seta.fun/
+        ftp_username: u704076905.githubActions
+        ftp_password: SetaFun123 
+        local_source_dir: "build"
+        dist_target_dir: "/"
+        delete: "true"
