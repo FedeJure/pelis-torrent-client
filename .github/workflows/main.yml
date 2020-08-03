@@ -20,6 +20,12 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
+    - name: Cache multiple paths
+
+      uses: actions/cache@v2
+      with:
+        path: node_modules
+      key: ${{ runner.os }}-node_modules-${{ hashFiles('**/lockfiles') }}
     # Runs a single command using the runners shell
     - name: build
       run: npm install && CI=false && npm run build
@@ -30,4 +36,5 @@ jobs:
         ftp-server: ftp://ftp.seta.fun/
         ftp-username: u704076905.githubActions
         ftp-password: SetaFun123  
-        local-dir: ./build 
+        local-dir: ./build
+        git-ftp-args: --all
