@@ -1,10 +1,9 @@
 import webtor from '@webtor/platform-sdk-js';
 
 const mocked = false;
-
 const sdk = webtor({
     // apiUrl: 'https://167.99.109.146:31189',
-    apiUrl: 'http://167.99.109.146:31189',
+    apiUrl: `${window.location.protocol == 'https:' ? 'https://' : 'http://'}167.99.109.146:31189`,
 });
 
 const expire = 60*60*24; // 24 hours
