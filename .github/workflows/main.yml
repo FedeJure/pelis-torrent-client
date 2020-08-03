@@ -37,4 +37,7 @@ jobs:
         ftp-username: u704076905.githubActions
         ftp-password: SetaFun123  
         local-dir: ./build/
-        git-ftp-args: --all --force -v
+        git-ftp-args: |
+          --all
+          --force
+          -v
