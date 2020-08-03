@@ -25,6 +25,7 @@
 @media only screen and (max-width: 960px) {
     .movieElement {
         width: 50vw;
+        height: 13em;                
         padding: 0.2em;
         position: relative;        
     }
@@ -43,6 +44,10 @@
 
     .hiddenMovie {
         display: none;
+    }
+
+    .emptyMovieElement img {
+        height: 10em;
     }
     
   }
@@ -69,6 +74,10 @@
     .hiddenMovie {
         display: none;
     }
+
+    .emptyMovieElement img {
+        height: 90%;
+    }
 }
 
 .emptyMovieElement {
@@ -76,6 +85,5 @@
 
 .emptyMovieElement img {
     object-fit: cover;
-    height: 90%;
     filter: opacity(5%);
 }
