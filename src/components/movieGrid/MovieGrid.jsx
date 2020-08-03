@@ -98,7 +98,7 @@ const MovieGrid = ({genre}) => {
                 pageStart={0}
                 loadMore={genre.value ? fetchWithGenre : fetchMoviePage}
                 hasMore={true}
-                loader={<div className="loader" key={0}>Loading ...</div>}>
+                loader={<div className="loader" key={0}></div>}>
                     <div className="movieGrid">
                         {movies}
                     </div>
