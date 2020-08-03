@@ -87,7 +87,7 @@ const MovieGrid = ({genre}) => {
     };
 
     const removeDefaultMovies = (providedMovies) => {
-        const actualMovies = providedMovies.filter(element => element.props.name != "empty")
+        const actualMovies = providedMovies.filter(element => element.props && element.props.name != "empty")
         return actualMovies;
     };
 
