@@ -54,7 +54,7 @@ const Header = ({onGenreSelected, onTypeSelected}) => {
     <div className="headerContainer">
         <Logo />
         <SelectionButton className="optionButton" options={genres} text="Genre" onSelect={onGenreSelected}/>
-        {/* <SelectionButton className="optionButton" options={[{value: 'movie', label: "Movie"},{value: 'serie', label: "Serie"}]} text="Type" onSelect={onTypeSelected}/> */}
+        <SelectionButton className="optionButton" options={[{value: 'movie', label: "Movie"},{value: 'serie', label: "Serie"}]} text="Type" onSelect={onTypeSelected}/>
         {showSearchBar && <div className="mobileSearechContainer">
             <SearchBar className="searchBar" onChange={onChange} language={language} onSelectLanguage={onSelectLanguage} languages={languages}/>
             <SelectionButton options={[{value: 'en-US', label: "English"}, {value: 'es-MX', label: "Español"}]} onSelect={onSelectLanguage} className="languajeSelector"/>            
@@ -67,7 +67,7 @@ const Header = ({onGenreSelected, onTypeSelected}) => {
         <Logo />
         <div className="buttonContainer">
             <SelectionButton className="optionButton" options={genres} text="Genre" onSelect={onGenreSelected}/>
-            {/* <SelectionButton className="optionButton" options={[{value: 'movie', label: "Movie"},{value: 'serie', label: "Serie"}]} text="Type" onSelect={onTypeSelected}/> */}
+            <SelectionButton className="optionButton" options={[{value: 'movie', label: "Movie"},{value: 'serie', label: "Serie"}]} text="Type" onSelect={onTypeSelected}/>
         </div>
         <SearchBar className="searchBar" onChange={onChange} language={language}/>
         <SelectionButton className="languajeSelector" options={[{value: 'en-US', label: "English"}, {value: 'es-MX', label: "Español"}]} onSelect={onSelectLanguage}/>

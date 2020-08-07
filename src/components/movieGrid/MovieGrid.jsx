@@ -7,11 +7,13 @@ import MovieElement, { EmptyMovieElement } from '../../components/movieElement/M
 import Routes from "../../services/router";
 import MoviesRepository from "../../repositories/moviesRepository";
 import MoviesGridRepository from "../../repositories/moviesGridRepository";
+import { MEDIA_TYPES } from '../../domain/mediaTypes';
 import './MovieGrid.css';
 
 const storageKey = "homeMovieList";
 
-const MovieGrid = ({genre}) => {
+const MovieGrid = ({genre, type}) => {
+    const moviesPerPage = 20;
     const [movies, setMovies] = useState([]);
     const [actualPage,setActualPage] = useState(1);
     const [loadMore, setLoadMore] = useState(true);
@@ -35,55 +37,39 @@ const MovieGrid = ({genre}) => {
     }
 
     const fetchMoviePage = async () => {
-        addDefaultMovies();
-        const count = 50;
-        const cachedList = MoviesGridRepository.getMovies();
-        if (cachedList.length > count * actualPage) {
-            const oldMovies = removeDefaultMovies(movies);
-            const aux = [...oldMovies, ...dtoListToElementList(cachedList.slice(count*(actualPage-1), count*actualPage))];
-            setActualPage(actualPage + 1);
-            setMovies(aux);
-            return;
-        }
-        getTrendingMovies(count, actualPage, genre.value, result => {
+        const startIndex = (actualPage - 1) * moviesPerPage;
+        addDefaultMovies();        
+        getTrendingMovies(moviesPerPage, actualPage, genre.value, result => {
             const newMoviesDto = result.data.movies.map(getDto);
-            const oldMovies = removeDefaultMovies(movies);
-            const aux = [...oldMovies, ...dtoListToElementList(newMoviesDto)];
-            MoviesGridRepository.saveNewMovies(newMoviesDto);
-            setMovies(aux);    
-            setActualPage(actualPage + 1);
+            addNewMovies(newMoviesDto, startIndex);           
         });
     }
 
-    const fetchWithGenre = async () => {
-        const count = 50;
-        addDefaultMovies();
-        getTrendingMovies(count, actualPage, genre.value, result => {
-            if (!result.data.movies) {
-                fetchMoviePage();
-                return;
-            }
-            const newMoviesDto = result.data.movies.map(getDto);
-            const oldMovies = removeDefaultMovies(movies);
-            const aux = [...oldMovies, ...dtoListToElementList(newMoviesDto)];
-            setMovies(aux);    
-            setActualPage(actualPage + 1);
-        });
-    };
+    const addNewMovies = (newMovies, fromIndex) => {
+        const oldMovies = movies;
+        oldMovies.splice(fromIndex, moviesPerPage, ...dtoListToElementList(newMovies));
+        setMovies(oldMovies);
+        setLoadMore(true);
+    }
 
     useEffect(() => {
         setMovies([]);
-        setActualPage(0);
+        setActualPage(1);
     }, [genre]);
+
+    useEffect(() => {
+        fetchMoviePage();
+    },[])
 
     const addDefaultMovies = () => {
         const movie = <EmptyMovieElement name="empty"/>;
         const defaultMovies = [];
         for (let index = 0; index < 20; index++) {
             defaultMovies.push(movie);
-            console.log(movie)
         }
-        setMovies([...movies, defaultMovies]);
+        setMovies([...movies, ...defaultMovies]);
+        setActualPage(actualPage + 1);
+        setLoadMore(false);
     };
 
     const removeDefaultMovies = (providedMovies) => {
@@ -96,8 +82,8 @@ const MovieGrid = ({genre}) => {
             <p>{genre.value ? genre.label : "Last Releases"}: <img className="titleBackground" src={process.env.PUBLIC_URL + "/titleBackground.svg"}/></p>
             <InfiniteScroll
                 pageStart={0}
-                loadMore={genre.value ? fetchWithGenre : fetchMoviePage}
-                hasMore={true}
+                loadMore={fetchMoviePage}
+                hasMore={loadMore}
                 loader={<div className="loader" key={0}></div>}>
                     <div className="movieGrid">
                         {movies}

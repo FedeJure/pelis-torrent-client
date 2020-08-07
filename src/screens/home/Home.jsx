@@ -9,6 +9,7 @@ import { getAvailableGenres } from "../../repositories/genresRepository";
 import AdsHelper from "../../components/adsHelper/AdsHelper";
 
 const Home = () => {
+  const [type, setType] = useState('movie');
   const [torrent, setTorrent] = useState({});
   const [selectedMovie, setSelectedMovie] = useState({});
   const [selectedGenre, setSelectedGenre] = useState({value: null})
@@ -24,13 +25,13 @@ const Home = () => {
   };
 
   const onTypeChange = type => {
-    // console.log(type);
+    setType(type.value)
   }
   
   return (
     <div className="Home commonPage">
       <Header onGenreSelected={onGenreChange} onTypeSelected={onTypeChange}/>
-      <MovieGrid genre={genreObject || selectedGenre}/>
+      <MovieGrid genre={genreObject || selectedGenre} type={type}/>
       {/* <AdsHelper/> */}
     </div>
   );
