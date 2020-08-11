@@ -12,7 +12,7 @@ import {getAvailableGenres} from "../../repositories/genresRepository";
 import SelectionButton from '../selectionButton/SelectionButton'
 import './Header.css'
 
-const Header = ({onGenreSelected, onTypeSelected}) => {
+const Header = ({onGenreSelected, onTypeSelected, onSelectContent}) => {
   const [language, setLanguage] = useState('en-US');
   const [languages, setLanguages] = useState([]);
   const [showSearchBar, setShowSearchBar] = useState(false);
@@ -30,19 +30,6 @@ const Header = ({onGenreSelected, onTypeSelected}) => {
             LanguagesRepository.saveLanguages(filteredLanguages);
         });
     }, []);
-    const onSelectMovie = movie => {
-        MoviesRepository.saveMovie(movie);
-        history.push(Routes.getMovieUrl(movie.imdbCode));
-        window.location.reload();
-    }
-
-    const onChange = async movieId => {
-        if (!movieId) return;
-        const { imdb_id } = await getImdbId(movieId);
-        const { data } = await getMovieCompleteData(imdb_id);
-        if (data.movies && data.movies.length > 0)
-        onSelectMovie(getMovieDto(data.movies[0]));
-    };
 
     const onSelectLanguage = selected => {
         setLanguage(selected.value);
@@ -53,10 +40,13 @@ const Header = ({onGenreSelected, onTypeSelected}) => {
     const onMobile = (
     <div className="headerContainer">
         <Logo />
-        <SelectionButton className="optionButton" options={genres} text="Genre" onSelect={onGenreSelected}/>
-        <SelectionButton className="optionButton" options={[{value: 'movie', label: "Movie"},{value: 'serie', label: "Serie"}]} text="Type" onSelect={onTypeSelected}/>
+        <div className="optionButtonsContainer">
+            <SelectionButton className="optionButton" options={genres} text="Genre" onSelect={onGenreSelected}/>
+            <SelectionButton className="optionButton" options={[{value: 'movie', label: "Movie"},{value: 'serie', label: "Serie"}]} text="Type" onSelect={onTypeSelected}/>
+        </div>
+
         {showSearchBar && <div className="mobileSearechContainer">
-            <SearchBar className="searchBar" onChange={onChange} language={language} onSelectLanguage={onSelectLanguage} languages={languages}/>
+            <SearchBar className="searchBar" onChange={onSelectContent} language={language} onSelectLanguage={onSelectLanguage} languages={languages}/>
             <SelectionButton options={[{value: 'en-US', label: "English"}, {value: 'es-MX', label: "Español"}]} onSelect={onSelectLanguage} className="languajeSelector"/>            
         </div>}                
         <img className="searchButton" src={process.env.PUBLIC_URL + "/search.svg"} alt="Search" onClick={() => setShowSearchBar(!showSearchBar)}/>        
@@ -69,7 +59,7 @@ const Header = ({onGenreSelected, onTypeSelected}) => {
             <SelectionButton className="optionButton" options={genres} text="Genre" onSelect={onGenreSelected}/>
             <SelectionButton className="optionButton" options={[{value: 'movie', label: "Movie"},{value: 'serie', label: "Serie"}]} text="Type" onSelect={onTypeSelected}/>
         </div>
-        <SearchBar className="searchBar" onChange={onChange} language={language}/>
+        <SearchBar className="searchBar" onChange={onSelectContent} language={language}/>
         <SelectionButton className="languajeSelector" options={[{value: 'en-US', label: "English"}, {value: 'es-MX', label: "Español"}]} onSelect={onSelectLanguage}/>
     </div>);
 

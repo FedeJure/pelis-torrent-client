@@ -13,9 +13,10 @@ const getMovie = movieId => {
 }
 
 const saveMovie = movie => {
-    const repoIndex = JSON.parse(localStorage.getItem(repoIndexKey)) || [];
+    var repoIndex = JSON.parse(localStorage.getItem(repoIndexKey)) || [];
     const storage = JSON.parse(localStorage.getItem(repoKey)) || {};
     if (repoIndex.length >= 10) delete storage[repoIndex.pop()];
+    repoIndex = repoIndex.filter(code => code != movie.imdbCode);
     repoIndex.splice(0,0,movie.imdbCode);
     storage[movie.imdbCode] = movie;
 

@@ -4,12 +4,15 @@ import "./Home.css";
 import MovieGrid from "../../components/movieGrid/MovieGrid";
 import Header from "../../components/header/Header";
 import Routes from "../../services/router";
-import MoviesRepository from "../../repositories/moviesRepository";
+import { getMovieDto } from '../../domain/movie';
+import { getSerieDto } from '../../domain/serie';
 import { getAvailableGenres } from "../../repositories/genresRepository";
-import AdsHelper from "../../components/adsHelper/AdsHelper";
+import { getTrendingMovies, getTrendingSeries, getImdbId, getMovieCompleteData } from '../../services/api';
 
-const Home = () => {
-  const [type, setType] = useState('movie');
+import MoviesRepository from "../../repositories/moviesRepository";
+
+const Home = ({isSerie, type}) => {
+  const contentPerPage = 20;  
   const [torrent, setTorrent] = useState({});
   const [selectedMovie, setSelectedMovie] = useState({});
   const [selectedGenre, setSelectedGenre] = useState({value: null})
@@ -25,14 +28,62 @@ const Home = () => {
   };
 
   const onTypeChange = type => {
-    setType(type.value)
+    if (type.value == 'serie') history.push(Routes.getHomeSeriesRoute());
+    else history.push(Routes.getHomeRoute());
+    window.location.reload();
+  }
+
+  const fetchSeriesPage = async (actualPage, callback) => {
+    getTrendingSeries(contentPerPage, actualPage, genreObject.value, result => {
+        callback(result.results.map(getSerieDto));
+    })
+  }
+
+  const fetchMoviePage = async (actualPage, callback) => {     
+    getTrendingMovies(contentPerPage, actualPage, genreObject.value, result => {
+      callback(result.data.movies.map(getMovieDto));          
+    });
+  }
+
+  const onSelectMovieOnHeader = async movieId => {
+    if (!movieId) return;
+    const { imdb_id } = await getImdbId(movieId);
+    const { data } = await getMovieCompleteData(imdb_id);
+    if (data.movies && data.movies.length > 0) {
+      const movie = getMovieDto(data.movies[0]);
+      MoviesRepository.saveMovie(movie);
+      history.push(Routes.getMovieUrl(movie.imdbCode));
+      window.location.reload();
+    }
+  }
+
+  const onSelectMovieOnGrid = async movie => {
+    MoviesRepository.saveMovie(movie);
+    history.push(Routes.getMovieUrl(movie.imdbCode));
+    window.location.reload();
+  }
+
+  const onSelectSerieOnHeader = serieId => {
+    console.log("Click on serie: "+ serieId);
+  }
+
+  const onSelectSerieOnGrid = async serie => {
+    history.push(Routes.getSerieUrl(serie.id));
+    window.location.reload();
   }
   
   return (
     <div className="Home commonPage">
-      <Header onGenreSelected={onGenreChange} onTypeSelected={onTypeChange}/>
-      <MovieGrid genre={genreObject || selectedGenre} type={type}/>
-      {/* <AdsHelper/> */}
+      <Header 
+        onGenreSelected={onGenreChange}
+        onTypeSelected={onTypeChange}
+        onSelectContent={!isSerie ? onSelectMovieOnHeader : onSelectSerieOnHeader}/>
+      <MovieGrid 
+        genre={genreObject || selectedGenre} 
+        type={type} 
+        fetchMethod={!isSerie ? fetchMoviePage : fetchSeriesPage} 
+        elementsPerPage={contentPerPage}
+        onSelectContent={!isSerie ? onSelectMovieOnGrid : onSelectSerieOnGrid}/>
     </div>
   );
 }
