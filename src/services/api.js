@@ -14,7 +14,7 @@ const getTrendingMovies = async (limit, page, genre, callback) => mocked ? mocke
                             .then(result => {
                                 callback(result);
                             });
-const getTrendingSeries = async (name, season, episode, callback) => fetch(`${backendUrl}/tmdb/homeSeries`)
+const getTrendingSeries = async (limit, page, genre, callback) => fetch(`${backendUrl}/tmdb/homeSeries?page=${page}`)
                             .then(response => response.json())
                             .then(result => {
                                 callback(result);
@@ -28,4 +28,4 @@ const getSubtitles = imdbid => new Promise(async res => {
     res(await (await fetch(`${backendUrl}/openSubtitles/search?imdbid=${imdbid}`)).json());
 });
 
-export { getImdbId, getMovieCompleteData, searchMovies, getTmdbImgPath, getTrendingMovies, getSupportedLanguages, getMovieTrailer, getSubtitles };
+export { getImdbId, getMovieCompleteData, searchMovies, getTmdbImgPath, getTrendingMovies, getTrendingSeries, getSupportedLanguages, getMovieTrailer, getSubtitles };

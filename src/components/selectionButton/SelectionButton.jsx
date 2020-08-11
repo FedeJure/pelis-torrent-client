@@ -18,7 +18,7 @@ const SelectionButton = ({text, options, onSelect, className}) => {
                     onSelect(opt);                    
                     setSelected(!selected);
                     setSelection(opt);
-                }}>{opt.label}</span>)}</div>
+                }} key={Math.random()}>{opt.label}</span>)}</div>
             </div>
         </div>  
     );
