@@ -7,14 +7,14 @@ import MoviesGridRepository from "../../repositories/moviesGridRepository";
 import { MEDIA_TYPES } from '../../domain/mediaTypes';
 import './MovieGrid.css';
 
-const MovieGrid = ({genre, type, fetchMethod, elementsPerPage, onSelectContent}) => {
+const MovieGrid = ({genre, type, fetchMethod, elementsPerPage, onSelect}) => {
     const [contentList, setContentList] = useState([]);
     const [actualPage,setActualPage] = useState(1);
     const [loadMore, setLoadMore] = useState(true);
 
     const dtoListToElementList = dtoList => {
         return dtoList.map(dto => (
-            <MovieElement movie={dto} onClick={_ => onSelectContent(dto)} key={dto.id}/>
+            <MovieElement movie={dto} key={dto.id} onSelect={onSelect}/>
         ));
     }
 

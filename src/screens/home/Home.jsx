@@ -45,6 +45,9 @@ const Home = ({isSerie, type}) => {
     });
   }
 
+  const onMovieSelect = movie => `${process.env.PUBLIC_URL}/movie/${movie.imdbCode}`;
+  const onSerieSelect = serie => `${process.env.PUBLIC_URL}/serie/${serie.id}`;
+
   const onSelectMovieOnHeader = async movieId => {
     if (!movieId) return;
     const { imdb_id } = await getImdbId(movieId);
@@ -57,19 +60,8 @@ const Home = ({isSerie, type}) => {
     }
   }
 
-  const onSelectMovieOnGrid = async movie => {
-    MoviesRepository.saveMovie(movie);
-    history.push(Routes.getMovieUrl(movie.imdbCode));
-    window.location.reload();
-  }
-
   const onSelectSerieOnHeader = serieId => {
     console.log("Click on serie: "+ serieId);
-  }
-
-  const onSelectSerieOnGrid = async serie => {
-    history.push(Routes.getSerieUrl(serie.id));
-    window.location.reload();
   }
   
   return (
@@ -83,7 +75,7 @@ const Home = ({isSerie, type}) => {
         type={type} 
         fetchMethod={!isSerie ? fetchMoviePage : fetchSeriesPage} 
         elementsPerPage={contentPerPage}
-        onSelectContent={!isSerie ? onSelectMovieOnGrid : onSelectSerieOnGrid}/>
+        onSelect={!isSerie ? onMovieSelect : onSerieSelect}/>
     </div>
   );
 }

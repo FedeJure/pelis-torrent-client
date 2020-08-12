@@ -87,3 +87,7 @@
     object-fit: cover;
     filter: opacity(5%);
 }
+
+a {
+    all: unset;
+}
