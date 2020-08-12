@@ -7,6 +7,7 @@ import PlayerView from "../../components/player/PlayerView";
 import { getMovieCompleteData, getMovieTrailer, getSubtitles } from "../../services/api";
 import { getTorrentUrl } from '../../WebtorrentClient/WebtorrentClient';
 import { getMovieDto } from "../../domain/movie";
+import ContentDescription from "../../components/contentDescription/ContentDescription"
 import BackgroundImage from "../../components/backgroundImage/BackgroundImage";
 import "./MovieDetail.css"
 
@@ -112,14 +113,12 @@ const MovieDetail = () => {
             <Header isSerie={false}/>
             {movie && movie.backgroundImage && <BackgroundImage image={movie.backgroundImage}/> }
             {movie &&
+            <><ContentDescription title={movie.title} details={movie.details} image={movie.image}/>
             <Selector
-                image={movie.image}
                 torrents={movie.torrents}
                 setTorrent={selectTorrent}
-                details={movie.details}
-                title={movie.title}
                 selectTrailer={selectTrailer}
-            />}
+            /></>}
             {!showTrailer && videoUrl && <PlayerView image={movie.image} videoUrl={videoUrl} availableSubtitles={availableSubtitles}/>}
             {showTrailer && trailerUrl && <PlayerView videoUrl={trailerUrl}/>}
         </div>

@@ -21,33 +21,8 @@
 }
 
 .movie-selector {
-  margin-top: calc(var(--header-height) * 2);
   border: none;
   color: white;
-}
-
-.movie-selector .header {
-  padding: 0.5em;
-  display: flex;
-  justify-content: space-evenly;
-  height: 20em;
-  background-color: rgba(0, 0, 0, 0);
-}
-.movie-selector img {
-  align-self: center;
-  object-fit: cover;
-}
-
-.header-details {
-    overflow-y: auto;
-}
-
-.header-details span{
-  color: rgb(var(--text-ligth));
-}
-
-.header-details h3 {
-  color: rgb(var(--text-ligth));
 }
 
 .movie-selector .options {

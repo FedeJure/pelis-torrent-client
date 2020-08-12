@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Selector.css";
 var selected = 0;
-const Selector = ({ torrents, setTorrent, image, title, details, selectTrailer }) => {
+const Selector = ({ torrents, setTorrent, selectTrailer }) => {
   const setSelected = value => selected = value;
 
   const selectTorrent = (torrent, index) => {
@@ -11,12 +11,6 @@ const Selector = ({ torrents, setTorrent, image, title, details, selectTrailer }
 
   return (
     <div className="movie-selector">
-      <div className="header">
-        <div className="header-details">
-          
-          <span><img src={image} align="left"/><h3>{title}</h3>{details}</span>
-        </div>
-      </div>
       <div className="options">
         <button key="trailer-button" onClick={() => setSelected(0) || selectTrailer()} className={`ready ${selected == 0 ? "active" : ""}`}>
           <span className="text">Trailer</span>
