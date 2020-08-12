@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import './MovieElement.css'
 
-const MovieElement = ({movie, onClick}) => {
+const MovieElement = ({movie, onSelect}) => {
     const [loaded, setLoaded] = useState(false);
     return (
-        <><div className={`movieElement ${!loaded ? "emptyMovieElement" : ""}`} key={movie.title} onClick={onClick}>
+        <><a className={`movieElement ${!loaded ? "emptyMovieElement" : ""}`} key={movie.title} href={onSelect(movie)}>
             <img src={movie.image} onLoad={() => setLoaded(true)} style={{display: loaded? "unset": "none"}}/>
             {!loaded && <img src={process.env.PUBLIC_URL + "/imageLoading.gif"}/>}
             <p>{movie.title}</p>
             <span>{movie.year}</span>
-        </div>
+        </a>
         {!loaded && <EmptyMovieElement/>}
         </>
     );
