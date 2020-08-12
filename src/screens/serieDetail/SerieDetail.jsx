@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { getSerieData } from "../../services/api"
 import {getSerieDto} from "../../domain/serie";
 import BackgroundImage from "../../components/backgroundImage/BackgroundImage";
+import ContentDescription from "../../components/contentDescription/ContentDescription";
 
 
 import Header from '../../components/header/Header';
@@ -22,7 +23,7 @@ const SerieDetailScreen = () => {
     return (<div className="serieDetail commonPage">
         <Header isSerie={true}/>
         {serie && serie.backgroundImage && <BackgroundImage image={serie.backgroundImage}/> }
-        <span className="soon">Very soon...</span>
+        {serie && <ContentDescription title={serie.title} details={serie.details} image={serie.image}/>}
     </div>);
 }
 
