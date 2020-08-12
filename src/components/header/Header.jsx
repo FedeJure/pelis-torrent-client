@@ -8,60 +8,90 @@ import { getMovieDto } from '../../domain/movie';
 import Routes from "../../services/router";
 import MoviesRepository from "../../repositories/moviesRepository";
 import LanguagesRepository from "../../repositories/languagesRepository";
-import {getAvailableGenres} from "../../repositories/genresRepository";
+import { getAvailableGenres } from "../../repositories/genresRepository";
 import SelectionButton from '../selectionButton/SelectionButton'
 import './Header.css'
 
-const Header = ({onGenreSelected, onTypeSelected, onSelectContent}) => {
-  const [language, setLanguage] = useState('en-US');
-  const [languages, setLanguages] = useState([]);
-  const [showSearchBar, setShowSearchBar] = useState(false);
-  const history = useHistory();
-  const isDesktop = useMediaQuery({ query: '(min-width: 960px)' })
+const Header = ({ isSerie }) => {
+    const [language, setLanguage] = useState('en-US');
+    const [languages, setLanguages] = useState([]);
+    const [showSearchBar, setShowSearchBar] = useState(false);
+    const history = useHistory();
+    const isDesktop = useMediaQuery({ query: '(min-width: 960px)' })
+
+    const onGenreSelected = genre => {
+        if (!genre.value) history.push(Routes.getHomeRoute());
+        else history.push(Routes.getHomeRouteWithGenre(genre.value));
+        window.location.reload();
+    };
+
+    const onTypeSelected = type => {
+        if (type.value == 'serie') history.push(Routes.getHomeSeriesRoute());
+        else history.push(Routes.getHomeRoute());
+        window.location.reload();
+    }
+
+    const onSelectMovie = async movieId => {
+        if (!movieId) return;
+        const { imdb_id } = await getImdbId(movieId);
+        const { data } = await getMovieCompleteData(imdb_id);
+        if (data.movies && data.movies.length > 0) {
+            const movie = getMovieDto(data.movies[0]);
+            MoviesRepository.saveMovie(movie);
+            history.push(Routes.getMovieUrl(movie.imdbCode));
+            window.location.reload();
+        }
+    }
+
+    const onSelectSerie = serieId => {
+        console.log("Click on serie: " + serieId);
+    }
 
     useEffect(() => {
         const lang = LanguagesRepository.getLanguages();
         if (lang.length > 0) setLanguages(lang);
         else getSupportedLanguages()
-        .then(res => {
-            const mapped = res.map(item =>({value: item.iso_639_1, label: item.name || item.english_name}));
-            const filteredLanguages = mapped.slice(1, mapped.length);
-            setLanguages(filteredLanguages);
-            LanguagesRepository.saveLanguages(filteredLanguages);
-        });
+            .then(res => {
+                const mapped = res.map(item => ({ value: item.iso_639_1, label: item.name || item.english_name }));
+                const filteredLanguages = mapped.slice(1, mapped.length);
+                setLanguages(filteredLanguages);
+                LanguagesRepository.saveLanguages(filteredLanguages);
+            });
     }, []);
 
     const onSelectLanguage = selected => {
         setLanguage(selected.value);
     };
 
-    const genres = getAvailableGenres().sort((a,b) => a.value - b.value);
+    const genres = getAvailableGenres().sort((a, b) => a.value - b.value);
+    const onSelectContent = isSerie ? onSelectSerie : onSelectMovie
+    
 
     const onMobile = (
-    <div className="headerContainer">
-        <Logo />
-        <div className="optionButtonsContainer">
-            <SelectionButton className="optionButton" options={genres} text="Genre" onSelect={onGenreSelected}/>
-            <SelectionButton className="optionButton" options={[{value: 'movie', label: "Movie"},{value: 'serie', label: "Serie"}]} text="Type" onSelect={onTypeSelected}/>
-        </div>
+        <div className="headerContainer">
+            <Logo />
+            <div className="optionButtonsContainer">
+                <SelectionButton className="optionButton" options={genres} text="Genre" onSelect={onGenreSelected} />
+                <SelectionButton className="optionButton" options={[{ value: 'movie', label: "Movie" }, { value: 'serie', label: "Serie" }]} text="Type" onSelect={onTypeSelected} />
+            </div>
 
-        {showSearchBar && <div className="mobileSearechContainer">
-            <SearchBar className="searchBar" onChange={onSelectContent} language={language} onSelectLanguage={onSelectLanguage} languages={languages}/>
-            <SelectionButton options={[{value: 'en-US', label: "English"}, {value: 'es-MX', label: "Español"}]} onSelect={onSelectLanguage} className="languajeSelector"/>            
-        </div>}                
-        <img className="searchButton" src={process.env.PUBLIC_URL + "/search.svg"} alt="Search" onClick={() => setShowSearchBar(!showSearchBar)}/>        
-    </div>);
+            {showSearchBar && <div className="mobileSearechContainer">
+                <SearchBar className="searchBar" onChange={onSelectContent} language={language} onSelectLanguage={onSelectLanguage} languages={languages} />
+                <SelectionButton options={[{ value: 'en-US', label: "English" }, { value: 'es-MX', label: "Español" }]} onSelect={onSelectLanguage} className="languajeSelector" />
+            </div>}
+            <img className="searchButton" src={process.env.PUBLIC_URL + "/search.svg"} alt="Search" onClick={() => setShowSearchBar(!showSearchBar)} />
+        </div>);
 
     const onDesktop = (
-    <div className="headerContainer">
-        <Logo />
-        <div className="buttonContainer">
-            <SelectionButton className="optionButton" options={genres} text="Genre" onSelect={onGenreSelected}/>
-            <SelectionButton className="optionButton" options={[{value: 'movie', label: "Movie"},{value: 'serie', label: "Serie"}]} text="Type" onSelect={onTypeSelected}/>
-        </div>
-        <SearchBar className="searchBar" onChange={onSelectContent} language={language}/>
-        <SelectionButton className="languajeSelector" options={[{value: 'en-US', label: "English"}, {value: 'es-MX', label: "Español"}]} onSelect={onSelectLanguage}/>
-    </div>);
+        <div className="headerContainer">
+            <Logo />
+            <div className="buttonContainer">
+                <SelectionButton className="optionButton" options={genres} text="Genre" onSelect={onGenreSelected} />
+                <SelectionButton className="optionButton" options={[{ value: 'movie', label: "Movie" }, { value: 'serie', label: "Serie" }]} text="Type" onSelect={onTypeSelected} />
+            </div>
+            <SearchBar className="searchBar" onChange={onSelectContent} language={language} />
+            <SelectionButton className="languajeSelector" options={[{ value: 'en-US', label: "English" }, { value: 'es-MX', label: "Español" }]} onSelect={onSelectLanguage} />
+        </div>);
 
     return (isDesktop ? onDesktop : onMobile);
 };
