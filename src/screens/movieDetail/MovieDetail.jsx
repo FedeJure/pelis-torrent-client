@@ -7,6 +7,7 @@ import PlayerView from "../../components/player/PlayerView";
 import { getMovieCompleteData, getMovieTrailer, getSubtitles } from "../../services/api";
 import { getTorrentUrl } from '../../WebtorrentClient/WebtorrentClient';
 import { getMovieDto } from "../../domain/movie";
+import BackgroundImage from "../../components/backgroundImage/BackgroundImage";
 import "./MovieDetail.css"
 
 const MovieDetail = () => {
@@ -108,8 +109,8 @@ const MovieDetail = () => {
 
     return (
         <div className="movieDetail commonPage">
-            <Header/>
-            {movie && movie.backgroundImage && <img className="background" src={movie.backgroundImage}/> }
+            <Header isSerie={false}/>
+            {movie && movie.backgroundImage && <BackgroundImage image={movie.backgroundImage}/> }
             {movie &&
             <Selector
                 image={movie.image}

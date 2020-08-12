@@ -21,18 +21,6 @@ const Home = ({isSerie, type}) => {
   const { genre } = useParams();
   const genreObject = getAvailableGenres().find(g => g.value == genre);
 
-  const onGenreChange = genre => {
-    if (!genre.value) history.push(Routes.getHomeRoute());
-    else history.push(Routes.getHomeRouteWithGenre(genre.value));
-    window.location.reload();
-  };
-
-  const onTypeChange = type => {
-    if (type.value == 'serie') history.push(Routes.getHomeSeriesRoute());
-    else history.push(Routes.getHomeRoute());
-    window.location.reload();
-  }
-
   const fetchSeriesPage = async (actualPage, callback) => {
     getTrendingSeries(contentPerPage, actualPage, genreObject.value, result => {
         callback(result.results.map(getSerieDto));
@@ -48,28 +36,10 @@ const Home = ({isSerie, type}) => {
   const onMovieSelect = movie => `${process.env.PUBLIC_URL}/movie/${movie.imdbCode}`;
   const onSerieSelect = serie => `${process.env.PUBLIC_URL}/serie/${serie.id}`;
 
-  const onSelectMovieOnHeader = async movieId => {
-    if (!movieId) return;
-    const { imdb_id } = await getImdbId(movieId);
-    const { data } = await getMovieCompleteData(imdb_id);
-    if (data.movies && data.movies.length > 0) {
-      const movie = getMovieDto(data.movies[0]);
-      MoviesRepository.saveMovie(movie);
-      history.push(Routes.getMovieUrl(movie.imdbCode));
-      window.location.reload();
-    }
-  }
 
-  const onSelectSerieOnHeader = serieId => {
-    console.log("Click on serie: "+ serieId);
-  }
-  
   return (
     <div className="Home commonPage">
-      <Header 
-        onGenreSelected={onGenreChange}
-        onTypeSelected={onTypeChange}
-        onSelectContent={!isSerie ? onSelectMovieOnHeader : onSelectSerieOnHeader}/>
+      <Header isSerie={isSerie}/>
       <MovieGrid 
         genre={genreObject || selectedGenre} 
         type={type} 

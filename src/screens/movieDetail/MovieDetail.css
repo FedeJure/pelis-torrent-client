@@ -1,13 +1,3 @@
-.movieDetail .background {
-    position: fixed;
-    min-width: 100vw;
-    min-height: 100vh;
-    z-index: -1;
-    align-self: center;
-    object-fit: cover;
-    background: rgba(var(--secondary-color-dark),1);
-}
-
 .movieDetail {
   background: rgba(var(--secondary-color-dark),0.8);
 }
