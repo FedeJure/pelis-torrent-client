@@ -9,7 +9,7 @@ const EpisodeSelector = ({seasons}) => {
     }
     return (
     <div className="episodeSelector">
-        {seasons.reverse().map((season) => (<EpisodeSelectorOnSeason 
+        {seasons.map((season) => (<EpisodeSelectorOnSeason 
                                                 key={season.season}
                                                 season={season}
                                                 onSelect={selectSeason}
