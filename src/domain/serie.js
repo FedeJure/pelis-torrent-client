@@ -4,8 +4,8 @@ const getSerieDto = response => {
     return ({
         title: response.name,
         details: response.overview,
-        image: getTmdbImgPath(response.poster_path),
-        backgroundImage: getTmdbImgPath(response.backdrop_path),
+        image: response.poster_path ? getTmdbImgPath(response.poster_path) : process.env.PUBLIC_URL+"/missing-file.png",
+        backgroundImage: response.backdrop_path ? getTmdbImgPath(response.backdrop_path) : process.env.PUBLIC_URL+"/missing-file.png",
         torrents: [],
         year: new Date(response.first_air_date).getFullYear(),
         id: response.id,
