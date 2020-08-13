@@ -10,7 +10,9 @@ const getSerieDto = response => {
         year: new Date(response.first_air_date).getFullYear(),
         id: response.id,
         rating: response.vote_average,
-        imdbCode: null
+        imdbCode: null,
+        inEmision: response.next_episode_to_air != null,
+        seasons: response.seasons ? response.seasons.map(s => ({season: s.season_number, episodes: s.episode_count})) : []
     });
 };
 

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { getSerieData } from "../../services/api"
 import {getSerieDto} from "../../domain/serie";
 import BackgroundImage from "../../components/backgroundImage/BackgroundImage";
+import EpisodeSelector from "../../components/episodeSelector/EpisodeSelector";
 import ContentDescription from "../../components/contentDescription/ContentDescription";
 
 
@@ -12,7 +13,7 @@ import "./SerieDetail.css";
 
 const SerieDetailScreen = () => {
     const { serieId } = useParams();
-    const [serie, setSerie] = useState({});
+    const [serie, setSerie] = useState(null);
 
     useEffect(() => {
         getSerieData(serieId, response => {
@@ -23,7 +24,10 @@ const SerieDetailScreen = () => {
     return (<div className="serieDetail commonPage">
         <Header isSerie={true}/>
         {serie && serie.backgroundImage && <BackgroundImage image={serie.backgroundImage}/> }
-        {serie && <ContentDescription title={serie.title} details={serie.details} image={serie.image}/>}
+        {serie && <>
+            <ContentDescription title={serie.title} details={serie.details} image={serie.image}/>
+            <EpisodeSelector seasons={serie.seasons}/>
+        </>}
     </div>);
 }
 
