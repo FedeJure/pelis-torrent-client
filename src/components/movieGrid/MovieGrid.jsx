@@ -27,15 +27,15 @@ const MovieGrid = ({genre, type, fetchMethod, elementsPerPage, onSelect}) => {
     }
 
     const addNewContent = (newMovies, fromIndex) => {
-        const oldMovies = contentList;
+        const oldMovies = [...contentList];
         oldMovies.splice(fromIndex, elementsPerPage, ...dtoListToElementList(newMovies));
         setContentList(oldMovies);
-        setLoadMore(true);
+        setLoadMore(true);                
     }
 
     const addDefaultMovies = () => {
         const defaultMovies = [];
-        for (let index = 0; index < 20; index++) {
+        for (let index = 0; index < elementsPerPage; index++) {
             defaultMovies.push(<EmptyMovieElement name="empty" key={Math.random()}/>);
         }
         setContentList([...contentList, ...defaultMovies]);
