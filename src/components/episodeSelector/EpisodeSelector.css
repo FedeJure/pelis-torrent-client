@@ -1,0 +1,28 @@
+@media only screen and (max-width: 960px) {
+    .episodeSelector {
+        width: 99vw;
+    }
+  }
+  
+  @media only screen and (min-width: 960px) {
+    .episodeSelector {
+        width: 80vw;
+    }
+  }
+
+
+.episodeSelector {
+    display: flex;
+    flex-flow: column;
+}
+
+.episodeSelectorOnSeason {
+    background-color: rgba(var(--secondary-color-dark), 0.8);
+    border: solid rgba(var(--secondary-color-dark), 0.85) 1px;
+    justify-content: left;
+    cursor: pointer;
+}
+
+.episodeSelector p {
+    color: rgb(var(--text-ligth));
+}
