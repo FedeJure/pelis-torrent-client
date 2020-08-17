@@ -6,7 +6,7 @@ import "./PlayerView.css";
 const PlayerView = ({ image, videoUrl, availableSubtitles }) => 
       (
       <div className="playerView" crossOrigin="anonymous">
-        <ReactPlayer url={videoUrl}
+        <ReactPlayer url={videoUrl ? videoUrl : process.env.PUBLIC_URL + "/videoLoading.gif"}
         className='react-player'
         controls
         width='100%'
@@ -17,8 +17,9 @@ const PlayerView = ({ image, videoUrl, availableSubtitles }) =>
               crossOrigin: "anonymous"
             },
             tracks:
-             availableSubtitles && availableSubtitles.map(sub => ({kind: 'subtitles', src: sub.url, srcLang: sub.languageName, default: true, crossOrigin:"anonymous"}))
-          }}}>
+             availableSubtitles ? availableSubtitles.map(sub => ({kind: 'subtitles', src: sub.url, srcLang: sub.languageName, default: true, crossOrigin:"anonymous"})): []
+          }}}
+        playing={true}>
         </ReactPlayer>
     </div>
 );

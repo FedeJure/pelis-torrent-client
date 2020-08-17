@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Animate, AnimateGroup }  from 'react-simple-animate';
 import "./EpisodeSelector.css";
 
-const EpisodeSelector = ({seasons}) => {
+const EpisodeSelector = ({seasons, onSelectEpisode}) => {
     const [selectedSeason, setSelectedSeason] = useState(null);
     const selectSeason = seasonNumber => {
         setSelectedSeason(seasonNumber == selectedSeason ? null : seasonNumber);
@@ -13,18 +13,19 @@ const EpisodeSelector = ({seasons}) => {
                                                 key={season.season}
                                                 season={season}
                                                 onSelect={selectSeason}
-                                                selected={selectedSeason == season.season}/>))}
+                                                selected={selectedSeason == season.season}
+                                                onSelectEpisode={onSelectEpisode}/>))}
     </div>);
 };
 
-const EpisodeSelectorOnSeason = ({season, onSelect, selected}) => (
+const EpisodeSelectorOnSeason = ({season, onSelect, selected, onSelectEpisode}) => (
     <div className={`episodeSelectorOnSeason ${selected && "selected"}`}>
         <div className={`season ${selected && "selected"}`}
         onClick={_ => onSelect(season.season)}><p>{`Season: ${season.season}`}</p></div>
-        {selected && <Episodes count={season.episodes}/>}
+        {selected && <Episodes count={season.episodes} season={season.season} onSelectEpisode={onSelectEpisode}/>}
     </div>);
 
-const Episodes = ({count}) => (
+const Episodes = ({season, count, onSelectEpisode}) => (
     <Animate
         play={true}
         easeType="easeInQuint"
@@ -34,11 +35,11 @@ const Episodes = ({count}) => (
         end={{ height: '100%'}}>
         <div>
         {Array.from({ length: count }).map((_, i) =>
-            (<p className="episode">{`Episode: ${i + 1}`}</p>)
+            (<p className="episode" onClick={_ => onSelectEpisode(season, i + 1)}>{`Episode: ${i + 1}`}</p>)
         )}
         </div>
 
     </Animate>
-)
+);
 
 export default EpisodeSelector;
