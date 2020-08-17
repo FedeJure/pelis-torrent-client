@@ -12,7 +12,7 @@ const getSerieDto = response => {
         rating: response.vote_average,
         imdbCode: null,
         inEmision: response.next_episode_to_air != null,
-        seasons: response.seasons ? response.seasons.map(s => ({season: s.season_number + 1, episodes: s.episode_count})) : []
+        seasons: response.seasons ? response.seasons.filter(s => s.season_number > 0).map(s => ({season: s.season_number, episodes: s.episode_count})) : []
     });
 };
 
