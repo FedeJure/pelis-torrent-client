@@ -16,31 +16,31 @@ const SearchBar = ({ onChange, language }) => {
             loadOptions={query => {
                 return new Promise(async (resolve, reject) => {
                     const { results } = await searchMovies(query, language);
-                    const movie = results.map(
+                    const contents = results.map(
                         ({
                             title,
                             vote_average,
                             release_date,
                             poster_path,
-                            id
-                        }) => {
-                            return {
+                            id,
+                            type
+                        }) => ({
                                 label: title,
                                 value: id.toString(),
                                 date: release_date,
                                 vote: vote_average,
                                 image: poster_path,
-                                name: title
-                            };
-                        }
+                                name: title,
+                                type: type
+                            })
                     );
-                    resolve(movie)
+                    resolve(contents)
                 });
             }}
             search
             cacheOptions
             placeholder="Search"
-            onChange={item => onChange(item.value)}
+            onChange={item => onChange(item)}
         />
     );
 };
@@ -56,12 +56,12 @@ const MenuItem = props => {
             <div className="search-item-container">
                 <p className="search-item-title">{data.name}</p>
                 <div className="search-item-description">
-                    <span>
+                    <span className="rating">
                         {data.vote}
                         <img className="rating-star" src={process.env.PUBLIC_URL+"/star.png"} />
                     </span>
-
-                    <span>{data.date}</span>
+                    <span className="date">{data.date}</span>
+                    <span className="contentType">{data.type.charAt(0).toUpperCase()+data.type.slice(1,data.type.length)}</span>
                 </div>
             </div>
             </div>

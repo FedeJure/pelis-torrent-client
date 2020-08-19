@@ -82,6 +82,17 @@
   height: 0.5em;
 }
 
-.search-item-description span:last-child {
-  margin: 0 1em;
+.search-item-description .rating {
+    position: absolute!important;
+    right: 20%;
+
+}
+
+.search-item-description date {
+    
+}
+
+.search-item-description .contentType {
+    position: absolute;
+    right: 5%;
 }

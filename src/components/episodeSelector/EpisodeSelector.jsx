@@ -35,7 +35,7 @@ const Episodes = ({season, count, onSelectEpisode}) => (
         end={{ height: '100%'}}>
         <div>
         {Array.from({ length: count }).map((_, i) =>
-            (<p className="episode" onClick={_ => onSelectEpisode(season, i + 1)}>{`Episode: ${i + 1}`}</p>)
+            (<p className="episode" key={i} onClick={_ => onSelectEpisode(season, i + 1)}>{`Episode: ${i + 1}`}</p>)
         )}
         </div>
 
