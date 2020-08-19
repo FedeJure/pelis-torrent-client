@@ -21,7 +21,7 @@ const SerieDetailScreen = () => {
     const [videoUrl, setVideoUrl] = useState('');
 
     const onSelectEpisode = (season, episode) => {
-        searchSerie(serie.title, season, episode, response => {
+        searchSerie(serieId, season, episode, response => {
             if (response.torrents.completeSeason.length > 0) {
                 setEpisodeMagnet(response.torrents.completeSeason[0].magnet);
                 getEpisodeFromPack(response.torrents.completeSeason[0].magnet, episode)

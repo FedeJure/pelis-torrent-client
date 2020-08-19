@@ -44,7 +44,9 @@ const Header = ({ isSerie }) => {
     }
 
     const onSelectSerie = serieId => {
-        console.log("Click on serie: " + serieId);
+        if (!serieId) return;
+        history.push(Routes.getSerieUrl(serieId));
+        window.location.reload();
     }
 
     useEffect(() => {
@@ -64,7 +66,7 @@ const Header = ({ isSerie }) => {
     };
 
     const genres = getAvailableGenres().sort((a, b) => a.value - b.value);
-    const onSelectContent = isSerie ? onSelectSerie : onSelectMovie
+    const onSelectContent = content => content.type == 'serie' ? onSelectSerie(content.value) : onSelectMovie(content.value)
     
 
     const onMobile = (
