@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
+import { findBestMatch } from 'string-similarity';
 import { useParams } from "react-router-dom";
-import { getSerieData, searchSerie } from "../../services/api"
+import { getSerieData, searchSerie, getSerieAlternativeNames } from "../../services/api"
 import {getSerieDto} from "../../domain/serie";
 import BackgroundImage from "../../components/backgroundImage/BackgroundImage";
 import EpisodeSelector from "../../components/episodeSelector/EpisodeSelector";
@@ -14,17 +15,39 @@ import Header from '../../components/header/Header';
 
 import "./SerieDetail.css";
 
+const purifyName = name => {
+    const regex = /[:;'"(){}_,.]/g;
+    return name.replace(regex, " ").toLocaleLowerCase();
+}
+
+const containsInWord = (wordList, word) => {
+    var response = false;
+    wordList.forEach(w => {
+        if (w.includes(word)) response = true;
+    })
+    return response;
+}
+
+const selectBestChoise = (names, season, torrents) => {
+    const matches = names.map(name => findBestMatch(name, torrents.map(t => t.title))).sort( (a,b) => b.bestMatch.rating - a.bestMatch.rating)
+    return torrents[matches[1].bestMatchIndex];
+}
+
 const SerieDetailScreen = () => {
     const { serieId } = useParams();
     const [serie, setSerie] = useState(null);
     const [episodeMagnet, setEpisodeMagnet] = useState(null);
     const [videoUrl, setVideoUrl] = useState('');
+    const [alternativeNames, setAlternativeNames] = useState([]);
 
     const onSelectEpisode = (season, episode) => {
-        searchSerie(serieId, season, episode, response => {
+        searchSerie(serieId, serie.title, season, episode, response => {
             if (response.torrents.completeSeason.length > 0) {
-                setEpisodeMagnet(response.torrents.completeSeason[0].magnet);
-                getEpisodeFromPack(response.torrents.completeSeason[0].magnet, episode)
+                console.log(response.torrents)
+                const bestTorrentChoise = selectBestChoise([serie.title, ...alternativeNames] , season, response.torrents.completeSeason);
+                console.log(bestTorrentChoise)
+                setEpisodeMagnet(bestTorrentChoise.magnet);
+                getEpisodeFromPack(bestTorrentChoise.magnet, episode)
                     .then(url => {
                         console.log("setting video url:" ,url)
                         setVideoUrl(url)
@@ -38,6 +61,7 @@ const SerieDetailScreen = () => {
         getSerieData(serieId, response => {
             setSerie(getSerieDto(response));
         })
+        getSerieAlternativeNames(serieId).then(res => setAlternativeNames(res.map(unescape)))
     }, []);
     
     return (<div className="serieDetail commonPage">
