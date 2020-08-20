@@ -14,7 +14,7 @@ const isEpisode = (filename,episode) =>
     filename.toLocaleLowerCase().includes(`e${episode}`) ||
     filename.toLocaleLowerCase().includes(`episode ${episode}`)
 
-const isVideo = path => path.endsWith("mp4") || path.endsWith("mkv")
+const isVideo = path => path.endsWith("mp4") || path.endsWith("mkv") || path.endsWith("avi")
 
 const cleanUrl = (path, url) => {
     const extension = path.slice(path.length - 4, path.length);
@@ -36,6 +36,7 @@ const getEpisodeFromPack = async (magnet, episode) => new Promise(async (respons
     
     sdk.torrent.push(torrent, expire);
     const seeder = sdk.seeder.get(torrent.infoHash);
+    console.log(torrent.files)
     const rawPath = torrent.files.find(file => isEpisode(file.path, episodeString) && isVideo(file.path));
     if (!rawPath) error("Video not found");
     const filePath = rawPath.path;

@@ -3,8 +3,8 @@ import { mockedgetImdbId, mockedgetMovieCompleteData, mockedsearchMovies, mocked
 const mocked = false;
 const allowedSubtitles = ['spa', 'eng', 'por'];
 
-const backendUrl = "https://pelis-torrent-backend.herokuapp.com";
-// const backendUrl = "http://localhost:3001";
+// const backendUrl = "https://pelis-torrent-backend.herokuapp.com";
+const backendUrl = "http://localhost:3001";
 
 const getImdbId = async movieId => mocked ? mockedgetImdbId() : (await fetch(`${backendUrl}/tmdb/movie?movieId=${movieId}`)).json();
 const getMovieCompleteData = async imdbId => mocked ? mockedgetMovieCompleteData() : (await fetch(`${backendUrl}/yts/movie?imdbId=${imdbId}`)).json();
@@ -33,10 +33,14 @@ const getSerieData = async (serieId, callback) => fetch(`${backendUrl}/tmdb/seri
                                 callback(result);
                             });
 
-const searchSerie =async (id, season, episode, callback) => fetch(`${backendUrl}/searchSerie?serieId=${id}&season=${season}&episode=${episode}`)
+const searchSerie = async (id, name, season, episode, callback) => fetch(`${backendUrl}/searchSerie?serieId=${id}&name=${name}&season=${season}&episode=${episode}`)
                             .then(response => response.json())
                             .then(result => {
                                 callback(result);
                             });
 
-export { getImdbId, getMovieCompleteData, searchMovies, getTmdbImgPath, getTrendingMovies, getTrendingSeries, getSupportedLanguages, getMovieTrailer, getSubtitles, getSerieData, searchSerie };
+const getSerieAlternativeNames = async serieId => new Promise(async res => {
+    res(await (await fetch(`${backendUrl}/tmdb/serie/alternativeNames?serieId=${serieId}`)).json());
+});
+
+export { getImdbId, getMovieCompleteData, searchMovies, getTmdbImgPath, getTrendingMovies, getTrendingSeries, getSupportedLanguages, getMovieTrailer, getSubtitles, getSerieData, searchSerie, getSerieAlternativeNames };
