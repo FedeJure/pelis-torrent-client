@@ -30,7 +30,7 @@ const containsInWord = (wordList, word) => {
 
 const selectBestChoise = (names, season, torrents) => {
     const matches = names.map(name => findBestMatch(name, torrents.map(t => t.title))).sort( (a,b) => b.bestMatch.rating - a.bestMatch.rating)
-    return torrents[matches[1].bestMatchIndex];
+    return matches[0] ? torrents[matches[0].bestMatchIndex] : torrents[0];
 }
 
 const SerieDetailScreen = () => {
