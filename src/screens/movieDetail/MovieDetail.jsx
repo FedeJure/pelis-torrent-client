@@ -25,7 +25,11 @@ const MovieDetail = () => {
         const torrents = {...selectedTorrents};
         if (torrent.hash && !selectedTorrents[torrent.hash]) {
             getTorrentUrl(torrent.hash)
-            .then(url => setVideoReady({hash: torrent.hash, url}))
+            .then(streamData => {
+                console.log(streamData)
+                setVideoReady({hash: torrent.hash, url: streamData.url})
+                setAvailableSubtitles(streamData.subtitles);
+            })
             .catch(error => console.error(error));
 
             const newTorrents = {...selectedTorrents, [torrent.hash]: {ready: false, url: ''} };
@@ -92,7 +96,7 @@ const MovieDetail = () => {
 
             if (!newMovie) tryGetCompleteMovieData();
             else setMovie(newMovie);
-            getSubtitles(newMovie.imdbCode).then(setupSubtitles); 
+            // getSubtitles(newMovie.imdbCode).then(setupSubtitles); 
         } catch (error) {
             console.log(error)
         }
@@ -119,7 +123,7 @@ const MovieDetail = () => {
                 setTorrent={selectTorrent}
                 selectTrailer={selectTrailer}
             /></>}
-            {!showTrailer && videoUrl && <PlayerView image={movie.image} videoUrl={videoUrl} availableSubtitles={availableSubtitles}/>}
+            {!showTrailer && videoUrl && <PlayerView image={movie.image} videoUrl={videoUrl} readySubtitles={availableSubtitles}/>}
             {showTrailer && trailerUrl && <PlayerView videoUrl={trailerUrl}/>}
         </div>
     )

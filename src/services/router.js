@@ -2,8 +2,8 @@ const getMovieUrl = movieId => {
     return `/movie/${movieId}`;
 }
 
-const getSerieUrl = serieId => {
-    return `/serie/${serieId}`
+const getSerieUrl = (serieId, season, episode) => {
+    return `/serie/${serieId}${season && episode ? `/${season}/${episode}` : ""}`
 }
 
 const getHomeRoute = () => {

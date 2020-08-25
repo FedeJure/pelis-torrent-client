@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import { findBestMatch } from 'string-similarity';
 import { useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import Routes from "../../services/router";
 import { getSerieData, searchSerie, getSerieAlternativeNames } from "../../services/api"
 import {getSerieDto} from "../../domain/serie";
 import BackgroundImage from "../../components/backgroundImage/BackgroundImage";
@@ -8,6 +10,7 @@ import EpisodeSelector from "../../components/episodeSelector/EpisodeSelector";
 import ContentDescription from "../../components/contentDescription/ContentDescription";
 import PlayerView from "../../components/player/PlayerView";
 import { getEpisodeFromPack } from "../../WebtorrentClient/WebtorrentClient";
+import SourceSelector from "../../components/sourceSelector/SourceSelector";
 
 
 
@@ -34,25 +37,33 @@ const selectBestChoise = (names, season, torrents) => {
 }
 
 const SerieDetailScreen = () => {
-    const { serieId } = useParams();
+    const history = useHistory();
+    const { serieId, season, episode } = useParams();
     const [serie, setSerie] = useState(null);
     const [episodeMagnet, setEpisodeMagnet] = useState(null);
     const [videoUrl, setVideoUrl] = useState('');
     const [alternativeNames, setAlternativeNames] = useState([]);
+    const [sources, setSources] = useState([]);
+    const [availableSubtitles, setAvailableSubtitles] = useState([]);
 
-    const onSelectEpisode = (season, episode) => {
-        searchSerie(serieId, serie.title, season, episode, response => {
+    const onSourceSelect = source => {
+        setEpisodeMagnet(source.magnet);
+        getEpisodeFromPack(source.magnet, episode)
+            .then(episodeObject => {
+                setVideoUrl(episodeObject.videoUrl)
+                setAvailableSubtitles(episodeObject.subtitles)
+                console.log(episodeObject)
+            })
+            .catch(err => console.error(err) || setVideoUrl(""));
+    }
+
+    const onSelectEpisode = (selectedSeason, selectedEpisode) => {
+        history.push(Routes.getSerieUrl(serieId, selectedSeason, selectedEpisode));
+        if (!serie || !serie.title) return;
+        searchSerie(serieId, serie.title, selectedSeason, selectedEpisode, response => {
             if (response.torrents.completeSeason.length > 0) {
-                console.log(response.torrents)
-                const bestTorrentChoise = selectBestChoise([serie.title, ...alternativeNames] , season, response.torrents.completeSeason);
-                console.log(bestTorrentChoise)
-                setEpisodeMagnet(bestTorrentChoise.magnet);
-                getEpisodeFromPack(bestTorrentChoise.magnet, episode)
-                    .then(url => {
-                        console.log("setting video url:" ,url)
-                        setVideoUrl(url)
-                    })
-                    .catch(err => console.error(err));
+                setSources([...response.torrents.completeSeason.slice(0,10), ...response.torrents.episode.slice(0,10)]);
+                // const bestTorrentChoise = selectBestChoise([serie.title, ...alternativeNames] , selectedSeason, response.torrents.completeSeason);
             }
         })
     }
@@ -63,13 +74,18 @@ const SerieDetailScreen = () => {
         })
         getSerieAlternativeNames(serieId).then(res => setAlternativeNames(res.map(unescape)))
     }, []);
+
+    useEffect(() => {
+        if (season && episode) onSelectEpisode(season, episode);
+    }, [serie]);
     
     return (<div className="serieDetail commonPage">
         <Header isSerie={true}/>
         {serie && serie.backgroundImage && <BackgroundImage image={serie.backgroundImage}/> }
         {serie && <>
             <ContentDescription title={serie.title} details={serie.details} image={serie.image}/>
-            {episodeMagnet && <PlayerView image={serie.image} videoUrl={videoUrl}/>}
+            {sources.length > 0 && <SourceSelector  sources={sources} onSelect={onSourceSelect}/>}
+            {episodeMagnet && <PlayerView image={serie.image} videoUrl={videoUrl} readySubtitles={availableSubtitles}/>}
             <EpisodeSelector seasons={serie.seasons} onSelectEpisode={onSelectEpisode}/>
         </>}
     </div>);

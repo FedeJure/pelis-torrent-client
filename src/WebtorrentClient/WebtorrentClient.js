@@ -10,11 +10,26 @@ const expire = 60*60*24; // 24 hours
 
 const getMagnet = hash => `magnet:?xt=urn:btih:${hash}`;
 
-const isEpisode = (filename,episode) => 
-    filename.toLocaleLowerCase().includes(`e${episode}`) ||
-    filename.toLocaleLowerCase().includes(`episode ${episode}`)
+const isEpisode = (filename,episode) => {
+    const ep = parseInt(episode.toString());
+    return filename.toLocaleLowerCase().match(new RegExp("e"+ep+"[^0-9]", "g")) ||
+    filename.toLocaleLowerCase().match(new RegExp("e"+ep+"$", "g")) ||
+    filename.toLocaleLowerCase().match(new RegExp("e0"+ep, "g")) ||
+    filename.toLocaleLowerCase().match(new RegExp("episode "+ep+"[^0-9]", "g")) ||
+    filename.toLocaleLowerCase().match(new RegExp("episode "+ep+"$", "g")) ||
+    filename.toLocaleLowerCase().match(new RegExp("episode "+ep, "g")) ||
+    filename.toLocaleLowerCase().match(new RegExp("x"+ep+"[^0-9]", "g")) ||
+    filename.toLocaleLowerCase().match(new RegExp("x"+ep+"$", "g")) ||
+    filename.toLocaleLowerCase().match(new RegExp("x"+ep, "g")) ||
+    filename.toLocaleLowerCase().match(new RegExp("x0"+ep+"[^0-9]", "g")) ||
+    filename.toLocaleLowerCase().match(new RegExp("x0"+ep+"$", "g")) ||
+    filename.toLocaleLowerCase().match(new RegExp("x0"+ep, "g"))
+}
+    
 
 const isVideo = path => path.endsWith("mp4") || path.endsWith("mkv") || path.endsWith("avi")
+
+const isSubtitle = path => path.endsWith("srt") || path.endsWith("vtt");
 
 const cleanUrl = (path, url) => {
     const extension = path.slice(path.length - 4, path.length);
@@ -27,8 +42,35 @@ const getTorrentUrl = async hash => mocked ? getMockedVideo() : new Promise(asyn
     const seeder = sdk.seeder.get(torrent.infoHash);
     const filePath = torrent.files.find(file => isVideo(file.path)).path;
     const videoUrlStream = (await seeder.streamUrl(filePath)).href;
-    filePath ? response((videoUrlStream)) : error("No video file found");
+    const subtitles = await getOpenSubtitles(seeder, filePath);
+    filePath ? response(({url: videoUrlStream, subtitles })) : error("No video file found");
 });
+
+const getSubtitlesOfSerie = async (files, seeder, episode) => {
+    const subtitlesFiles = files
+        .filter(file => isEpisode(file.path, episode) && isSubtitle(file.path));
+    const subtitles = await Promise.all(subtitlesFiles.map(file => seeder.url(file.path)))
+    console.log(await seeder.streamUrl(subtitles[0].href))
+    const streamableSubtitles = await Promise.all(
+        [...(subtitles.map(sub => seeder.streamUrl(subtitles[0].href))),
+        ...(subtitles.map(sub => seeder.openSubtitles(subtitles[0].href)))]
+    );
+    return streamableSubtitles.map(sub => ({
+        url: sub.href,
+        languageName: "Original"
+    }));
+}
+
+const getOpenSubtitles = async (seeder, path) => {
+    return (await seeder.openSubtitles(path))
+            .filter(s => s.srclang == "es" || s.srclang == "en")
+            .map(s => ({srcLang: s.srclang,
+                        kind: "subtitles",
+                        src: s.src.href,
+                        label: s.label,
+                        crossOrigin: "anonymous"
+                    }))
+}
 
 const getEpisodeFromPack = async (magnet, episode) => new Promise(async (response, error) => {
     const episodeString = (episode < 10 ? "0"+ episode : episode).toString();
@@ -38,10 +80,19 @@ const getEpisodeFromPack = async (magnet, episode) => new Promise(async (respons
     const seeder = sdk.seeder.get(torrent.infoHash);
     console.log(torrent.files)
     const rawPath = torrent.files.find(file => isEpisode(file.path, episodeString) && isVideo(file.path));
-    if (!rawPath) error("Video not found");
+
+    // const subtitles = await getSubtitlesOfSerie(torrent.files, seeder, episode);
+    if (!rawPath) {
+        error("Video not found");
+        return;
+    }
     const filePath = rawPath.path;
+    const subtitles = await getOpenSubtitles(seeder, filePath);
     const videoUrlStream = cleanUrl(filePath,(await seeder.streamUrl(filePath)).href);
-    filePath ? response((videoUrlStream)) : error("No video file found");
+    filePath ? response({
+        videoUrl: videoUrlStream,
+        subtitles: subtitles
+    }) : error("No video file found");
 });
 
 
