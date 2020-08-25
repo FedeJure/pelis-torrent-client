@@ -1,9 +1,8 @@
 import React, { useEffect, useState, Children } from "react";
-import { getTorrentUrl } from '../../WebtorrentClient/WebtorrentClient';
 import ReactPlayer from 'react-player'
 
 import "./PlayerView.css";
-const PlayerView = ({ image, videoUrl, availableSubtitles }) => 
+const PlayerView = ({ image, videoUrl, availableSubtitles, readySubtitles }) => 
       (
       <div className="playerView" crossOrigin="anonymous">
         <ReactPlayer url={videoUrl ? videoUrl : process.env.PUBLIC_URL + "/videoLoading.gif"}
@@ -16,8 +15,7 @@ const PlayerView = ({ image, videoUrl, availableSubtitles }) =>
             attributes: {
               crossOrigin: "anonymous"
             },
-            tracks:
-             availableSubtitles ? availableSubtitles.map(sub => ({kind: 'subtitles', src: sub.url, srcLang: sub.languageName, default: true, crossOrigin:"anonymous"})): []
+            tracks: readySubtitles ? readySubtitles : []
           }}}
         playing={true}>
         </ReactPlayer>

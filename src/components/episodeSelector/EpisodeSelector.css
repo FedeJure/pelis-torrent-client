@@ -19,8 +19,7 @@
 .episodeSelectorOnSeason {
     background-color: rgba(var(--secondary-color-dark), 0.8);
     border: solid rgba(var(--secondary-color-dark), 0.85) 1px;
-    justify-content: left;
-    
+    justify-content: left;    
 }
 
 .episodeSelectorOnSeason .selected {
@@ -37,6 +36,11 @@
     display: flex;
     justify-content: center;
     cursor: pointer;
+}
+
+.episodesContainer {
+    max-height: 10em;
+    overflow-y: auto
 }
 
 .season p{

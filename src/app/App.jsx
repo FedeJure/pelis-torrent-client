@@ -16,31 +16,31 @@ function App() {
         <Route exact path="/series">
           <>
             <HomeScreen isSerie={true}/>
-            <img src={process.env.PUBLIC_URL + "/under_construction1.png"} alt="site under construction" className="underConstructionImage" />
           </>
         </Route>
         <Route exact path="/genre/:genre">
           <>
             <HomeScreen />
-            <img src={process.env.PUBLIC_URL + "/under_construction1.png"} alt="site under construction" className="underConstructionImage" />
           </>
         </Route>
         <Route exact path="/">
           <>
             <HomeScreen />
-            <img src={process.env.PUBLIC_URL + "/under_construction1.png"} alt="site under construction" className="underConstructionImage" />
           </>
         </Route>
         <Route exact path="/movie/:movieId">
           <>
           <MovieDetailScreen />
-            <img src={process.env.PUBLIC_URL + "/under_construction1.png"} alt="site under construction" className="underConstructionImage" />
           </>
         </Route>
         <Route exact path="/serie/:serieId">
           <>
           <SerieDetailScreen />
-            <img src={process.env.PUBLIC_URL + "/under_construction1.png"} alt="site under construction" className="underConstructionImage" />
+          </>
+        </Route>
+        <Route exact path="/serie/:serieId/:season/:episode">
+          <>
+          <SerieDetailScreen />
           </>
         </Route>
       </Switch>
