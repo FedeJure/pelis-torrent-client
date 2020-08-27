@@ -17,7 +17,7 @@
 .sourceSelectorContainer {
     background-color: rgba(var(--secondary-color-dark), 0.8);
     overflow-y: auto;
-    max-height: 10em;
+    height: 10em;
 }
 
 .sourceSelectorContainer .source p {

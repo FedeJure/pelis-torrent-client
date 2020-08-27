@@ -84,7 +84,7 @@ const SerieDetailScreen = () => {
         {serie && serie.backgroundImage && <BackgroundImage image={serie.backgroundImage}/> }
         {serie && <>
             <ContentDescription title={serie.title} details={serie.details} image={serie.image}/>
-            {sources.length > 0 && <SourceSelector  sources={sources} onSelect={onSourceSelect}/>}
+            {season && episode && <SourceSelector  sources={sources} onSelect={onSourceSelect}/>}
             {episodeMagnet && <PlayerView image={serie.image} videoUrl={videoUrl} readySubtitles={availableSubtitles}/>}
             <EpisodeSelector seasons={serie.seasons} onSelectEpisode={onSelectEpisode}/>
         </>}

@@ -50,7 +50,6 @@ const getSubtitlesOfSerie = async (files, seeder, episode) => {
     const subtitlesFiles = files
         .filter(file => isEpisode(file.path, episode) && isSubtitle(file.path));
     const subtitles = await Promise.all(subtitlesFiles.map(file => seeder.url(file.path)))
-    console.log(await seeder.streamUrl(subtitles[0].href))
     const streamableSubtitles = await Promise.all(
         [...(subtitles.map(sub => seeder.streamUrl(subtitles[0].href))),
         ...(subtitles.map(sub => seeder.openSubtitles(subtitles[0].href)))]
