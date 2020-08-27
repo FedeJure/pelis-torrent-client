@@ -27,6 +27,11 @@ const getMovieTrailer = (movieId, language) => new Promise(async res => {
 const getSubtitles = imdbid => new Promise(async res => {
     res(await (await fetch(`${backendUrl}/openSubtitles/search?imdbid=${imdbid}`)).json());
 });
+
+
+const getSerieSubtitles = (imdbid, season, episode) => new Promise(async res => {
+    res(await (await fetch(`${backendUrl}/openSubtitles/search?imdbid=${imdbid}`)).json());
+});
 const getSerieData = async (serieId, callback) => fetch(`${backendUrl}/tmdb/serie?serieId=${serieId}`)
                             .then(response => response.json())
                             .then(result => {
