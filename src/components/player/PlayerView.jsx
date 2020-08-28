@@ -4,7 +4,11 @@ import LoadingBanner from "../loadingBanner/LoadingBanner";
 
 import "./PlayerView.css";
 import { read } from "fs";
+
 const PlayerView = ({ image, videoUrl, readySubtitles }) => {
+  useEffect(() => {
+      const player = new Plyr('#player')
+  }, [videoUrl]);
 
   var playerToRender = <LoadingBanner />;
   if (videoUrl && videoUrl.length > 0 && !readySubtitles) 
@@ -19,9 +23,10 @@ const PlayerView = ({ image, videoUrl, readySubtitles }) => {
                       ))}
                     </video>
 
+
   return (
       <div className="playerContainer">
-          {new Plyr('#player') && playerToRender}
+          {playerToRender}
       </div>
   );
 }
