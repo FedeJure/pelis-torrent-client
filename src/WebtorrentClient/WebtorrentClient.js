@@ -80,17 +80,16 @@ const getEpisodeFromPack = async (magnet, episode) => new Promise(async (respons
     console.log(torrent.files)
     const rawPath = torrent.files.find(file => isEpisode(file.path, episodeString) && isVideo(file.path));
 
-    // const subtitles = await getSubtitlesOfSerie(torrent.files, seeder, episode);
     if (!rawPath) {
         error("Video not found");
         return;
     }
     const filePath = rawPath.path;
-    const subtitles = await getOpenSubtitles(seeder, filePath);
+    // const subtitles = await getOpenSubtitles(seeder, filePath);
     const videoUrlStream = cleanUrl(filePath,(await seeder.streamUrl(filePath)).href);
     filePath ? response({
-        videoUrl: videoUrlStream,
-        subtitles: subtitles
+        videoUrl: videoUrlStream
+        // subtitles: subtitles
     }) : error("No video file found");
 });
 
