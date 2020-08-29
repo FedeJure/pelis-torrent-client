@@ -6,6 +6,11 @@
   --player-padding: 10%;
 }
 
+.internalContainer {
+  height: 100%;
+  widows: 100%;
+}
+
 @media only screen and (max-width: 960px) {
     .playerContainer {
       width: 100vw;
@@ -25,4 +30,8 @@
 .plyr__menu__container {
   max-height: 20em;
   overflow-y: auto;
+}
+
+.playerContainer .hide{
+  display: none;
 }

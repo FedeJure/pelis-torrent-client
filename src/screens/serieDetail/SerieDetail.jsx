@@ -11,6 +11,7 @@ import ContentDescription from "../../components/contentDescription/ContentDescr
 import PlayerView from "../../components/player/PlayerView";
 import { getEpisodeFromPack } from "../../WebtorrentClient/WebtorrentClient";
 import SourceSelector from "../../components/sourceSelector/SourceSelector";
+import { mapToSubtitlesList } from "../../services/subtitlesService";
 
 
 
@@ -31,16 +32,6 @@ const containsInWord = (wordList, word) => {
     return response;
 }
 
-const mapToSubtitleData = sub => {
-    return {
-        label: sub.lang,
-        srcLang: sub.langcode,
-        kind: "subtitles",
-        src: sub.vtt,
-        crossOrigin: "anonymous"
-    }
-}
-
 const selectBestChoise = (names, season, torrents) => {
     const matches = names.map(name => findBestMatch(name, torrents.map(t => t.title))).sort( (a,b) => b.bestMatch.rating - a.bestMatch.rating)
     return matches[0] ? torrents[matches[0].bestMatchIndex] : torrents[0];
@@ -58,26 +49,14 @@ const SerieDetailScreen = () => {
 
     const onSourceSelect = source => {
         setEpisodeMagnet(source.magnet);
-        Promise.all([
-            getEpisodeFromPack(source.magnet, episode),
-            getSerieSubtitles(serieId, season, episode)
-        ])
+        setVideoUrl("")
+        Promise.all([getEpisodeFromPack(source.magnet, episode),
+            getSerieSubtitles(serieId, season, episode)])
             .then(res => {
                 setVideoUrl(res[0].videoUrl);
-                console.log(res[1])
-                const subs = Object.keys(res[1]).map(key => mapToSubtitleData(res[1][key]));
+                const subs = mapToSubtitlesList(res[1]);
                 setAvailableSubtitles(subs);
             });
-        // getEpisodeFromPack(source.magnet, episode)
-        //     .then(episodeObject => {
-        //         setVideoUrl(episodeObject.videoUrl)
-        //     })
-        //     .catch(err => console.error(err) || setVideoUrl(""));
-        // getSerieSubtitles(serieId, season, episode)
-        //     .then(res => {
-        //         const subs = Object.keys(res).map(key => mapToSubtitleData(res[key]));
-        //         setAvailableSubtitles([...availableSubtitles, ...subs]);
-        //     })
     }
 
     const onSelectEpisode = (selectedSeason, selectedEpisode) => {
@@ -101,6 +80,10 @@ const SerieDetailScreen = () => {
     useEffect(() => {
         if (season && episode) onSelectEpisode(season, episode);
     }, [serie]);
+
+    useEffect(() => {
+    }, [availableSubtitles, videoUrl]);
+
     
     return (<div className="serieDetail commonPage">
         <Header isSerie={true}/>
@@ -108,7 +91,7 @@ const SerieDetailScreen = () => {
         {serie && <>
             <ContentDescription title={serie.title} details={serie.details} image={serie.image}/>
             {season && episode && <SourceSelector  sources={sources} onSelect={onSourceSelect}/>}
-            {episodeMagnet && <PlayerView image={serie.image} videoUrl={videoUrl} readySubtitles={availableSubtitles}/>}
+            {episodeMagnet && <PlayerView videoUrl={videoUrl} readySubtitles={availableSubtitles}/>}
             <EpisodeSelector seasons={serie.seasons} onSelectEpisode={onSelectEpisode}/>
         </>}
     </div>);
