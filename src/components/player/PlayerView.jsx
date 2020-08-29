@@ -1,34 +1,41 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Plyr from 'plyr';
+import ReactPlayer from 'react-player'
 import LoadingBanner from "../loadingBanner/LoadingBanner";
 
 import "./PlayerView.css";
-import { read } from "fs";
 
-const PlayerView = ({ image, videoUrl, readySubtitles }) => {
+const PlayerView = ({ videoUrl, readySubtitles, loading, external }) => {
+
   useEffect(() => {
-      const player = new Plyr('#player')
+    new Plyr("#video");
   }, [videoUrl]);
-
-  var playerToRender = <LoadingBanner />;
-  if (videoUrl && videoUrl.length > 0 && !readySubtitles) 
-    playerToRender = <video crossOrigin="anonymous" id="player" playsInline controls>
-                        <source crossOrigin="anonymous" src={videoUrl} type="video/mp4"/>
-                      </video>
-  if (videoUrl && videoUrl.length > 0 && readySubtitles)
-    playerToRender = <video crossOrigin="anonymous" id="player" playsInline controls>
-                      <source crossOrigin="anonymous" src={videoUrl} type="video/mp4"/>
-                      {readySubtitles && readySubtitles.map(sub => (
-                        <track key={sub.src} {...sub}/>
-                      ))}
-                    </video>
-
 
   return (
       <div className="playerContainer">
-          {playerToRender}
+        {!videoUrl && <LoadingBanner />}
+        {videoUrl && !external && <div className="internalContainer">
+          <video id="video" crossOrigin="anonymous" playsInline controls>
+              <source crossOrigin="anonymous" src={videoUrl} type="video/mp4"/>
+              {readySubtitles && readySubtitles.map(sub => (
+                <track key={sub.src} {...sub}/>
+              ))}
+          </video>
+        </div>}
+        {videoUrl && external && <ReactPlayer 
+          url={videoUrl}
+          controls
+          width='100%'
+          height='100%'
+          config={{ file: {
+              attributes: {
+                crossOrigin: "anonymous"
+              }
+            }}}>
+        </ReactPlayer>}
+
       </div>
   );
-}
+};
 
 export default PlayerView;

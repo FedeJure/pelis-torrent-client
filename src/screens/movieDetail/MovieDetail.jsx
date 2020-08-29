@@ -4,11 +4,13 @@ import Selector from "../../components/selector/Selector";
 import moviesRepository from '../../repositories/moviesRepository';
 import Header from '../../components/header/Header';
 import PlayerView from "../../components/player/PlayerView";
-import { getMovieCompleteData, getMovieTrailer, getSubtitles } from "../../services/api";
+import { getMovieCompleteData, getMovieTrailer, getMovieSubtitles } from "../../services/api";
 import { getTorrentUrl } from '../../WebtorrentClient/WebtorrentClient';
 import { getMovieDto } from "../../domain/movie";
 import ContentDescription from "../../components/contentDescription/ContentDescription"
 import BackgroundImage from "../../components/backgroundImage/BackgroundImage";
+import { mapToSubtitlesList } from "../../services/subtitlesService";
+
 import "./MovieDetail.css"
 
 const MovieDetail = () => {
@@ -23,17 +25,19 @@ const MovieDetail = () => {
 
     const selectTorrent = torrent => {
         const torrents = {...selectedTorrents};
+        setShowTrailer(false);
         if (torrent.hash && !selectedTorrents[torrent.hash]) {
+            setVideoUrl("");
             getTorrentUrl(torrent.hash)
             .then(streamData => {
-                console.log(streamData)
                 setVideoReady({hash: torrent.hash, url: streamData.url})
-                setAvailableSubtitles(streamData.subtitles);
+                setVideoUrl(streamData.url);
             })
             .catch(error => console.error(error));
 
             const newTorrents = {...selectedTorrents, [torrent.hash]: {ready: false, url: ''} };
             setSelectedTorrents(newTorrents);
+            
             setTorrentLoading(torrent.hash);
             return;
         }
@@ -88,6 +92,7 @@ const MovieDetail = () => {
         })
         .catch(err => console.log(err));
     }
+
     useEffect(() => {
         try {
             var newMovie = moviesRepository.getMovie(movieId) || false;
@@ -96,20 +101,14 @@ const MovieDetail = () => {
 
             if (!newMovie) tryGetCompleteMovieData();
             else setMovie(newMovie);
-            // getSubtitles(newMovie.imdbCode).then(setupSubtitles); 
+            getMovieSubtitles(newMovie.imdbCode).then(setupSubtitles); 
         } catch (error) {
             console.log(error)
         }
     }, []);
 
     const setupSubtitles = subs => {
-        var aux = [];
-        Object.keys(subs).forEach(key => {
-            aux = [...aux,
-                    ...subs[key].sort((a,b) => parseFloat(b.score) - parseFloat(a.score)).slice(0,5)
-                ];
-        });
-        setAvailableSubtitles(aux);
+        setAvailableSubtitles(mapToSubtitlesList(subs));
     }
 
     return (
@@ -123,8 +122,8 @@ const MovieDetail = () => {
                 setTorrent={selectTorrent}
                 selectTrailer={selectTrailer}
             /></>}
-            {!showTrailer && videoUrl && <PlayerView image={movie.image} videoUrl={videoUrl} readySubtitles={availableSubtitles}/>}
-            {showTrailer && trailerUrl && <PlayerView videoUrl={trailerUrl}/>}
+            {!showTrailer && <PlayerView image={movie.image} videoUrl={videoUrl} readySubtitles={availableSubtitles}/>}
+            {showTrailer && <PlayerView videoUrl={trailerUrl} external/>}
         </div>
     )
 };
