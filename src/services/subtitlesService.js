@@ -9,7 +9,12 @@ const mapToSubtitleData = sub => {
 }
 
 const mapToSubtitlesList = subs => {
-    return Object.keys(subs).map(key => mapToSubtitleData(subs[key]))
+    const response = []
+    Object.keys(subs).forEach(key =>{
+        if (!subs[key].length) response.push(mapToSubtitleData(subs[key]))
+        else response.push(...(subs[key].map(mapToSubtitleData)))
+    })
+    return response;
 }
 
 export { mapToSubtitlesList }
