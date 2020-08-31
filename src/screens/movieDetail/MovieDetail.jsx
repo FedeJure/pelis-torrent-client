@@ -113,7 +113,7 @@ const MovieDetail = () => {
 
     return (
         <div className="movieDetail commonPage">
-            <Header isSerie={false}/>
+            <Header isSerie={false} elements={[Header.TypeSelector, Header.SearchBar, Header.LanguageSelector]}/>
             {movie && movie.backgroundImage && <BackgroundImage image={movie.backgroundImage}/> }
             {movie &&
             <><ContentDescription title={movie.title} details={movie.details} image={movie.image}/>

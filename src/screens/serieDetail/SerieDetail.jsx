@@ -86,7 +86,7 @@ const SerieDetailScreen = () => {
 
     
     return (<div className="serieDetail commonPage">
-        <Header isSerie={true}/>
+        <Header isSerie={true} elements={[Header.TypeSelector, Header.SearchBar, Header.LanguageSelector]}/>
         {serie && serie.backgroundImage && <BackgroundImage image={serie.backgroundImage}/> }
         {serie && <>
             <ContentDescription title={serie.title} details={serie.details} image={serie.image}/>

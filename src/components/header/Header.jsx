@@ -12,7 +12,7 @@ import { getAvailableGenres } from "../../repositories/genresRepository";
 import SelectionButton from '../selectionButton/SelectionButton'
 import './Header.css'
 
-const Header = ({ isSerie }) => {
+const Header = ({ isSerie, genre, elements }) => {
     const [language, setLanguage] = useState('en-US');
     const [languages, setLanguages] = useState([]);
     const [showSearchBar, setShowSearchBar] = useState(false);
@@ -67,35 +67,42 @@ const Header = ({ isSerie }) => {
 
     const genres = getAvailableGenres().sort((a, b) => a.value - b.value);
     const onSelectContent = content => content.type == 'serie' ? onSelectSerie(content.value) : onSelectMovie(content.value)
-    
+
+    const includesElement = elem => !elements ? true : elements.includes(elem);
+
 
     const onMobile = (
         <div className="headerContainer">
             <Logo />
             <div className="optionButtonsContainer">
-                <SelectionButton className="optionButton" options={genres} text="Genre" onSelect={onGenreSelected} />
-                <SelectionButton className="optionButton" options={[{ value: 'movie', label: "Movie" }, { value: 'serie', label: "Serie" }]} text="Type" onSelect={onTypeSelected} />
+                {!isSerie && includesElement(Header.GenreSelector) && <SelectionButton className="optionButton" options={genres} onSelect={onGenreSelected} selectedValue={genre} />}
+                {includesElement(Header.TypeSelector) && <SelectionButton className="optionButton" options={[{ value: 'movie', label: "Movie" }, { value: 'serie', label: "Serie" }]} onSelect={onTypeSelected} selectedValue={isSerie ? 'serie' : 'movie'}/>}
             </div>
 
             {showSearchBar && <div className="mobileSearechContainer">
-                <SearchBar className="searchBar" onChange={onSelectContent} language={language} onSelectLanguage={onSelectLanguage} languages={languages} />
-                <SelectionButton options={[{ value: 'en-US', label: "English" }, { value: 'es-MX', label: "Español" }]} onSelect={onSelectLanguage} className="languajeSelector" />
+                {includesElement(Header.SearchBar) && <SearchBar className="searchBar" onChange={onSelectContent} language={language} onSelectLanguage={onSelectLanguage} languages={languages} />}
+                {includesElement(Header.LanguageSelector) && <SelectionButton options={[{ value: 'en-US', label: "English" }, { value: 'es-MX', label: "Español" }]} onSelect={onSelectLanguage} className="languajeSelector" />}
             </div>}
-            <img className="searchButton" src={process.env.PUBLIC_URL + "/search.svg"} alt="Search" onClick={() => setShowSearchBar(!showSearchBar)} />
+            {includesElement(Header.SearchBar) && <img className="searchButton" src={process.env.PUBLIC_URL + "/search.svg"} alt="Search" onClick={() => setShowSearchBar(!showSearchBar)} />}
         </div>);
 
     const onDesktop = (
         <div className="headerContainer">
             <Logo />
             <div className="buttonContainer">
-                <SelectionButton className="optionButton" options={genres} text="Genre" onSelect={onGenreSelected} />
-                <SelectionButton className="optionButton" options={[{ value: 'movie', label: "Movie" }, { value: 'serie', label: "Serie" }]} text="Type" onSelect={onTypeSelected} />
+                {!isSerie && includesElement(Header.GenreSelector) && <SelectionButton className="optionButton" options={genres} onSelect={onGenreSelected} selectedValue={genre} />}
+                {includesElement(Header.TypeSelector) && <SelectionButton className="optionButton" options={[{ value: 'movie', label: "Movie" }, { value: 'serie', label: "Serie" }]} onSelect={onTypeSelected} selectedValue={isSerie ? 'serie' : 'movie'}/>}
             </div>
-            <SearchBar className="searchBar" onChange={onSelectContent} language={language} />
-            <SelectionButton className="languajeSelector" options={[{ value: 'en-US', label: "English" }, { value: 'es-MX', label: "Español" }]} onSelect={onSelectLanguage} />
+            {includesElement(Header.SearchBar) && <SearchBar className="searchBar" onChange={onSelectContent} language={language} />}
+            {includesElement(Header.LanguageSelector) && <SelectionButton className="languajeSelector" options={[{ value: 'en-US', label: "English" }, { value: 'es-MX', label: "Español" }]} onSelect={onSelectLanguage} />}
         </div>);
 
     return (isDesktop ? onDesktop : onMobile);
 };
+
+Header.GenreSelector = 'genreSelector';
+Header.TypeSelector = 'typeSelector';
+Header.SearchBar = 'searchBar';
+Header.LanguageSelector = 'languageSelector';
 
 export default Header;

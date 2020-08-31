@@ -50,6 +50,14 @@
     user-select: none;
 }
 
+.selectionButton .options span {
+    color: rgb(var(--text-dark));
+}
+
+.selectionButton button span {
+    color: rgb(var(--text-ligth));
+}
+
 .selectionButton .optionsContainer span {
     padding: .5em;
     background: rgba(var(--primary-color-ligth), .5);
