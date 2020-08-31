@@ -39,7 +39,7 @@ const Home = ({isSerie, type}) => {
 
   return (
     <div className="Home commonPage">
-      <Header isSerie={isSerie}/>
+      <Header isSerie={isSerie} genre={genre}/>
       <MovieGrid 
         genre={genreObject || selectedGenre} 
         type={type} 

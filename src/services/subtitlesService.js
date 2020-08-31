@@ -1,3 +1,8 @@
+const allowedLanguages = [
+    'es',
+    'en'
+];
+
 const mapToSubtitleData = sub => {
     return {
         label: sub.lang,
@@ -8,13 +13,17 @@ const mapToSubtitleData = sub => {
     }
 }
 
+const filterSubtitles = sub => {
+    return allowedLanguages.includes(sub.srcLang)
+}
+
 const mapToSubtitlesList = subs => {
     const response = []
     Object.keys(subs).forEach(key =>{
         if (!subs[key].length) response.push(mapToSubtitleData(subs[key]))
         else response.push(...(subs[key].map(mapToSubtitleData)))
     })
-    return response;
+    return response.filter(filterSubtitles);
 }
 
 export { mapToSubtitlesList }
