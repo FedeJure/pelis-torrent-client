@@ -13,6 +13,7 @@
     display: inline-flex;
     align-content: center;
     align-items: center;
+    cursor: pointer;    
 }
 
 
@@ -43,7 +44,6 @@
     margin: 0.5em;
     white-space: nowrap;
     color: rgb(var(--text-dark));
-    cursor: pointer;
     -webkit-user-select: none;      
     -moz-user-select: none;
     -ms-user-select: none;
