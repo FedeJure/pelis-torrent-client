@@ -48,6 +48,7 @@
   background-color: rgba(var(--secondary-color-ligth), 1);
   padding:.7em;
   border-radius: 2em;
+  cursor: pointer;  
 }
 
 .buttonContainer {
