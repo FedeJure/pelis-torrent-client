@@ -62,12 +62,14 @@ const SerieDetailScreen = () => {
     const onSelectEpisode = (selectedSeason, selectedEpisode) => {
         history.push(Routes.getSerieUrl(serieId, selectedSeason, selectedEpisode));
         if (!serie || !serie.title) return;
+        setSources([])
         searchSerie(serieId, serie.title, selectedSeason, selectedEpisode, response => {
             if (response.torrents.completeSeason.length > 0) {
                 setSources([...response.torrents.completeSeason.slice(0,10), ...response.torrents.episode.slice(0,10)]);
                 // const bestTorrentChoise = selectBestChoise([serie.title, ...alternativeNames] , selectedSeason, response.torrents.completeSeason);
             }
         })
+        window.scrollTo(0,0)
     }
 
     useEffect(() => {
@@ -90,8 +92,9 @@ const SerieDetailScreen = () => {
         {serie && serie.backgroundImage && <BackgroundImage image={serie.backgroundImage}/> }
         {serie && <>
             <ContentDescription title={serie.title} details={serie.details} image={serie.image}/>
+            {episode && <p className="episodeTitle">{`${serie.title} | Season: ${season} - Episode: ${episode}`}</p>}
             {season && episode && <SourceSelector  sources={sources} onSelect={onSourceSelect}/>}
-            {episodeMagnet && <PlayerView videoUrl={videoUrl} readySubtitles={availableSubtitles}/>}
+            {episodeMagnet && <PlayerView title={`${serie.title} | Season: ${season} - Episode: ${episode}`} videoUrl={videoUrl} readySubtitles={availableSubtitles}/>}
             <EpisodeSelector seasons={serie.seasons} onSelectEpisode={onSelectEpisode}/>
         </>}
     </div>);
