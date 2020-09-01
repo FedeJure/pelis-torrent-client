@@ -118,12 +118,13 @@ const MovieDetail = () => {
             {movie &&
             <><ContentDescription title={movie.title} details={movie.details} image={movie.image}/>
             <Selector
+                trailer={trailerUrl}
                 torrents={movie.torrents}
                 setTorrent={selectTorrent}
                 selectTrailer={selectTrailer}
             /></>}
-            {!showTrailer && <PlayerView image={movie.image} videoUrl={videoUrl} readySubtitles={availableSubtitles}/>}
-            {showTrailer && <PlayerView videoUrl={trailerUrl} external/>}
+            {movie && !showTrailer && <PlayerView image={movie.image} videoUrl={videoUrl} readySubtitles={availableSubtitles}/>}
+            {trailerUrl && showTrailer && <PlayerView videoUrl={trailerUrl} external/>}
         </div>
     )
 };
