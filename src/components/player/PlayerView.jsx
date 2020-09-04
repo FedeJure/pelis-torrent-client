@@ -5,16 +5,20 @@ import LoadingBanner from "../loadingBanner/LoadingBanner";
 
 import "./PlayerView.css";
 
-const PlayerView = ({ videoUrl, readySubtitles, loading, external }) => {
+const PlayerView = ({ videoUrl, readySubtitles, idle, external }) => {
+
+  const [canPlay, setCanPlay] = useState(false);
 
   useEffect(() => {
-    new Plyr("#video");
+    if (!videoUrl) setCanPlay(false);
+    const player = new Plyr("#video");
+    player.on('canplay',() => setCanPlay(true));
   }, [videoUrl]);
 
   return (
       <div className="playerContainer">
-        {!videoUrl && <LoadingBanner />}
-        {videoUrl && !external && <div className="internalContainer">
+        {!canPlay && <LoadingBanner />}
+        {videoUrl && !external && <div className="internalContainer mediumCaptionSize" style={{"display": canPlay ? "unset" : "none"}}>
           <video id="video" crossOrigin="anonymous" playsInline controls>
               <source crossOrigin="anonymous" src={videoUrl} type="video/mp4"/>
               {readySubtitles && readySubtitles.map(sub => (

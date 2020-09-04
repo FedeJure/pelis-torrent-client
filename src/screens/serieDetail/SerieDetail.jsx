@@ -12,11 +12,8 @@ import PlayerView from "../../components/player/PlayerView";
 import { getEpisodeFromPack } from "../../WebtorrentClient/WebtorrentClient";
 import SourceSelector from "../../components/sourceSelector/SourceSelector";
 import { mapToSubtitlesList } from "../../services/subtitlesService";
-
-
-
+import NextEpisodeSelector from "../../components/nextEpisodeSelector/NextEpisodeSelector";
 import Header from '../../components/header/Header';
-
 import "./SerieDetail.css";
 
 const purifyName = name => {
@@ -95,6 +92,8 @@ const SerieDetailScreen = () => {
             {episode && <p className="episodeTitle">{`${serie.title} | Season: ${season} - Episode: ${episode}`}</p>}
             {season && episode && <SourceSelector  sources={sources} onSelect={onSourceSelect}/>}
             {episodeMagnet && <PlayerView title={`${serie.title} | Season: ${season} - Episode: ${episode}`} videoUrl={videoUrl} readySubtitles={availableSubtitles}/>}
+            {serie.seasons && episode && season && <NextEpisodeSelector seasons={serie.seasons} actualEpisode={episode} actualSeason={season} serieId={serieId}/>}
+             <p className="episodeTitle">{`Episodes:`}</p>       
             <EpisodeSelector seasons={serie.seasons} onSelectEpisode={onSelectEpisode}/>
         </>}
     </div>);
