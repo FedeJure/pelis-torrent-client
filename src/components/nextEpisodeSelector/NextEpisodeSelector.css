@@ -1,0 +1,52 @@
+@media only screen and (max-width: 960px) {
+    .nextEpisodeSelector {
+        width: 100vw;
+    }
+  }
+  
+  @media only screen and (min-width: 960px) {
+    .nextEpisodeSelector {
+        width: 80vw;
+    }
+  }
+
+
+.nextEpisodeSelector {
+    display: flex;
+    cursor: pointer;
+    height: 2em;
+    justify-content: space-evenly;
+    color: rgb(var(--text-ligth));
+}
+
+.nextEpisodeSelector .episodeButton {
+    width: 50%;
+    margin: 0 1px;
+}
+
+.nextEpisodeSelector a:hover {
+    filter: brightness(150%)
+}
+.nextEpisodeSelector a {
+    background-color: rgba(var(--secondary-color-ligth), 0.2);
+    display: flex;
+    justify-content: space-evenly;
+
+}
+
+.nextEpisodeSelector img {
+    background: none;
+    height: 100%;
+    align-self: center;
+    object-fit: fill;
+}
+
+
+.nextEpisodeSelector span {
+    align-self: center;
+    text-align: center;
+}
+
+.nextEpisodeSelector .left {
+    transform: scaleX(-1);
+}

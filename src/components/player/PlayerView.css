@@ -2,6 +2,19 @@
 
 .playerContainer {
   --player-padding: 10%;
+  margin:0;  
+}
+
+.smallCaptionSize .plyr__caption {
+  font-size: 110%;
+}
+
+.mediumCaptionSize .plyr__caption {
+  font-size: 140%;
+}
+
+.largeCaptionSize .plyr__caption {
+  font-size: 170%;
 }
 
 .internalContainer {
@@ -13,7 +26,6 @@
     .playerContainer {
       width: 100vw;
       height: 60vw;
-      margin: 1em  0;
     }
   }
   
@@ -21,7 +33,6 @@
     .playerContainer {
       width: 50vw;
       height: 30vw;      
-      margin: 1em  var(--player-padding);
     }
   }
 
