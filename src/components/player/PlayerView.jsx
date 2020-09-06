@@ -17,7 +17,7 @@ const PlayerView = ({ videoUrl, readySubtitles, idle, external }) => {
 
   return (
       <div className="playerContainer">
-        {!canPlay && <LoadingBanner />}
+        {!external && !canPlay && <LoadingBanner />}
         {videoUrl && !external && <div className="internalContainer mediumCaptionSize" style={{"display": canPlay ? "unset" : "none"}}>
           <video id="video" crossOrigin="anonymous" playsInline controls>
               <source crossOrigin="anonymous" src={videoUrl} type="video/mp4"/>
