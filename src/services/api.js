@@ -3,8 +3,8 @@ import { mockedgetImdbId, mockedgetMovieCompleteData, mockedsearchMovies, mocked
 const mocked = false;
 const allowedSubtitles = ['spa', 'eng', 'por'];
 
-// const backendUrl = "https://pelis-torrent-backend.herokuapp.com";
-const backendUrl = "http://localhost:3001";
+const backendUrl = "https://pelis-torrent-backend.herokuapp.com";
+// const backendUrl = "http://localhost:3001";
 
 const getImdbId = async movieId => mocked ? mockedgetImdbId() : (await fetch(`${backendUrl}/tmdb/movie?movieId=${movieId}`)).json();
 const getMovieCompleteData = async imdbId => mocked ? mockedgetMovieCompleteData() : (await fetch(`${backendUrl}/yts/movie?imdbId=${imdbId}`)).json();
