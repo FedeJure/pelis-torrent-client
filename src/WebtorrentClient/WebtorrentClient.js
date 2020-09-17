@@ -34,12 +34,19 @@ const isSubtitle = path => path.endsWith("srt") || path.endsWith("vtt");
 const cleanUrl = (path, url) => {
     const extension = path.slice(path.length - 4, path.length);
     return url.split(extension)[0].concat(extension);
-} 
+}
 
-const getTorrentUrl = async hash => mocked ? getMockedVideo() : new Promise(async (response, error) => {
-    const torrent = await sdk.magnet.fetchTorrent(getMagnet(hash));
+const initConnection = async magnetOrHash => {
+    const torrentMagnet = !magnetOrHash.includes("magnet") ? getMagnet(magnetOrHash) : magnetOrHash;    
+    const torrent = await sdk.magnet.fetchTorrent(torrentMagnet);
     sdk.torrent.push(torrent, expire);
     const seeder = sdk.seeder.get(torrent.infoHash);
+    return {torrent, seeder};
+}
+
+const getTorrentUrl = async hash => mocked ? getMockedVideo() : new Promise(async (response, error) => {
+    console.log(hash)
+    const {torrent, seeder} = await initConnection(hash);
     const filePath = torrent.files.find(file => isVideo(file.path)).path;
     const videoUrlStream = (await seeder.streamUrl(filePath)).href;
     const subtitles = await getOpenSubtitles(seeder, filePath);
@@ -60,6 +67,37 @@ const getSubtitlesOfSerie = async (files, seeder, episode) => {
     }));
 }
 
+const getEpisodeFromPack = async (magnet, episode) => new Promise(async (response, error) => {
+    const episodeString = (episode < 10 ? "0"+ episode : episode).toString();
+    const {torrent, seeder} = await initConnection(magnet);
+    const rawPath = torrent.files.find(file => isEpisode(file.path, episodeString) && isVideo(file.path));
+
+    if (!rawPath) {
+        error("Video not found");
+        return;
+    }
+    const filePath = rawPath.path;
+    const videoUrlStream = cleanUrl(filePath,(await seeder.streamUrl(filePath)).href);
+    filePath ? response({
+        videoUrl: videoUrlStream
+    }) : error("No video file found");
+});
+
+const getMovieFromMagnet = async magnet => new Promise(async (response, error) => {
+    const {torrent, seeder} = await initConnection(magnet);
+    const rawPath = torrent.files.find(file => isVideo(file.path));
+
+    if (!rawPath) {
+        error("Video not found");
+        return;
+    }
+    const filePath = rawPath.path;
+    const videoUrlStream = cleanUrl(filePath,(await seeder.streamUrl(filePath)).href);
+    filePath ? response({
+        videoUrl: videoUrlStream
+    }) : error("No video file found");
+});
+
 const getOpenSubtitles = async (seeder, path) => {
     return (await seeder.openSubtitles(path))
             .filter(s => s.srclang == "es" || s.srclang == "en")
@@ -71,30 +109,7 @@ const getOpenSubtitles = async (seeder, path) => {
                     }))
 }
 
-const getEpisodeFromPack = async (magnet, episode) => new Promise(async (response, error) => {
-    const episodeString = (episode < 10 ? "0"+ episode : episode).toString();
-    const torrent = await sdk.magnet.fetchTorrent(magnet);
-    
-    sdk.torrent.push(torrent, expire);
-    const seeder = sdk.seeder.get(torrent.infoHash);
-    console.log(torrent.files)
-    const rawPath = torrent.files.find(file => isEpisode(file.path, episodeString) && isVideo(file.path));
-
-    if (!rawPath) {
-        error("Video not found");
-        return;
-    }
-    const filePath = rawPath.path;
-    // const subtitles = await getOpenSubtitles(seeder, filePath);
-    const videoUrlStream = cleanUrl(filePath,(await seeder.streamUrl(filePath)).href);
-    filePath ? response({
-        videoUrl: videoUrlStream
-        // subtitles: subtitles
-    }) : error("No video file found");
-});
-
-
-export { getTorrentUrl, getEpisodeFromPack };
+export { getTorrentUrl, getEpisodeFromPack, getMovieFromMagnet };
 
 
 const getMockedVideo = () => new Promise(res => res('https://youtu.be/4N1iwQxiHrs?list=RDMMt2xOT9-DZGE'));

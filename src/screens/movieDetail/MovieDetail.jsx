@@ -4,14 +4,22 @@ import Selector from "../../components/selector/Selector";
 import moviesRepository from '../../repositories/moviesRepository';
 import Header from '../../components/header/Header';
 import PlayerView from "../../components/player/PlayerView";
-import { getMovieCompleteData, getMovieTrailer, getMovieSubtitles } from "../../services/api";
-import { getTorrentUrl } from '../../WebtorrentClient/WebtorrentClient';
+import { getMovieCompleteData, getMovieTrailer, getMovieSubtitles, searchMovie } from "../../services/api";
+import { getTorrentUrl, getMovieFromMagnet } from '../../WebtorrentClient/WebtorrentClient';
 import { getMovieDto } from "../../domain/movie";
 import ContentDescription from "../../components/contentDescription/ContentDescription"
 import BackgroundImage from "../../components/backgroundImage/BackgroundImage";
 import { mapToSubtitlesList } from "../../services/subtitlesService";
+import SourceSelector from "../../components/sourceSelector/SourceSelector";
 
 import "./MovieDetail.css"
+
+const getYtsSources = movie => {
+    return movie.torrents.map(t => ({
+        title: `${movie.title} [YTS.MX] ${t.quality}`,
+        magnet: t.hash
+    }));
+}
 
 const MovieDetail = () => {
     const [movie, setMovie] = useState(null);
@@ -21,30 +29,74 @@ const MovieDetail = () => {
     const [videoReady, setVideoReady] = useState({hash: '', url: ''});
     const [showTrailer, setShowTrailer] = useState(true);
     const [availableSubtitles, setAvailableSubtitles] = useState([]);
+    const [sources, setSources] = useState([]);
     const { movieId } = useParams();
 
-    const selectTorrent = torrent => {
-        const torrents = {...selectedTorrents};
-        setShowTrailer(false);
-        if (torrent.hash && !selectedTorrents[torrent.hash]) {
-            setVideoUrl("");
-            getTorrentUrl(torrent.hash)
-            .then(streamData => {
-                setVideoReady({hash: torrent.hash, url: streamData.url})
-                setVideoUrl(streamData.url);
-            })
-            .catch(error => console.error(error));
+    useEffect(() => {
+        try {
+            var newMovie = moviesRepository.getMovie(movieId) || false;
 
-            const newTorrents = {...selectedTorrents, [torrent.hash]: {ready: false, url: ''} };
-            setSelectedTorrents(newTorrents);
+            tryGetMovieTrailer();
+
+            if (!newMovie) tryGetCompleteMovieData();
+            else setMovie(newMovie);
+            getMovieSubtitles(newMovie.imdbCode).then(setupSubtitles); 
+        } catch (error) {
+            console.log(error)
+        }
+    }, []);
+
+    useEffect(() => {
+        const torrents = {...selectedTorrents};
+        
+        if (!torrents[videoReady.hash]) return;
+        torrents[videoReady.hash].url = videoReady.url;
+        torrents[videoReady.hash].ready = true;
+        setSelectedTorrents(torrents);
+        setTorrentReady(videoReady.hash);
+    },[videoReady]);
+
+    useEffect(() => {
+        if (!movie) return;
+        searchMovie(movie.id, movie.title, response => {
+            if (response.torrents.length > 0) {
+                setSources([...getYtsSources(movie), ...response.torrents.slice(0,10)]);
+            }
+        })
+    }, [movie])
+
+    // const selectTorrent = torrent => {
+    //     const torrents = {...selectedTorrents};
+    //     setShowTrailer(false);
+    //     if (torrent.hash && !selectedTorrents[torrent.hash]) {
+    //         setVideoUrl("");
+    //         getTorrentUrl(torrent.hash)
+    //         .then(streamData => {
+    //             setVideoReady({hash: torrent.hash, url: streamData.url})
+    //             setVideoUrl(streamData.url);
+    //         })
+    //         .catch(error => console.error(error));
+
+    //         const newTorrents = {...selectedTorrents, [torrent.hash]: {ready: false, url: ''} };
+    //         setSelectedTorrents(newTorrents);
             
-            setTorrentLoading(torrent.hash);
-            return;
-        }
-        if (torrent.hash && selectedTorrents[torrent.hash] && selectedTorrents[torrent.hash].ready) {
-            setVideoUrl(selectedTorrents[torrent.hash].url);
-            setShowTrailer(false);
-        }
+    //         setTorrentLoading(torrent.hash);
+    //         return;
+    //     }
+    //     if (torrent.hash && selectedTorrents[torrent.hash] && selectedTorrents[torrent.hash].ready) {
+    //         setVideoUrl(selectedTorrents[torrent.hash].url);
+    //         setShowTrailer(false);
+    //     }
+    // }
+
+    const onSourceSelect = source => {
+        setShowTrailer(false);
+        setVideoUrl("")
+        getMovieFromMagnet(source.magnet)
+            .then(response => {
+                setVideoUrl(response.videoUrl)
+                setVideoReady({hash: source.magnet, url: response.videoUrl})
+            })
     }
 
     const setTorrentLoading = hash => {
@@ -58,16 +110,6 @@ const MovieDetail = () => {
         updatedMovie.torrents = updatedMovie.torrents.map(t => t.hash == hash ? {...t, ready: true} : t);
         setMovie(updatedMovie);
     };
-
-    useEffect(() => {
-        const torrents = {...selectedTorrents};
-        
-        if (!torrents[videoReady.hash]) return;
-        torrents[videoReady.hash].url = videoReady.url;
-        torrents[videoReady.hash].ready = true;
-        setSelectedTorrents(torrents);
-        setTorrentReady(videoReady.hash);
-    },[videoReady]);
 
     const selectTrailer = () => {
         setShowTrailer(true);
@@ -93,20 +135,6 @@ const MovieDetail = () => {
         .catch(err => console.log(err));
     }
 
-    useEffect(() => {
-        try {
-            var newMovie = moviesRepository.getMovie(movieId) || false;
-
-            tryGetMovieTrailer();
-
-            if (!newMovie) tryGetCompleteMovieData();
-            else setMovie(newMovie);
-            getMovieSubtitles(newMovie.imdbCode).then(setupSubtitles); 
-        } catch (error) {
-            console.log(error)
-        }
-    }, []);
-
     const setupSubtitles = subs => {
         setAvailableSubtitles(mapToSubtitlesList(subs));
     }
@@ -116,15 +144,11 @@ const MovieDetail = () => {
             <Header isSerie={false} elements={[Header.TypeSelector, Header.SearchBar, Header.LanguageSelector]}/>
             {movie && movie.backgroundImage && <BackgroundImage image={movie.backgroundImage}/> }
             {movie &&
-            <><ContentDescription title={movie.title} details={movie.details} image={movie.image}/>
-            <Selector
-                trailer={trailerUrl}
-                torrents={movie.torrents}
-                setTorrent={selectTorrent}
-                selectTrailer={selectTrailer}
-            /></>}
-            {movie && !showTrailer && <PlayerView image={movie.image} videoUrl={videoUrl} readySubtitles={availableSubtitles}/>}
-            {trailerUrl && showTrailer && <PlayerView videoUrl={trailerUrl} external/>}
+            <><ContentDescription title={movie.title} details={movie.details} image={movie.image}/></>}
+            {trailerUrl && <PlayerView videoUrl={trailerUrl} external/>}
+            {movie && <SourceSelector sources={sources} onSelect={onSourceSelect}/>}
+            {movie && !showTrailer && <PlayerView videoUrl={videoUrl} readySubtitles={availableSubtitles}/>}
+            
         </div>
     )
 };

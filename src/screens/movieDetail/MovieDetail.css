@@ -23,3 +23,7 @@
     opacity: 1;
   }
 }
+
+.movieDetail .videoPlayer {
+  margin: 10em;
+}
