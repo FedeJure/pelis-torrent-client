@@ -21,8 +21,27 @@
     height: 10em;
 }
 
-.sourceSelectorContainer .source p {
+.sourceSelectorContainer .source {
+    position: relative;
+    display: flex;
     background-color: rgba(var(--secondary-color-ligth), 0.2);
+    margin: 1px 0;
+    justify-content: center;
+}
+
+.sourceSelectorContainer .source span {
+    border-radius: 1em;
+    padding: 0 0.5em;
+    margin: 0 1em;
+    color: black;
+    left: 10%;
+    background-color: cadetblue;
+    min-width: 3em;
+    height: fit-content;
+    align-self: center;
+}
+
+.sourceSelectorContainer .source p {
     margin: 1px 0;
     cursor: pointer;
 }

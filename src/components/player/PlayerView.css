@@ -2,7 +2,7 @@
 
 .playerContainer {
   --player-padding: 10%;
-  margin:0;  
+  margin:1em;  
 }
 
 .smallCaptionSize .plyr__caption {
