@@ -6,7 +6,7 @@ import Header from '../../components/header/Header';
 import PlayerView from "../../components/player/PlayerView";
 import { getMovieCompleteData, getMovieTrailer, getMovieSubtitles, searchMovie } from "../../services/api";
 import { getTorrentUrl, getMovieFromMagnet } from '../../WebtorrentClient/WebtorrentClient';
-import { getMovieDto } from "../../domain/movie";
+import { movieFromResponse } from "../../domain/movie";
 import ContentDescription from "../../components/contentDescription/ContentDescription"
 import BackgroundImage from "../../components/backgroundImage/BackgroundImage";
 import { mapToSubtitlesList } from "../../services/subtitlesService";
@@ -128,7 +128,7 @@ const MovieDetail = () => {
     const tryGetCompleteMovieData = () => {
         getMovieCompleteData(movieId).then(res => {
             if (!res.data.movies) throw new Error("Content not found");
-            const fetchedMovie = getMovieDto(res.data.movies[0]);
+            const fetchedMovie = movieFromResponse(res.data.movies[0]);
             setMovie(fetchedMovie);
             moviesRepository.saveMovie(fetchedMovie);
         })
