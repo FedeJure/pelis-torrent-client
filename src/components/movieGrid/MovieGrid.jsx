@@ -8,26 +8,31 @@ import { MEDIA_TYPES } from '../../domain/mediaTypes';
 import './MovieGrid.css';
 
 const MovieGrid = ({genre, type, fetchMethod, elementsPerPage, onSelect}) => {
+    const [contentListObject, setContentListObject] = useState({});
     const [contentList, setContentList] = useState([]);
     const [actualPage,setActualPage] = useState(1);
     const [loadMore, setLoadMore] = useState(true);
+    const [canFetch, setCanFetch] = useState(true);
 
     const dtoListToElementList = dtoList => {
         return dtoList.map(dto => (
-            <MovieElement movie={dto} key={dto.id} onSelect={onSelect}/>
+            <MovieElement movie={dto} key={`${dto.id}-${Math.random()}`} onSelect={onSelect}/>
         ));
     }
 
     const fetchNewContent = async () => {
+        if (!canFetch) return;
+        setCanFetch(false);
         const startIndex = (actualPage - 1) * elementsPerPage;
         addDefaultMovies();        
         fetchMethod(actualPage, contentList => {
-            addNewContent(contentList, startIndex);  
+            addNewContent(contentList, startIndex);
+            setCanFetch(true);
         });
     }
 
     const addNewContent = (newMovies, fromIndex) => {
-        const oldMovies = [...contentList];
+        var oldMovies = [...contentList];
         oldMovies.splice(fromIndex, elementsPerPage, ...dtoListToElementList(newMovies));
         setContentList(oldMovies);
         setLoadMore(true);                
