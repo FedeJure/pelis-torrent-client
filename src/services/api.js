@@ -3,7 +3,7 @@ import { mockedgetImdbId, mockedgetMovieCompleteData, mockedsearchMovies, mocked
 const mocked = false;
 const allowedSubtitles = ['spa', 'eng', 'por'];
 
-const backendUrl = "http://190.114.255.66:3001";
+const backendUrl = "http://backend.seta.fun:3001";
 // const backendUrl = "http://localhost:3001";
 
 const getImdbId = async movieId => mocked ? mockedgetImdbId() : (await fetch(`${backendUrl}/tmdb/movie?movieId=${movieId}`)).json();
