@@ -1,4 +1,19 @@
+import { getTmdbImgPath } from "../services/api";
+
 const getMovieDto = response => {
+    return ({
+        title: response.title,
+        details: response.overview,
+        image: response.poster_path ? getTmdbImgPath(response.poster_path) : process.env.PUBLIC_URL+"/missing-file.png",
+        backgroundImage: response.backdrop_path ? getTmdbImgPath(response.backdrop_path) : process.env.PUBLIC_URL+"/missing-file.png",
+        torrents: response.torrents,
+        year: new Date(response.release_date).getFullYear(),
+        id: response.id,
+        rating: response.vote_average,
+    });
+};
+
+const getMovieDtoFromYts = response => {
     return ({
         title: response.title,
         details: response.summary,
@@ -12,4 +27,4 @@ const getMovieDto = response => {
     });
 };
 
-export { getMovieDto };
+export { getMovieDto, getMovieDtoFromYts };

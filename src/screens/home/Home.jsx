@@ -29,11 +29,11 @@ const Home = ({isSerie, type}) => {
 
   const fetchMoviePage = async (actualPage, callback) => {     
     getTrendingMovies(contentPerPage, actualPage, genreObject.value, result => {
-      callback(result.data.movies.map(getMovieDto));          
+      callback(result.results.map(getMovieDto));          
     });
   }
 
-  const onMovieSelect = movie => `${process.env.PUBLIC_URL}/movie/${movie.imdbCode}`;
+  const onMovieSelect = movie => `${process.env.PUBLIC_URL}/movie/${movie.id}`;
   const onSerieSelect = serie => `${process.env.PUBLIC_URL}/serie/${serie.id}`;
 
 
