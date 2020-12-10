@@ -63,6 +63,10 @@ const getMovieExternalIds = async movieId => new Promise(async res => {
     res(await (await fetch(`${backendUrl}/tmdb/movie/getExternalIds?movieId=${movieId}`)).json());
 });
 
+const getMovieGenres = async () => new Promise(async res => {
+    res(await (await fetch(`${backendUrl}/tmdb/movie/genres`)).json());
+})
+
 export { getImdbId,
         getMovieCompleteData,
         searchMovies, 
@@ -78,4 +82,5 @@ export { getImdbId,
         getSerieSubtitles,
         getMovieSubtitles,
         searchMovie,
-        getMovieExternalIds };
+        getMovieExternalIds,
+        getMovieGenres };

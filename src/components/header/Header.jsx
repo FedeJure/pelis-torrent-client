@@ -16,6 +16,7 @@ const Header = ({ isSerie, genre, elements }) => {
     const [language, setLanguage] = useState('en-US');
     const [languages, setLanguages] = useState([]);
     const [showSearchBar, setShowSearchBar] = useState(false);
+    const [genres, setGenres] = useState([])
     const history = useHistory();
     const isDesktop = useMediaQuery({ query: '(min-width: 960px)' })
 
@@ -50,6 +51,9 @@ const Header = ({ isSerie, genre, elements }) => {
     }
 
     useEffect(() => {
+        getAvailableGenres().then(data => {
+            setGenres(data.sort((a, b) => a.value - b.value));
+          })
         const lang = LanguagesRepository.getLanguages();
         if (lang.length > 0) setLanguages(lang);
         else getSupportedLanguages()
@@ -65,17 +69,15 @@ const Header = ({ isSerie, genre, elements }) => {
         setLanguage(selected.value);
     };
 
-    const genres = getAvailableGenres().sort((a, b) => a.value - b.value);
     const onSelectContent = content => content.type == 'serie' ? onSelectSerie(content.value) : onSelectMovie(content.value)
 
     const includesElement = elem => !elements ? true : elements.includes(elem);
-
-
+    console.log(genre)
     const onMobile = (
         <div className="headerContainer">
             <Logo />
             <div className="optionButtonsContainer">
-                {!isSerie && includesElement(Header.GenreSelector) && <SelectionButton className="optionButton" options={genres} onSelect={onGenreSelected} selectedValue={genre} />}
+                {!isSerie && includesElement(Header.GenreSelector) && <SelectionButton className="optionButton" options={genres} onSelect={onGenreSelected} selectedValue={genre.label} />}
                 {includesElement(Header.TypeSelector) && <SelectionButton className="optionButton" options={[{ value: 'movie', label: "Movie" }, { value: 'serie', label: "Serie" }]} onSelect={onTypeSelected} selectedValue={isSerie ? 'serie' : 'movie'}/>}
             </div>
 
@@ -90,7 +92,7 @@ const Header = ({ isSerie, genre, elements }) => {
         <div className="headerContainer">
             <Logo />
             <div className="buttonContainer">
-                {!isSerie && includesElement(Header.GenreSelector) && <SelectionButton className="optionButton" options={genres} onSelect={onGenreSelected} selectedValue={genre} />}
+                {!isSerie && includesElement(Header.GenreSelector) && <SelectionButton className="optionButton" options={genres} onSelect={onGenreSelected} selectedValue={genre.label} />}
                 {includesElement(Header.TypeSelector) && <SelectionButton className="optionButton" options={[{ value: 'movie', label: "Movie" }, { value: 'serie', label: "Serie" }]} onSelect={onTypeSelected} selectedValue={isSerie ? 'serie' : 'movie'}/>}
             </div>
             {includesElement(Header.SearchBar) && <SearchBar className="searchBar" onChange={onSelectContent} language={language} />}
