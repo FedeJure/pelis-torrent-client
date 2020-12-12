@@ -10,6 +10,7 @@
     "@webtor/platform-sdk-js": "^0.2.10",
     "animate.css": "^4.1.0",
     "franc-min": "^5.0.0",
+    "fuckadblock": "^3.2.1",
     "html-to-react": "^1.4.3",
     "plyr": "^3.6.2",
     "react": "^16.13.1",
