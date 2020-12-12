@@ -18,4 +18,8 @@ const getHomeRouteWithGenre = (genre) => {
     return `/genre/${genre}`;
 }
 
-export default { getMovieUrl, getHomeRoute, getHomeRouteWithGenre, getHomeSeriesRoute, getSerieUrl };
+const getSerieHomeRouteWithGenre = genre => {
+    return `/series/${genre}`;
+}
+
+export default { getMovieUrl, getHomeRoute, getHomeRouteWithGenre, getHomeSeriesRoute, getSerieUrl, getSerieHomeRouteWithGenre };

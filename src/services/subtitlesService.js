@@ -18,6 +18,7 @@ const filterSubtitles = sub => {
 }
 
 const mapToSubtitlesList = subs => {
+    if (subs.statusCode != 200) subs = {};
     const response = []
     Object.keys(subs).forEach(key =>{
         if (!subs[key].length) response.push(mapToSubtitleData(subs[key]))

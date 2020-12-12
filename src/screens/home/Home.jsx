@@ -8,26 +8,27 @@ import { getMovieDto } from '../../domain/movie';
 import { getSerieDto } from '../../domain/serie';
 import { getAvailableGenres, getDefaultGenre } from "../../repositories/genresRepository";
 import { getTrendingMovies, getTrendingSeries, getImdbId, getMovieCompleteData } from '../../services/api';
-
 import MoviesRepository from "../../repositories/moviesRepository";
+import { MediaTypeRepository } from "../../repositories/sessionStateRepository";
 
-const Home = ({isSerie, type}) => {
+const Home = () => {
+  const mediaTypeRepository = MediaTypeRepository.useContainer();
+  const isSerie = mediaTypeRepository.type.value == "serie"
   const contentPerPage = 20;  
   const [torrent, setTorrent] = useState({});
   const [selectedMovie, setSelectedMovie] = useState({});
   const [selectedGenre, setSelectedGenre] = useState(getDefaultGenre())
   const showPlayer = torrent.hash;
   const history = useHistory();
-  const { genre } = useParams();
 
   const fetchSeriesPage = async (actualPage, callback) => {
-    getTrendingSeries(contentPerPage, actualPage, selectedGenre.value, result => {
+    getTrendingSeries(contentPerPage, actualPage, mediaTypeRepository.genre.value, result => {
         callback(result.results.map(getSerieDto));
     })
   }
 
   const fetchMoviePage = async (actualPage, callback) => {     
-    getTrendingMovies(contentPerPage, actualPage, selectedGenre.value, result => {
+    getTrendingMovies(contentPerPage, actualPage, mediaTypeRepository.genre.value, result => {
       callback(result.results.map(getMovieDto));          
     });
   }
@@ -37,18 +38,17 @@ const Home = ({isSerie, type}) => {
 
   useEffect(() => {
     getAvailableGenres().then(genres => {
-      const selected = genres.find(g => g.value == genre) || selectedGenre;
+      const selected = genres.find(g => g.value == mediaTypeRepository.genre) || selectedGenre;
       setSelectedGenre(selected);
     })
   }, []);
 
-
   return (
     <div className="Home commonPage">
-      <Header isSerie={isSerie} genre={selectedGenre}/>
+      <Header isSerie={isSerie} genre={mediaTypeRepository.genre}/>
       <MovieGrid 
-        genre={selectedGenre} 
-        type={type} 
+        genre={mediaTypeRepository.genre} 
+        type={mediaTypeRepository.type} 
         fetchMethod={!isSerie ? fetchMoviePage : fetchSeriesPage} 
         elementsPerPage={contentPerPage}
         onSelect={!isSerie ? onMovieSelect : onSerieSelect}/>

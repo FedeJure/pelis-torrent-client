@@ -14,7 +14,7 @@ const getTrendingMovies = async (limit, page, genre, callback) => mocked ? mocke
     .then(result => {
         callback(result);
     });
-const getTrendingSeries = async (limit, page, genre, callback) => fetch(`${backendUrl}/tmdb/homeSeries?page=${page}`)
+const getTrendingSeries = async (limit, page, genre, callback) => fetch(`${backendUrl}/tmdb/homeSeries?page=${page}${genre ? "&genre=" + genre : ""}`)
     .then(response => response.json())
     .then(result => {
         callback(result);

@@ -2,49 +2,61 @@ import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
+  Route
 } from "react-router-dom";
 import "./App.css";
 import HomeScreen from '../screens/home/Home';
 import MovieDetailScreen from '../screens/movieDetail/MovieDetail';
 import SerieDetailScreen from '../screens/serieDetail/SerieDetail';
+import {MediaTypeRepository} from "../repositories/sessionStateRepository";
 
 function App() {
   return (
     <Router>
-      <Switch>
-        <Route exact path="/series">
-          <>
-            <HomeScreen isSerie={true}/>
-          </>
-        </Route>
-        <Route exact path="/genre/:genre">
-          <>
-            <HomeScreen />
-          </>
-        </Route>
-        <Route exact path="/">
-          <>
-            <HomeScreen />
-          </>
-        </Route>
-        <Route exact path="/movie/:movieId">
-          <>
-          <MovieDetailScreen />
-          </>
-        </Route>
-        <Route exact path="/serie/:serieId">
-          <>
-          <SerieDetailScreen />
-          </>
-        </Route>
-        <Route exact path="/serie/:serieId/:season/:episode">
-          <>
-          <SerieDetailScreen />
-          </>
-        </Route>
-      </Switch>
+      <InnerApp/>
     </Router>
+  );
+}
+
+function InnerApp() {
+  return (
+    <Switch>
+    <Route exact path="/series">
+      <>
+      <MediaTypeRepository.Provider><HomeScreen isSerie={true}/></MediaTypeRepository.Provider>
+      </>
+    </Route>
+    <Route exact path="/series/:genre">
+      <>
+      <MediaTypeRepository.Provider><HomeScreen isSerie={true}/></MediaTypeRepository.Provider>
+      </>
+    </Route>
+    <Route exact path="/genre/:genre">
+      <>
+      <MediaTypeRepository.Provider><HomeScreen /></MediaTypeRepository.Provider>
+      </>
+    </Route>
+    <Route exact path="/">
+      <>
+      <MediaTypeRepository.Provider><HomeScreen /></MediaTypeRepository.Provider>
+      </>
+    </Route>
+    <Route exact path="/movie/:movieId">
+      <>
+      <MediaTypeRepository.Provider><MovieDetailScreen /></MediaTypeRepository.Provider>
+      </>
+    </Route>
+    <Route exact path="/serie/:serieId">
+      <>
+      <MediaTypeRepository.Provider><SerieDetailScreen /></MediaTypeRepository.Provider>
+      </>
+    </Route>
+    <Route exact path="/serie/:serieId/:season/:episode">
+      <>
+      <MediaTypeRepository.Provider><SerieDetailScreen /></MediaTypeRepository.Provider>
+      </>
+    </Route>
+  </Switch>
   );
 }
 

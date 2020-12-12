@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import SearchBar from "../../components/searchBar/SearchBar";
 import Logo from "../../components/logo/Logo";
 import { getImdbId, getMovieCompleteData, getSupportedLanguages } from '../../services/api';
@@ -9,10 +9,12 @@ import Routes from "../../services/router";
 import MoviesRepository from "../../repositories/moviesRepository";
 import LanguagesRepository from "../../repositories/languagesRepository";
 import { getAvailableGenres } from "../../repositories/genresRepository";
+import { MediaTypeRepository } from "../../repositories/sessionStateRepository";
 import SelectionButton from '../selectionButton/SelectionButton'
 import './Header.css'
 
-const Header = ({ isSerie, genre, elements }) => {
+const Header = ({ isSerie, elements }) => {
+    const mediaTypeRepository = MediaTypeRepository.useContainer();
     const [language, setLanguage] = useState('en-US');
     const [languages, setLanguages] = useState([]);
     const [showSearchBar, setShowSearchBar] = useState(false);
@@ -20,16 +22,18 @@ const Header = ({ isSerie, genre, elements }) => {
     const history = useHistory();
     const isDesktop = useMediaQuery({ query: '(min-width: 960px)' })
 
-    const onGenreSelected = genre => {
+    const {genre} = useParams();
+
+    const onGenreSelected = genre => {     
+        mediaTypeRepository.setNewGenre(genre)
         if (!genre.value) history.push(Routes.getHomeRoute());
-        else history.push(Routes.getHomeRouteWithGenre(genre.value));
-        window.location.reload();
+        else history.push(isSerie ? Routes.getSerieHomeRouteWithGenre(genre.value) : Routes.getHomeRouteWithGenre(genre.value));
     };
 
     const onTypeSelected = type => {
+        mediaTypeRepository.setMediaType(type);      
         if (type.value == 'serie') history.push(Routes.getHomeSeriesRoute());
         else history.push(Routes.getHomeRoute());
-        window.location.reload();
     }
 
     const onSelectMovie = async movieId => {
@@ -63,6 +67,9 @@ const Header = ({ isSerie, genre, elements }) => {
                 setLanguages(filteredLanguages);
                 LanguagesRepository.saveLanguages(filteredLanguages);
             });
+        
+        if (genre != undefined) mediaTypeRepository.setNewGenre({label: genre, value:genre})
+        else mediaTypeRepository.setNewGenre({label: "All", value:null})
     }, []);
 
     const onSelectLanguage = selected => {
@@ -72,39 +79,41 @@ const Header = ({ isSerie, genre, elements }) => {
     const onSelectContent = content => content.type == 'serie' ? onSelectSerie(content.value) : onSelectMovie(content.value)
 
     const includesElement = elem => !elements ? true : elements.includes(elem);
-    console.log(genre)
     const onMobile = (
         <div className="headerContainer">
             <Logo />
             <div className="optionButtonsContainer">
-                {!isSerie && includesElement(Header.GenreSelector) && <SelectionButton className="optionButton" options={genres} onSelect={onGenreSelected} selectedValue={genre.label} />}
-                {includesElement(Header.TypeSelector) && <SelectionButton className="optionButton" options={[{ value: 'movie', label: "Movie" }, { value: 'serie', label: "Serie" }]} onSelect={onTypeSelected} selectedValue={isSerie ? 'serie' : 'movie'}/>}
+                {includesElement(HeaderComponents.GenreSelector) && <SelectionButton className="optionButton" options={genres} onSelect={onGenreSelected} selectedValue={mediaTypeRepository.genre} />}
+                {includesElement(HeaderComponents.TypeSelector) && <SelectionButton className="optionButton" options={[{ value: 'movie', label: "Movie" }, { value: 'serie', label: "Serie" }]} onSelect={onTypeSelected} selectedValue={{label: isSerie ? 'serie' : 'movie'}}/>}
             </div>
 
             {showSearchBar && <div className="mobileSearechContainer">
-                {includesElement(Header.SearchBar) && <SearchBar className="searchBar" onChange={onSelectContent} language={language} onSelectLanguage={onSelectLanguage} languages={languages} />}
-                {includesElement(Header.LanguageSelector) && <SelectionButton options={[{ value: 'en-US', label: "English" }, { value: 'es-MX', label: "Español" }]} onSelect={onSelectLanguage} className="languajeSelector" />}
+                {includesElement(HeaderComponents.SearchBar) && <SearchBar className="searchBar" onChange={onSelectContent} language={language} onSelectLanguage={onSelectLanguage} languages={languages} />}
+                {includesElement(HeaderComponents.LanguageSelector) && <SelectionButton options={[{ value: 'en-US', label: "English" }, { value: 'es-MX', label: "Español" }]} onSelect={onSelectLanguage} className="languajeSelector" />}
             </div>}
-            {includesElement(Header.SearchBar) && <img className="searchButton" src={process.env.PUBLIC_URL + "/search.svg"} alt="Search" onClick={() => setShowSearchBar(!showSearchBar)} />}
+            {includesElement(HeaderComponents.SearchBar) && <img className="searchButton" src={process.env.PUBLIC_URL + "/search.svg"} alt="Search" onClick={() => setShowSearchBar(!showSearchBar)} />}
         </div>);
 
     const onDesktop = (
         <div className="headerContainer">
             <Logo />
             <div className="buttonContainer">
-                {!isSerie && includesElement(Header.GenreSelector) && <SelectionButton className="optionButton" options={genres} onSelect={onGenreSelected} selectedValue={genre.label} />}
-                {includesElement(Header.TypeSelector) && <SelectionButton className="optionButton" options={[{ value: 'movie', label: "Movie" }, { value: 'serie', label: "Serie" }]} onSelect={onTypeSelected} selectedValue={isSerie ? 'serie' : 'movie'}/>}
+                {includesElement(HeaderComponents.GenreSelector) && <SelectionButton className="optionButton" options={genres} onSelect={onGenreSelected} selectedValue={mediaTypeRepository.genre} />}
+                {includesElement(HeaderComponents.TypeSelector) && <SelectionButton className="optionButton" options={[{ value: 'movie', label: "Movie" }, { value: 'serie', label: "Serie" }]} onSelect={onTypeSelected} selectedValue={{label: isSerie ? 'serie' : 'movie'}}/>}
             </div>
-            {includesElement(Header.SearchBar) && <SearchBar className="searchBar" onChange={onSelectContent} language={language} />}
-            {includesElement(Header.LanguageSelector) && <SelectionButton className="languajeSelector" options={[{ value: 'en-US', label: "English" }, { value: 'es-MX', label: "Español" }]} onSelect={onSelectLanguage} />}
+            {includesElement(HeaderComponents.SearchBar) && <SearchBar className="searchBar" onChange={onSelectContent} language={language} />}
+            {includesElement(HeaderComponents.LanguageSelector) && <SelectionButton className="languajeSelector" options={[{ value: 'en-US', label: "English" }, { value: 'es-MX', label: "Español" }]} onSelect={onSelectLanguage} selectedValue={{ label: "English" }}/>}
         </div>);
 
     return (isDesktop ? onDesktop : onMobile);
 };
+const HeaderComponents = {
+    GenreSelector: 'genreSelector',
+    TypeSelector: 'typeSelector',
+    SearchBar: 'searchBar',
+    LanguageSelector: 'languageSelector'
+}
 
-Header.GenreSelector = 'genreSelector';
-Header.TypeSelector = 'typeSelector';
-Header.SearchBar = 'searchBar';
-Header.LanguageSelector = 'languageSelector';
 
 export default Header;
+export { HeaderComponents }

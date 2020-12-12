@@ -24,6 +24,7 @@
     "react-simple-animate": "^3.3.9",
     "react-visibility-sensor": "^5.1.1",
     "string-similarity": "^4.0.2",
+    "unstated-next": "^1.1.0",
     "webtorrent": "^0.108.6",
     "webtorrent-health": "^1.1.2",
     "webtorrent-hybrid": "^4.0.1"

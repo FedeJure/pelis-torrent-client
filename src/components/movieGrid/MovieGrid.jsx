@@ -51,7 +51,7 @@ const MovieGrid = ({genre, type, fetchMethod, elementsPerPage, onSelect}) => {
     useEffect(() => {
         setContentList([]);
         setActualPage(1);
-    }, [genre]);
+    }, [genre, type]);
 
     useEffect(() => {
         fetchNewContent();

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { useParams } from "react-router-dom";
 import Selector from "../../components/selector/Selector";
 import moviesRepository from '../../repositories/moviesRepository';
-import Header from '../../components/header/Header';
+import Header, {HeaderComponents} from '../../components/header/Header';
 import PlayerView from "../../components/player/PlayerView";
 import { getMovieCompleteData, getMovieTrailer, getMovieSubtitles, searchMovie, getMovieExternalIds } from "../../services/api";
 import { getMovieFromMagnet } from '../../WebtorrentClient/WebtorrentClient';
@@ -40,6 +40,7 @@ const MovieDetail = () => {
 
             if (!newMovie) tryGetCompleteMovieData();
             else setMovie(newMovie);
+
             getMovieSubtitles(newMovie.imdbCode).then(setupSubtitles); 
         } catch (error) {
             console.log(error)
@@ -110,7 +111,7 @@ const MovieDetail = () => {
 
     return (
         <div className="movieDetail commonPage">
-            <Header isSerie={false} elements={[Header.TypeSelector, Header.SearchBar, Header.LanguageSelector]}/>
+            <Header isSerie={false} elements={[HeaderComponents.TypeSelector, HeaderComponents.SearchBar, HeaderComponents.LanguageSelector]}/>
             {movie && movie.backgroundImage && <BackgroundImage image={movie.backgroundImage}/> }
             {movie &&
             <><ContentDescription title={movie.title} details={movie.details} image={movie.image}/></>}

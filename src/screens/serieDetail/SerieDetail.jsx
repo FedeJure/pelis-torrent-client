@@ -13,7 +13,7 @@ import { getEpisodeFromPack } from "../../WebtorrentClient/WebtorrentClient";
 import SourceSelector from "../../components/sourceSelector/SourceSelector";
 import { mapToSubtitlesList } from "../../services/subtitlesService";
 import NextEpisodeSelector from "../../components/nextEpisodeSelector/NextEpisodeSelector";
-import Header from '../../components/header/Header';
+import Header, {HeaderComponents} from '../../components/header/Header';
 import "./SerieDetail.css";
 
 const purifyName = name => {
@@ -85,7 +85,7 @@ const SerieDetailScreen = () => {
 
     
     return (<div className="serieDetail commonPage">
-        <Header isSerie={true} elements={[Header.TypeSelector, Header.SearchBar, Header.LanguageSelector]}/>
+        <Header isSerie={true} elements={[HeaderComponents.TypeSelector, HeaderComponents.SearchBar, HeaderComponents.LanguageSelector]}/>
         {serie && serie.backgroundImage && <BackgroundImage image={serie.backgroundImage}/> }
         {serie && <>
             <ContentDescription title={serie.title} details={serie.details} image={serie.image}/>
