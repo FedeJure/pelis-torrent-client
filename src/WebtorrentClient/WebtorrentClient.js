@@ -92,6 +92,7 @@ const getMovieFromMagnet = async magnet => new Promise(async (response, error) =
         return;
     }
     const filePath = rawPath.path;
+    console.log(rawPath)
     const videoUrlStream = cleanUrl(filePath,(await seeder.streamUrl(filePath)).href);
     filePath ? response({
         videoUrl: videoUrlStream

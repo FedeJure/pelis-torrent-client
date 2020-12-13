@@ -33,8 +33,8 @@ const Home = () => {
     });
   }
 
-  const onMovieSelect = movie => `${process.env.PUBLIC_URL}/movie/${movie.id}`;
-  const onSerieSelect = serie => `${process.env.PUBLIC_URL}/serie/${serie.id}`;
+  const onMovieSelect = movie => `${process.env.PUBLIC_URL}${Routes.getMovieUrl(movie.id, movie.title)}`;
+  const onSerieSelect = serie => `${process.env.PUBLIC_URL}${Routes.getSerieUrl(serie.id, null, null, serie.title)}`;
 
   useEffect(() => {
     getAvailableGenres().then(genres => {

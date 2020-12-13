@@ -57,13 +57,12 @@ const SerieDetailScreen = () => {
     }
 
     const onSelectEpisode = (selectedSeason, selectedEpisode) => {
-        history.push(Routes.getSerieUrl(serieId, selectedSeason, selectedEpisode));
         if (!serie || !serie.title) return;
+        history.push(Routes.getSerieUrl(serieId, selectedSeason, selectedEpisode, `${serie.title} season ${selectedSeason} episode ${selectedEpisode}`));        
         setSources([])
         searchSerie(serieId, serie.title, selectedSeason, selectedEpisode, response => {
             if (response.torrents.completeSeason.length > 0) {
                 setSources([...response.torrents.completeSeason.slice(0,10), ...response.torrents.episode.slice(0,10)]);
-                // const bestTorrentChoise = selectBestChoise([serie.title, ...alternativeNames] , selectedSeason, response.torrents.completeSeason);
             }
         })
         window.scrollTo(0,0)

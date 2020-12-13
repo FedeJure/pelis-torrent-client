@@ -26,12 +26,12 @@ function InnerApp() {
       <MediaTypeRepository.Provider><HomeScreen isSerie={true}/></MediaTypeRepository.Provider>
       </>
     </Route>
-    <Route exact path="/series/:genre">
+    <Route exact path="/series/genre/:genre">
       <>
       <MediaTypeRepository.Provider><HomeScreen isSerie={true}/></MediaTypeRepository.Provider>
       </>
     </Route>
-    <Route exact path="/genre/:genre">
+    <Route exact path="/movies/genre/:genre">
       <>
       <MediaTypeRepository.Provider><HomeScreen /></MediaTypeRepository.Provider>
       </>
@@ -41,17 +41,22 @@ function InnerApp() {
       <MediaTypeRepository.Provider><HomeScreen /></MediaTypeRepository.Provider>
       </>
     </Route>
-    <Route exact path="/movie/:movieId">
+    <Route exact path="/movies">
+      <>
+      <MediaTypeRepository.Provider><HomeScreen /></MediaTypeRepository.Provider>
+      </>
+    </Route>
+    <Route exact path="/movie/:title/:movieId">
       <>
       <MediaTypeRepository.Provider><MovieDetailScreen /></MediaTypeRepository.Provider>
       </>
     </Route>
-    <Route exact path="/serie/:serieId">
+    <Route exact path="/serie/:title/:serieId">
       <>
       <MediaTypeRepository.Provider><SerieDetailScreen /></MediaTypeRepository.Provider>
       </>
     </Route>
-    <Route exact path="/serie/:serieId/:season/:episode">
+    <Route exact path="/serie/:title/:serieId/:season/:episode">
       <>
       <MediaTypeRepository.Provider><SerieDetailScreen /></MediaTypeRepository.Provider>
       </>

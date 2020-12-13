@@ -1,13 +1,13 @@
-const getMovieUrl = movieId => {
-    return `/movie/${movieId}`;
+const getMovieUrl = (movieId, name) => {
+    return `/movie/${getFormatedTitle(name)}/${movieId}`;
 }
 
-const getSerieUrl = (serieId, season, episode) => {
-    return `/serie/${serieId}${season && episode ? `/${season}/${episode}` : ""}`
+const getSerieUrl = (serieId, season, episode, name) => {
+    return `/serie/${getFormatedTitle(name)}/${serieId}${season && episode ? `/${season}/${episode}` : ""}`
 }
 
 const getHomeRoute = () => {
-    return `/`;
+    return `/movies`;
 }
 
 const getHomeSeriesRoute = () => {
@@ -15,11 +15,15 @@ const getHomeSeriesRoute = () => {
 }
 
 const getHomeRouteWithGenre = (genre) => {
-    return `/genre/${genre}`;
+    return `/movies/genre/${genre}`;
 }
 
 const getSerieHomeRouteWithGenre = genre => {
-    return `/series/${genre}`;
+    return `/series/genre/${genre}`;
 }
 
-export default { getMovieUrl, getHomeRoute, getHomeRouteWithGenre, getHomeSeriesRoute, getSerieUrl, getSerieHomeRouteWithGenre };
+const getFormatedTitle = title => title ? title.toLowerCase().replaceAll(' ','_'): "";
+
+const getRootPublicUrl = () => process.env.PUBLIC_URL;
+
+export default { getMovieUrl, getHomeRoute, getHomeRouteWithGenre, getHomeSeriesRoute, getSerieUrl, getSerieHomeRouteWithGenre, getRootPublicUrl };

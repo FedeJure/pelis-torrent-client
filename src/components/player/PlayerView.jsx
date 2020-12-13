@@ -12,6 +12,7 @@ const PlayerView = ({ videoUrl, readySubtitles, idle, external }) => {
   useEffect(() => {
     if (!videoUrl) setCanPlay(false);
     const player = new Plyr("#video");
+    console.log(player)
     player.on('canplay',() => setCanPlay(true));
   }, [videoUrl]);
 
