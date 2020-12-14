@@ -11,6 +11,7 @@ import SerieDetailScreen from '../screens/serieDetail/SerieDetail';
 import {MediaTypeRepository} from "../repositories/sessionStateRepository";
 
 function App() {
+
   return (
     <Router>
       <InnerApp/>

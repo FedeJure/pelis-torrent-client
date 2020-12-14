@@ -58,7 +58,7 @@ const SerieDetailScreen = () => {
 
     const onSelectEpisode = (selectedSeason, selectedEpisode) => {
         if (!serie || !serie.title) return;
-        history.push(Routes.getSerieUrl(serieId, selectedSeason, selectedEpisode, `${serie.title} season ${selectedSeason} episode ${selectedEpisode}`));        
+        history.push(Routes.getSerieUrl(serieId, selectedSeason, selectedEpisode, serie.title));        
         setSources([])
         searchSerie(serieId, serie.title, selectedSeason, selectedEpisode, response => {
             if (response.torrents.completeSeason.length > 0) {
@@ -91,7 +91,7 @@ const SerieDetailScreen = () => {
             {episode && <p className="episodeTitle">{`${serie.title} | Season: ${season} - Episode: ${episode}`}</p>}
             {season && episode && <SourceSelector  sources={sources} onSelect={onSourceSelect}/>}
             {episodeMagnet && <PlayerView title={`${serie.title} | Season: ${season} - Episode: ${episode}`} videoUrl={videoUrl} readySubtitles={availableSubtitles}/>}
-            {serie.seasons && episode && season && <NextEpisodeSelector seasons={serie.seasons} actualEpisode={episode} actualSeason={season} serieId={serieId}/>}
+            {serie.seasons && episode && season && <NextEpisodeSelector seasons={serie.seasons} actualEpisode={episode} actualSeason={season} serieId={serieId} title={serie.title}/>}
              <p className="episodeTitle">{`Episodes:`}</p>       
             <EpisodeSelector seasons={serie.seasons} onSelectEpisode={onSelectEpisode}/>
         </>}

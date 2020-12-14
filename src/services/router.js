@@ -3,7 +3,7 @@ const getMovieUrl = (movieId, name) => {
 }
 
 const getSerieUrl = (serieId, season, episode, name) => {
-    return `/serie/${getFormatedTitle(name)}/${serieId}${season && episode ? `/${season}/${episode}` : ""}`
+    return `/serie/${getFormatedTitle(`${name} ${season ? `season ${season}` : ""} ${ episode ? `episode ${episode}` : " "}`)}/${serieId}${season && episode ? `/${season}/${episode}` : ""}`
 }
 
 const getHomeRoute = () => {
@@ -22,7 +22,7 @@ const getSerieHomeRouteWithGenre = genre => {
     return `/series/genre/${genre}`;
 }
 
-const getFormatedTitle = title => title ? title.toLowerCase().replaceAll(' ','_'): "";
+const getFormatedTitle = title => title ? title.toLowerCase().trim().replaceAll(' ','_'): "";
 
 const getRootPublicUrl = () => process.env.PUBLIC_URL;
 

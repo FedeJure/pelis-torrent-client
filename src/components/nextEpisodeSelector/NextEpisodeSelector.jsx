@@ -1,5 +1,6 @@
 import React from 'react'
 import "./NextEpisodeSelector.css";
+import Router from "../../services/router";
 
 const previous = (a) => (a - 1);
 const next = (a) => (a + 1);
@@ -28,7 +29,7 @@ const toSeasonsObject = data => {
 
 };
 
-const NextEpisodeSelector = ({seasons, actualSeason, actualEpisode, serieId}) => {
+const NextEpisodeSelector = ({seasons, actualSeason, actualEpisode, serieId, title}) => {
     const seasonsObject = toSeasonsObject(seasons)
     const nextEpisode = getEpisode(parseInt(actualSeason), parseInt(actualEpisode), seasonsObject, next, Math.min);
     const previousEpisode = getEpisode(parseInt(actualSeason), parseInt(actualEpisode), seasonsObject, previous, Math.max);
@@ -36,13 +37,13 @@ const NextEpisodeSelector = ({seasons, actualSeason, actualEpisode, serieId}) =>
     return (
         <div className="nextEpisodeSelector">
             <div className="episodeButton">
-                {previousEpisode && <a href={`${process.env.PUBLIC_URL}/serie/${serieId}/${previousEpisode.season}/${previousEpisode.episode}`}>
+                {previousEpisode && <a href={`${process.env.PUBLIC_URL}${Router.getSerieUrl(serieId,previousEpisode.season, previousEpisode.episode, title)}`}>
                     <img className="left" src={`${process.env.PUBLIC_URL}/arrow.svg`}/> 
                     <span>Previous episode</span>                  
                 </a>}
             </div>
             <div className="episodeButton">
-                {nextEpisode &&<a href={`${process.env.PUBLIC_URL}/serie/${serieId}/${nextEpisode.season}/${nextEpisode.episode}`}>
+                {nextEpisode &&<a href={`${process.env.PUBLIC_URL}${Router.getSerieUrl(serieId,nextEpisode.season, nextEpisode.episode, title)}`}>
                     <span>Next episode</span>
                     <img className="right" src={`${process.env.PUBLIC_URL}/arrow.svg`}/>  
                 </a>}
