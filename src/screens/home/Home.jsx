@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useHistory } from "react-router-dom";
 import "./Home.css";
 import MovieGrid from "../../components/movieGrid/MovieGrid";
 import Header from "../../components/header/Header";
@@ -7,19 +6,14 @@ import Routes from "../../services/router";
 import { getMovieDto } from '../../domain/movie';
 import { getSerieDto } from '../../domain/serie';
 import { getAvailableGenres, getDefaultGenre } from "../../repositories/genresRepository";
-import { getTrendingMovies, getTrendingSeries, getImdbId, getMovieCompleteData } from '../../services/api';
-import MoviesRepository from "../../repositories/moviesRepository";
+import { getTrendingMovies, getTrendingSeries} from '../../services/api';
 import { MediaTypeRepository } from "../../repositories/sessionStateRepository";
 
 const Home = () => {
   const mediaTypeRepository = MediaTypeRepository.useContainer();
   const isSerie = mediaTypeRepository.type.value == "serie"
   const contentPerPage = 20;  
-  const [torrent, setTorrent] = useState({});
-  const [selectedMovie, setSelectedMovie] = useState({});
   const [selectedGenre, setSelectedGenre] = useState(getDefaultGenre())
-  const showPlayer = torrent.hash;
-  const history = useHistory();
 
   const fetchSeriesPage = async (actualPage, callback) => {
     getTrendingSeries(contentPerPage, actualPage, mediaTypeRepository.genre.value, result => {

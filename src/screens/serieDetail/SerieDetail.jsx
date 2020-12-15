@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import { findBestMatch } from 'string-similarity';
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import Routes from "../../services/router";
-import { getSerieData, searchSerie, getSerieAlternativeNames, getSerieSubtitles } from "../../services/api"
+import { getSerieData, searchSerie, getSerieSubtitles } from "../../services/api"
 import {getSerieDto} from "../../domain/serie";
 import BackgroundImage from "../../components/backgroundImage/BackgroundImage";
 import EpisodeSelector from "../../components/episodeSelector/EpisodeSelector";
@@ -16,31 +15,12 @@ import NextEpisodeSelector from "../../components/nextEpisodeSelector/NextEpisod
 import Header, {HeaderComponents} from '../../components/header/Header';
 import "./SerieDetail.css";
 
-const purifyName = name => {
-    const regex = /[:;'"(){}_,.]/g;
-    return name.replace(regex, " ").toLocaleLowerCase();
-}
-
-const containsInWord = (wordList, word) => {
-    var response = false;
-    wordList.forEach(w => {
-        if (w.includes(word)) response = true;
-    })
-    return response;
-}
-
-const selectBestChoise = (names, season, torrents) => {
-    const matches = names.map(name => findBestMatch(name, torrents.map(t => t.title))).sort( (a,b) => b.bestMatch.rating - a.bestMatch.rating)
-    return matches[0] ? torrents[matches[0].bestMatchIndex] : torrents[0];
-}
-
 const SerieDetailScreen = () => {
     const history = useHistory();
     const { serieId, season, episode } = useParams();
     const [serie, setSerie] = useState(null);
     const [episodeMagnet, setEpisodeMagnet] = useState(null);
     const [videoUrl, setVideoUrl] = useState('');
-    const [alternativeNames, setAlternativeNames] = useState([]);
     const [sources, setSources] = useState([]);
     const [availableSubtitles, setAvailableSubtitles] = useState([]);
 
@@ -72,7 +52,6 @@ const SerieDetailScreen = () => {
         getSerieData(serieId, response => {
             setSerie(getSerieDto(response));
         })
-        getSerieAlternativeNames(serieId).then(res => setAlternativeNames(res.map(unescape)))
     }, []);
 
     useEffect(() => {

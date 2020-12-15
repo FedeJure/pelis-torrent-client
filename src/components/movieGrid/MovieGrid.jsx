@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from "react-router-dom";
 import InfiniteScroll from 'react-infinite-scroller';
 import MovieElement, { EmptyMovieElement } from '../../components/movieElement/MovieElement';
-import Routes from "../../services/router";
-import MoviesGridRepository from "../../repositories/moviesGridRepository";
-import { MEDIA_TYPES } from '../../domain/mediaTypes';
 import './MovieGrid.css';
 
 const MovieGrid = ({genre, type, fetchMethod, elementsPerPage, onSelect}) => {
-    const [contentListObject, setContentListObject] = useState({});
     const [contentList, setContentList] = useState([]);
     const [actualPage,setActualPage] = useState(1);
     const [loadMore, setLoadMore] = useState(true);

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Animate, AnimateGroup }  from 'react-simple-animate';
+import { Animate }  from 'react-simple-animate';
 import "./EpisodeSelector.css";
 
 const EpisodeSelector = ({seasons, onSelectEpisode}) => {

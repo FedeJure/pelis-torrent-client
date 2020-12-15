@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import { useParams } from "react-router-dom";
-import Selector from "../../components/selector/Selector";
 import moviesRepository from '../../repositories/moviesRepository';
 import Header, {HeaderComponents} from '../../components/header/Header';
 import PlayerView from "../../components/player/PlayerView";

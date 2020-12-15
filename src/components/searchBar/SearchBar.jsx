@@ -1,10 +1,8 @@
-import React , { useState, useEffect } from "react";
+import React from "react";
 import { components } from 'react-select';
 import "./SearchBar.css";
 import { searchMovies, getTmdbImgPath } from '../../services/api'
 import DropdownInput from '../dropdownInput/DropdownInput'
-import SelectionButton from '../selectionButton/SelectionButton'
-
 
 const SearchBar = ({ onChange, language }) => {
     return (

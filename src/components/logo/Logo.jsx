@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import "./Logo.css";
 
 const Logo = () => {
+  
     const history = useHistory();
     return (
         <div className="logo" onClick={() => history.push(Routes.getHomeRoute())}>

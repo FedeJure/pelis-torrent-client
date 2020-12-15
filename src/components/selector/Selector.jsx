@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Selector.css";
 var selected = 0;
 const Selector = ({ torrents, setTorrent, selectTrailer, trailer }) => {
