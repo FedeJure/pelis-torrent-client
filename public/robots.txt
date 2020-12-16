@@ -1,3 +1,4 @@
-Sitemap: http://seta.fun/sitemap.general.xml
-User-agent:*
-Disallow
+User-agent: *
+Allow: /
+
+Sitemap: http://www.example.com/sitemap.2.xml
