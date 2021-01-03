@@ -17,7 +17,7 @@ const SelectionButton = ({text, options, onSelect, className, selectedValue}) =>
 
     return (
         <div onClick={() => setOpen(!open)} className={`selectionButton ${className}`} onBlur={() => !draged && setOpen(false)} onMouseEnter={() => setDraged(true)} onMouseLeave={() => setDraged(false)}>
-            <button><span>{text ? text : selection.label}</span><div className={`${open ? "arrowUp2" : "arrowDown"}`}></div></button>
+            <button><span>{text ? text : (selection ? selection.label : "")}</span><div className={`${open ? "arrowUp2" : "arrowDown"}`}></div></button>
             <div className={`arrowUp ${open ? "open" : ""}`}></div>
             <div className={`optionsContainer ${open ? "open" : ""}`}>
                 <div className="options">{options.map(opt => <span onClick={() => {
