@@ -43,7 +43,7 @@ const Header = ({ isSerie, elements }) => {
         if (data.movies && data.movies.length > 0) {
             const movie = getMovieDto(data.movies[0]);
             MoviesRepository.saveMovie(movie);
-            history.push(Routes.getMovieUrl(movie.imdbCode, movie.title));
+            history.push(Routes.getMovieUrl(imdb_id, movie.title));
             window.location.reload();
         }
     }
