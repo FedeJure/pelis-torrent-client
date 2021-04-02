@@ -20,6 +20,14 @@ const getYtsSources = movie => {
     }));
 }
 
+const getVerifiedSources = movie => {
+    if (!movie.verifiedSources) return [];
+    return movie.verifiedSources.map(t => ({
+        title: movie.title,
+        magnet: t.hash
+    }))
+}
+
 const MovieDetail = () => {
     const [movie, setMovie] = useState(null);
     const [selectedTorrents, setSelectedTorrents] = useState({});
@@ -29,6 +37,7 @@ const MovieDetail = () => {
     const [showTrailer, setShowTrailer] = useState(true);
     const [availableSubtitles, setAvailableSubtitles] = useState([]);
     const [sources, setSources] = useState([]);
+    const [verifiedSources, setVerifiedSources] = useState([]);
     const { movieId } = useParams();
 
     useEffect(() => {
@@ -61,6 +70,7 @@ const MovieDetail = () => {
         searchMovie(movie.id, movie.title, response => {
             if (response.torrents.length > 0) {
                 setSources([...getYtsSources(movie), ...response.torrents.slice(0,10)]);
+                setVerifiedSources([...getVerifiedSources(movie)]);
             }
         })
     }, [movie])
@@ -115,7 +125,7 @@ const MovieDetail = () => {
             {movie &&
             <><ContentDescription title={movie.title} details={movie.details} image={movie.image}/></>}
             {trailerUrl && <PlayerView videoUrl={trailerUrl} external/>}
-            {movie && <SourceSelector sources={sources} onSelect={onSourceSelect}/>}
+            {movie && <SourceSelector sources={sources} verifiedSources={verifiedSources} onSelect={onSourceSelect}/>}
             {movie && !showTrailer && <PlayerView videoUrl={videoUrl} readySubtitles={availableSubtitles}/>}
             
         </div>
