@@ -24,7 +24,7 @@ const getVerifiedSources = movie => {
     if (!movie.verifiedSources) return [];
     return movie.verifiedSources.map(t => ({
         title: movie.title,
-        magnet: t.hash
+        magnet: t.magnet
     }))
 }
 
@@ -45,7 +45,6 @@ const MovieDetail = () => {
             var newMovie = moviesRepository.getMovie(movieId) || false;
 
             tryGetMovieTrailer();
-
             if (!newMovie) tryGetCompleteMovieData();
             else setMovie(newMovie);
 
@@ -67,10 +66,12 @@ const MovieDetail = () => {
 
     useEffect(() => {
         if (!movie) return;
-        searchMovie(movie.id, movie.title, response => {
+        searchMovie(movieId, movie.title, response => {
             if (response.torrents.length > 0) {
                 setSources([...getYtsSources(movie), ...response.torrents.slice(0,10)]);
-                setVerifiedSources([...getVerifiedSources(movie)]);
+            }
+            if (response.verifiedTorrents && response.verifiedTorrents.length > 0) {
+                setVerifiedSources([...response.verifiedTorrents]);
             }
         })
     }, [movie])
