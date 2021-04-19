@@ -39,3 +39,4 @@ jobs:
         local_source_dir: "build"
         dist_target_dir: "/"
         delete: "true"
+        exclude: "'^simpsonstv/' '^admin/'"
